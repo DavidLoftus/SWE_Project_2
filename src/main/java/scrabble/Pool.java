@@ -17,8 +17,12 @@ public class Pool {
      * Resets pool to original state by refilling with correct number of each tile.
      */
     public void reset() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        tiles.clear();
+        for (Tile tile : Tile.values()) {
+            int count = tile.getStartingCount();
+            tiles.addAll(Collections.nCopies(count, tile));
+        }
+        Collections.shuffle(tiles);
     }
 
     /**
