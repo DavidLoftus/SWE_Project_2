@@ -1,33 +1,43 @@
 package scrabble;
 
 public enum Tile {
-    BLANK,
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z;
+    BLANK(0, '?', 2),
+    A(1, 'A', 9),
+    B(3, 'B', 2),
+    C(3, 'C', 2),
+    D(2, 'D', 4),
+    E(1, 'E', 12),
+    F(4, 'F', 2),
+    G(2, 'G', 3),
+    H(4, 'H', 2),
+    I(1, 'I', 9),
+    J(8, 'J', 1),
+    K(5, 'K', 1),
+    L(1, 'L', 4),
+    M(3, 'M', 2),
+    N(1, 'N', 6),
+    O(1, 'O', 8),
+    P(3, 'P', 2),
+    Q(10, 'Q', 1),
+    R(1, 'R', 6),
+    S(1, 'S', 4),
+    T(1, 'T', 6),
+    U(1, 'U', 4),
+    V(4, 'V', 2),
+    W(4, 'W', 2),
+    X(8, 'X', 1),
+    Y(4, 'Y', 2),
+    Z(10, 'Z', 1);
+
+    private int value;
+    private char symbol;
+    private int startingCount;
+
+    Tile(int value, char symbol, int startingCount) {
+        this.value = value;
+        this.symbol = symbol;
+        this.startingCount = startingCount;
+    }
 
     /**
      * Gets the value associated with this tile.
@@ -36,8 +46,7 @@ public enum Tile {
      * @return the value of <code>this</code>
      */
     public int getValue() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        return value;
     }
 
     /**
@@ -47,8 +56,7 @@ public enum Tile {
      * @return the symbol for <code>this</code>
      */
     public char getSymbol() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        return symbol;
     }
 
     /**
@@ -57,8 +65,7 @@ public enum Tile {
      *
      * @return how many of this tile should be put in the pool
      */
-    public int getDefaultStartingCount() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+    public int getStartingCount() {
+        return startingCount;
     }
 }
