@@ -1,5 +1,10 @@
 package scrabble;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 /**
  * Pool acts as a bag of {@link scrabble.Tile} that the players can take tiles from at random.
  *
