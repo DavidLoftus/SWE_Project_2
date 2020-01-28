@@ -92,6 +92,26 @@ class FrameTest {
     }
 
     @Test
+    void refill() {
+        Frame frame = new Frame();
+
+        FakePool pool = new FakePool();
+        pool.add(Tile.BLANK);
+        pool.add(Tile.A);
+        pool.add(Tile.B);
+        pool.add(Tile.C);
+        pool.add(Tile.G);
+        pool.add(Tile.E);
+        pool.add(Tile.BLANK);
+
+        assertFalse(pool.isEmpty());
+
+        frame.refill(pool);
+
+        assertTrue(pool.isEmpty());
+    }
+
+    @Test
     void isEmpty() {
         Frame frame = new Frame();
         assertTrue(frame.isEmpty());
