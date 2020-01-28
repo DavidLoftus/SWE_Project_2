@@ -7,10 +7,10 @@ package scrabble;
  */
 public class Pool {
 
-    // TODO: implement fields
+    private List<Tile> tiles = new ArrayList<>();
 
     public Pool() {
-        // TODO: implement code
+        reset();
     }
 
     /**
@@ -25,16 +25,14 @@ public class Pool {
      * @return the number of tiles currently in the pool
      */
     public int size() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        return tiles.size();
     }
 
     /**
      * @return whether the pool is empty or not
      */
     public boolean isEmpty() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        return tiles.isEmpty();
     }
 
     /**
