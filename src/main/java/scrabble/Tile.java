@@ -1,5 +1,10 @@
 package scrabble;
 
+/**
+ * Tile represents an unplaced tile inside the {@link scrabble.Pool}
+ *
+ * This enum is not appropriate for placed tiles, as it does not associate a symbol with the wildcard BLANK enum.
+ */
 public enum Tile {
     BLANK(0, '?', 2),
     A(1, 'A', 9),
