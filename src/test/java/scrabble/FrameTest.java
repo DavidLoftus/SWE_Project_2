@@ -33,6 +33,32 @@ class FrameTest {
     }
 
     @Test
+    void hasTile() {
+        Frame frame = new Frame();
+
+        FakePool pool = new FakePool();
+        pool.add(Tile.BLANK);
+        pool.add(Tile.A);
+        pool.add(Tile.B);
+        pool.add(Tile.C);
+        pool.add(Tile.G);
+        pool.add(Tile.E);
+        pool.add(Tile.BLANK);
+
+        frame.refill(pool);
+
+        assertTrue(frame.hasTile(Tile.BLANK));
+        assertTrue(frame.hasTile(Tile.A));
+        assertTrue(frame.hasTile(Tile.B));
+        assertTrue(frame.hasTile(Tile.C));
+        assertTrue(frame.hasTile(Tile.E));
+        assertTrue(frame.hasTile(Tile.G));
+
+        assertFalse(frame.hasTile(Tile.F));
+        assertFalse(frame.hasTile(Tile.Z));
+    }
+
+    @Test
     void isEmpty() {
         Frame frame = new Frame();
         assertTrue(frame.isEmpty());
