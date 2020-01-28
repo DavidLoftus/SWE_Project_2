@@ -32,4 +32,14 @@ class FrameTest {
         }
     }
 
+    @Test
+    void isEmpty() {
+        Frame frame = new Frame();
+        assertTrue(frame.isEmpty());
+
+        Pool pool = new Pool();
+        frame.refill(pool);
+
+        assertFalse(frame.isEmpty());
+    }
 }
