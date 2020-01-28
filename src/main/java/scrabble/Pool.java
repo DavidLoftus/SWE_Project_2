@@ -48,8 +48,13 @@ public class Pool {
      * @return the tile taken from the pool
      */
     public Tile takeTile() {
-        // TODO: implement code
-        throw new UnsupportedOperationException();
+        if (tiles.isEmpty()) {
+            throw new NoSuchElementException("tried to take from empty pool");
+        }
+        int last = tiles.size()-1;
+        Tile tile = tiles.get(last);
+        tiles.remove(last);
+        return tile;
     }
 
 }
