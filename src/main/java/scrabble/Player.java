@@ -2,17 +2,15 @@ package scrabble;
 
 public class Player {
 	
-	 // TODO: implement fields
 	public String name;
-	public int score;
-	public Frame frame;
+	public int score = 0;
+	public Frame frame = new Frame();
 
     public Player(String name) {
-        // TODO: implement code
+    	this.name = name;
     }
 
     public Player reset(String name) {
-        // TODO: implement code 
     	this.name = name;
     	this.score = 0;
         throw new UnsupportedOperationException();
