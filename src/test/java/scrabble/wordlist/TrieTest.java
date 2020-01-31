@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,5 +56,35 @@ class TrieTest {
         assertFalse(subTrie.contains("+worl"));
 
         assertFalse(trie.contains("goodbyeworld"));
+    }
+
+    @Test
+    void iterator() {
+        trie.add("helloworld");
+        trie.add("hello+world");
+
+        Iterator<String> iter = trie.iterator();
+
+        assertTrue(iter.hasNext());
+        assertEquals("helloworld", iter.next());
+
+        assertTrue(iter.hasNext());
+        assertEquals("hello+world", iter.next());
+
+        assertFalse(iter.hasNext());
+    }
+
+    @Test
+    void collectAll() {
+        trie.add("helloworld");
+        trie.add("hello+world");
+
+        List<String> list = trie.collectAll();
+
+        assertEquals(2, list.size());
+
+        assertEquals("helloworld", list.get(0));
+        assertEquals("hello+world", list.get(1));
+
     }
 }
