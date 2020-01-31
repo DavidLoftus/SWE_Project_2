@@ -7,23 +7,21 @@ import java.util.NoSuchElementException;
 
 public class Trie implements Iterable<String> {
 
-    private static final int NUM_CHARS = 27;
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz+";
 
-    private Trie[] children = new Trie[NUM_CHARS];
+    private Trie[] children = new Trie[ALPHABET.length()];
     private boolean isEnd = false;
 
     private static int charToIndex(char c) {
-        if (c == '+') {
-            return 26;
+        int i = ALPHABET.indexOf(c);
+        if (i == -1) {
+            throw new IllegalArgumentException("invalid char: " + c);
         }
-        if (!Character.isLowerCase(c)) {
-            throw new IllegalArgumentException("characters must be lowercase letters");
-        }
-        return c - 'a';
+        return i;
     }
 
     private static char indexToChar(int i) {
-        return "abcdefghijklmnopqrstuvwxyz+".charAt(i);
+        return ALPHABET.charAt(i);
     }
 
     private void add(String s, int i) {
@@ -84,11 +82,15 @@ public class Trie implements Iterable<String> {
 
         private void advanceToNext() {
             childIterator = null;
-            while (currentChild < NUM_CHARS) {
+            while (currentChild < children.length) {
                 Trie child = children[currentChild];
                 if (child != null) {
                     childIterator = child.iterator();
                     if (childIterator.hasNext()) {
+                        char c = indexToChar(currentChild);
+                        if (c == 'w' || c == '+') {
+                            System.out.println(currentChild);
+                        }
                         break;
                     }
                 }
@@ -103,17 +105,17 @@ public class Trie implements Iterable<String> {
 
         @Override
         public String next() {
-
             if (isEnd && !retEnd) {
                 retEnd = true;
                 return "";
             }
 
-            String ret = childIterator.next();
+            String ret = indexToChar(currentChild) + childIterator.next();
             if (!childIterator.hasNext()) {
+                ++currentChild;
                 advanceToNext();
             }
-            return indexToChar(currentChild) + ret;
+            return ret;
         }
     }
 
