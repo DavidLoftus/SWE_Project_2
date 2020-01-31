@@ -41,6 +41,17 @@ class PoolTest {
     @Test
     void isEmpty() {
     	Pool pool = new Pool();
+    	assertFalse(pool.isEmpty());
+    	
+    	pool.takeTile();
+    	assertFalse(pool.isEmpty());
+    	
+    	for(int i = 98; i > 0; i--) {
+    		pool.takeTile();
+    		assertFalse(pool.isEmpty());
+    	}
+    	
+    	pool.takeTile();
     	assertTrue(pool.isEmpty());
     }
 
