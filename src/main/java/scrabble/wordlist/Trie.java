@@ -87,10 +87,6 @@ public class Trie implements Iterable<String> {
                 if (child != null) {
                     childIterator = child.iterator();
                     if (childIterator.hasNext()) {
-                        char c = indexToChar(currentChild);
-                        if (c == 'w' || c == '+') {
-                            System.out.println(currentChild);
-                        }
                         break;
                     }
                 }
