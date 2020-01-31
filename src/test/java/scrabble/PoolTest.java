@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +58,15 @@ class PoolTest {
 
     @Test
     void takeTile() {
+    	Pool pool = new Pool();
+    	pool.takeTile();
+    	
+    	for(int i = 98; i >= 0; i--) {
+    		pool.takeTile();
+    	}
+    	
+    	assertTrue(pool.isEmpty());
+    	assertThrows(NoSuchElementException.class, pool::takeTile);  	
     }
 
 }
