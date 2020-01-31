@@ -6,7 +6,7 @@ public class Frame {
 
     private List<Tile> tiles;
 
-    public boolean inFrame(Tile letter)
+    public boolean hasTile(Tile letter)
     {
         for (Tile i : tiles) {
             if (i == letter) {
@@ -17,7 +17,7 @@ public class Frame {
         return false;
     }
 
-    public void removeLetter(Tile letter)
+    public void removeTile(Tile letter)
     {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
