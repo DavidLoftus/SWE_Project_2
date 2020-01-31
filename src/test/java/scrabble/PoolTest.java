@@ -6,16 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PoolTest {
 	
+	private Pool pool;
 	
+	@BeforeEach
+	void initPool() {
+		pool = new Pool();
+	}
 	
     @Test
     void reset() {
-    	Pool pool = new Pool();
+    	pool.takeTile();
+    	pool.reset();
+    	
     	assertEquals(100, pool.size());
+    	
+    	testInitialContents();
     }
 
     @Test
