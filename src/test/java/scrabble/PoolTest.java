@@ -30,7 +30,6 @@ class PoolTest {
 
     @Test
     void size() {
-    	Pool pool = new Pool();
     	assertEquals(100, pool.size());
     	
     	pool.takeTile();
@@ -46,12 +45,20 @@ class PoolTest {
     
     @Test
     void testInitialContents() {
+    	int[] counts = new int[Tile.values().length];
     	
+    	while(!pool.isEmpty()) {
+    		Tile tile = pool.takeTile();
+    		counts[tile.ordinal()]++;
+    	}
+    	
+    	for (Tile tile : Tile.values()) {
+    		assertEquals(tile.getStartingCount(), counts[tile.ordinal()]);
+    	}
     }
 
     @Test
     void isEmpty() {
-    	Pool pool = new Pool();
     	assertFalse(pool.isEmpty());
     	
     	pool.takeTile();
@@ -68,7 +75,6 @@ class PoolTest {
 
     @Test
     void takeTile() {
-    	Pool pool = new Pool();
     	pool.takeTile();
     	
     	for(int i = 98; i >= 0; i--) {
