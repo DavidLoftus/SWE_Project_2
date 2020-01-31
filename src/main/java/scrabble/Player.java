@@ -2,48 +2,38 @@ package scrabble;
 
 public class Player {
 	
-	public String name;
-	public int score = 0;
-	public Frame frame = new Frame();
+	private String name;
+	private int score = 0;
+	private Frame frame = new Frame();
 
     public Player(String name) {
     	this.name = name;
     }
 
-    public Player reset(String name) {
-    	this.name = name;
+    public void reset() {
     	this.score = 0;
-        throw new UnsupportedOperationException();
+    	this.frame = new Frame();
     }
 
     public void increaseScore(int amount) {
-        // TODO: implement code
     	if(amount < 0) {
-    		throw new UnsupportedOperationException();
+    		throw new IllegalArgumentException("amount cant be negative");
     	}
     	this.score += amount;
     }
     
     public int getScore() {
-        // TODO: implement code
-        // new UnsupportedOperationException();
     	return this.score;
     }
 
     public Frame getFrame() {
-        // TODO: implement code
-        //throw new UnsupportedOperationException();
     	return this.frame;
     }
 
     public void setName(String name) {
-        // TODO: implement code
     	this.name = name;
-        throw new UnsupportedOperationException();
     }
     public String getName() {
-        // TODO: implement code
-        //throw new UnsupportedOperationException();
         return this.name;
     }
 }
