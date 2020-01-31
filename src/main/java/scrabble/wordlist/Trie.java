@@ -34,13 +34,8 @@ public class Trie implements Iterable<String> {
             throw new IllegalArgumentException("i greater than length of string");
         }
 
-        char c = s.charAt(0);
-        if (!Character.isLowerCase(c)) {
-            throw new IllegalArgumentException("characters must be lowercase letters");
-        }
-
         int idx = charToIndex(s.charAt(i));
-        if (children[idx] != null) {
+        if (children[idx] == null) {
             children[idx] = new Trie();
         }
 
@@ -58,16 +53,11 @@ public class Trie implements Iterable<String> {
             throw new IllegalArgumentException("i greater than length of string");
         }
 
-        char c = s.charAt(0);
-        if (!Character.isLowerCase(c)) {
-            throw new IllegalArgumentException("characters must be lowercase letters");
-        }
-
         int idx = charToIndex(s.charAt(i));
         if (children[idx] == null) {
             throw new NoSuchElementException("key " + s + " is not in Trie");
         }
-        return get(s, i+1);
+        return children[idx].get(s, i+1);
     }
 
     public Trie get(String s) {
