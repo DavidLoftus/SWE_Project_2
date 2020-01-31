@@ -2,6 +2,7 @@ package scrabble.wordlist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -17,8 +18,13 @@ public class Sowpods {
         Scanner sc = new Scanner(unzipper);
 
         while (sc.hasNextLine()) {
-            wordList.add(sc.nextLine());
+            String line = sc.nextLine();
+            wordList.add(line);
         }
+    }
+
+    public Set<String> getWordList() {
+        return Collections.unmodifiableSet(wordList);
     }
 
     public boolean isValidWord(String word) {
