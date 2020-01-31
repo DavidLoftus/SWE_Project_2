@@ -1,35 +1,32 @@
 package scrabble;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Frame {
 
-    private List<Tile> tiles;
+    private List<Tile> tiles = new ArrayList<>();
 
-    public boolean hasTile(Tile letter)
-    {
+    public boolean hasTile(Tile letter) {
         for (Tile i : tiles) {
             if (i == letter) {
                 return true;
             }
-            //else return false;
         }
         return false;
     }
 
-    public void removeTile(Tile letter)
-    {
+    public void removeTile(Tile letter) {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
         }
         else throw new IllegalArgumentException(letter.toString() + " does not exist in your frame.");
     }
 
-    public void refill(Pool pool){
-        int index = 0;
-        while (index <= 7){
-            // TODO: finish code
+    public void refill(Pool pool) {
+        while (tiles.size() < 7){
             Tile newTile = pool.takeTile();
+            tiles.add(newTile);
         }
     }
 
@@ -37,7 +34,7 @@ public class Frame {
         return tiles.isEmpty();
     }
 
-    public String toString(){
+    public String toString() {
         // TODO: implement code
         return ("Your frame consists of: ");
     }
