@@ -36,7 +36,7 @@ class TrieTest {
         assertThrows(NoSuchElementException.class, () -> trie.get("baby"));
         assertThrows(IllegalArgumentException.class, () -> trie.get("hello "));
 
-        assertNotNull(subTrie.get("world"));
+        assertNotNull(subTrie.get("worl"));
         assertNotNull(subTrie.get("+worl"));
 
         assertThrows(NoSuchElementException.class, () -> subTrie.get("baby"));

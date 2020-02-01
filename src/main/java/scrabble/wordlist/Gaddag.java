@@ -51,7 +51,7 @@ public class Gaddag {
 
         @Override
         public String toString() {
-            return String.format("Join[%s,%s,%s]", left, middle, right);
+            return String.format("%s+%s+%s", left, middle, right);
         }
     }
 

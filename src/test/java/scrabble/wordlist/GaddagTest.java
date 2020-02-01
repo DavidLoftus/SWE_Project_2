@@ -38,19 +38,24 @@ class GaddagTest {
     static void benchMarkGaddagGeneration() {
         runtime.gc();
         long memoryBefore = getUsedMemory();
+        long timeBefore = System.nanoTime();
 
         gaddag = new Gaddag(smallerSet);
+
+        long timeAfter = System.nanoTime();
 
         runtime.gc();
         long memoryAfterGC = getUsedMemory();
 
         long memoryUsed = memoryAfterGC - memoryBefore;
+        long timeDiff = timeAfter - timeBefore;
 
-        System.out.printf("Used memory: %d MB\n", memoryUsed/1024/1024);
+        System.out.printf("Used memory: %.3f MB\n", memoryUsed/1024./1024.);
+        System.out.printf("Time taken: %.3f ms.\n", timeDiff/1000.0/1000.0);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {""})
+    @ValueSource(strings = {"e"})
     void complete(String middle) {
 
         for (Gaddag.Join join : gaddag.complete(middle)) {
