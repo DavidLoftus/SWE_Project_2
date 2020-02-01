@@ -1,9 +1,6 @@
 package scrabble.wordlist;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 public class Gaddag {
 

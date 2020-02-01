@@ -1,8 +1,8 @@
 package scrabble.wordlist;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -14,6 +14,7 @@ class GaddagTest {
 
     private static Sowpods sowpods;
     private static Set<String> smallerSet;
+    private static Gaddag gaddag;
 
 
     @BeforeAll
@@ -26,33 +27,38 @@ class GaddagTest {
                 smallerSet.add(s);
             }
         }
-
+        benchMarkGaddagGeneration();
     }
+
     static Runtime runtime = Runtime.getRuntime();
     static long getUsedMemory() {
         return runtime.totalMemory() - runtime.freeMemory();
     }
 
-    @Test
-    void complete() throws IOException {
-
-        System.out.println("set size: " + smallerSet.size());
-
-        assertTrue(smallerSet.contains("racecard"));
-
+    static void benchMarkGaddagGeneration() {
         runtime.gc();
         long memoryBefore = getUsedMemory();
 
-        Gaddag gaddag = new Gaddag(smallerSet);
-
-        long memoryAfter = getUsedMemory();
+        gaddag = new Gaddag(smallerSet);
 
         runtime.gc();
-
         long memoryAfterGC = getUsedMemory();
 
-        System.out.printf("Free Memory: %d\nAfter GC: %d\n", memoryAfter - memoryBefore, memoryAfterGC - memoryBefore);
+        long memoryUsed = memoryAfterGC - memoryBefore;
 
-        System.out.println(gaddag.complete("race"));
+        System.out.printf("Used memory: %d MB\n", memoryUsed/1024/1024);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {""})
+    void complete(String middle) {
+
+        for (Gaddag.Join join : gaddag.complete(middle)) {
+            assertEquals(middle, join.middle);
+
+            String word = join.left + join.middle + join.right;
+            assertTrue(sowpods.isValidWord(word));
+        }
+
     }
 }
