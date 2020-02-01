@@ -41,7 +41,7 @@ public class Trie implements Iterable<String> {
         return bit != 0;
     }
 
-    private Trie addArc(char c) {
+    Trie addArc(char c) {
         int i = charToIndex(c);
         growChildrenToFit(i);
         if (children[i] == null) {
@@ -50,10 +50,27 @@ public class Trie implements Iterable<String> {
         return children[i];
     }
 
-    private Trie addFinalArc(char c1, char c2) {
+    Trie addFinalArc(char c1, char c2) {
         Trie node = addArc(c1);
         node.addEnd(c2);
         return node;
+    }
+
+    static class BadForceException extends Exception {
+        public BadForceException(String message) {
+            super(message);
+        }
+    }
+
+    Trie forceArc(char c, Trie trie) throws BadForceException {
+        int i = charToIndex(c);
+        growChildrenToFit(i);
+        if (children[i] == null) {
+            children[i] = trie;
+        } else if (children[i] != trie) {
+            throw new BadForceException("Tried to force arc '" + c + "' but node already exists.");
+        }
+        return children[i];
     }
 
     private void add(String s, int i) {

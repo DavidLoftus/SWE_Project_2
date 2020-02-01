@@ -8,23 +8,42 @@ public class Gaddag {
 
     public Gaddag(Set<String> wordList) {
         for (String word : wordList) {
-            addEachPath(word);
+            try {
+                addEachPath(word);
+            } catch (Trie.BadForceException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private void addEachPath(String word) {
-        for (int i = 1; i < word.length(); ++i) {
-            String left = word.substring(0, i);
-            String right = word.substring(i);
+    private void addEachPath(String word) throws Trie.BadForceException {
+        Trie st = rootTrie;
 
-            StringBuilder sb = new StringBuilder(left.length() + right.length() + 1);
-            sb.append(left).reverse();
+        // Add reverse of word as a path
+        for (int i = word.length() - 1; i >= 2; --i) {
+            st = st.addArc(word.charAt(i));
+        }
+        st.addFinalArc(word.charAt(1), word.charAt(0));
 
-            if (!right.isEmpty()) {
-                sb.append('+').append(right);
+
+        // Add Rev(word[0:l-1])+word[l-1] as path
+        st = rootTrie;
+        for (int i = word.length() - 2; i >= 0; --i) {
+            st = st.addArc(word.charAt(i));
+        }
+        st = st.addFinalArc('+', word.charAt(word.length()-1));
+
+
+        // Add rest of the paths
+        for (int m = word.length() - 3; m >= 0; --m) {
+            final Trie forceSt = st;
+            st = rootTrie;
+
+            for (int i = m; i >= 0; --i) {
+                st = st.addArc(word.charAt(i));
             }
-
-            rootTrie.add(sb.toString());
+            st = st.addArc('+');
+            st.forceArc(word.charAt(m+1), forceSt);
         }
     }
 

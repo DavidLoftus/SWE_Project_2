@@ -55,14 +55,16 @@ class GaddagTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"e"})
+    @ValueSource(strings = {""})
     void complete(String middle) {
 
         for (Gaddag.Join join : gaddag.complete(middle)) {
             assertEquals(middle, join.middle);
 
             String word = join.left + join.middle + join.right;
-            assertTrue(sowpods.isValidWord(word));
+            if (!sowpods.isValidWord(word)) {
+                fail("Generated word: \"" + word + "\" is not in sowpods list.");
+            }
         }
 
     }
