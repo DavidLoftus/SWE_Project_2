@@ -6,19 +6,28 @@ public class Trie implements Iterable<String> {
 
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz+";
 
-    private Trie[] children = new Trie[ALPHABET.length()];
+    private Trie[] children = null;
     private int endSet = 0;
 
     private static int charToIndex(char c) {
-        int i = ALPHABET.indexOf(c);
-        if (i == -1) {
-            throw new IllegalArgumentException("invalid char: " + c);
+        if (c == '+') {
+            return 26;
+        } else if (Character.isLowerCase(c)) {
+            return c - 'a';
         }
-        return i;
+        throw new IllegalArgumentException("invalid char: " + c);
     }
 
     private static char indexToChar(int i) {
         return ALPHABET.charAt(i);
+    }
+
+    private void growChildrenToFit(int i) {
+        if (children == null) {
+            children = new Trie[i+1];
+        } else if (i >= children.length) {
+            children = Arrays.copyOf(children, i+1);
+        }
     }
 
     private void addEnd(char c) {
@@ -34,6 +43,7 @@ public class Trie implements Iterable<String> {
 
     private Trie addArc(char c) {
         int i = charToIndex(c);
+        growChildrenToFit(i);
         if (children[i] == null) {
             children[i] = new Trie();
         }
@@ -59,7 +69,20 @@ public class Trie implements Iterable<String> {
     }
 
     public void add(String s) {
-        add(s, 0);
+        Trie trie = this;
+        for (int i = 0; i < s.length()-1; ++i) {
+            trie = trie.addArc(s.charAt(i));
+        }
+        trie.addEnd(s.charAt(s.length()-1));
+    }
+
+    private Trie getChild(char c) {
+        int idx = charToIndex(c);
+        if (children != null && idx < children.length) {
+            return children[idx];
+        } else {
+            return null;
+        }
     }
 
     private Trie get(String s, int i) {
@@ -69,11 +92,11 @@ public class Trie implements Iterable<String> {
             throw new IllegalArgumentException("i greater than length of string");
         }
 
-        int idx = charToIndex(s.charAt(i));
-        if (children[idx] == null) {
+        Trie child = getChild(s.charAt(i));
+        if (child == null) {
             throw new NoSuchElementException("key " + s + " is not in Trie");
         }
-        return children[idx].get(s, i+1);
+        return child.get(s, i+1);
     }
 
     public Trie get(String s) {
@@ -83,8 +106,7 @@ public class Trie implements Iterable<String> {
     public boolean contains(String word) {
         Trie trie = this;
         for (int i = 0; trie != null && i < word.length()-1; ++i) {
-            int idx = charToIndex(word.charAt(i));
-            trie = trie.children[idx];
+            trie = trie.getChild(word.charAt(i));
         }
 
         return trie != null && trie.isEnd(word.charAt(word.length()-1));
@@ -101,7 +123,7 @@ public class Trie implements Iterable<String> {
 
         private void advanceToNext() {
             childIterator = null;
-            while (currentChild < children.length) {
+            while (children != null && currentChild < children.length) {
                 Trie child = children[currentChild];
                 if (child != null) {
                     childIterator = child.iterator();
