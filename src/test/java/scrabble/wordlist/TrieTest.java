@@ -66,10 +66,10 @@ class TrieTest {
         Iterator<String> iter = trie.iterator();
 
         assertTrue(iter.hasNext());
-        assertEquals("helloworld", iter.next());
+        assertEquals("hello+world", iter.next());
 
         assertTrue(iter.hasNext());
-        assertEquals("hello+world", iter.next());
+        assertEquals("helloworld", iter.next());
 
         assertFalse(iter.hasNext());
     }

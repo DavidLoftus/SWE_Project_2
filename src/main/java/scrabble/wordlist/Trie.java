@@ -4,16 +4,33 @@ import java.util.*;
 
 public class Trie implements Iterable<String> {
 
-    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz+";
+    // Sort alphabet based on letter frequency to keep size of children array minimal.
+    private static final String ALPHABET = "+etaoinshrdluwmfcgypbkvjxqz";
+
+    // Inverse permutation of ALPHABET for fast conversion
+    private static final int[] ALPHABET_INVERSE = generateInverse();
+
+    private static int[] generateInverse() {
+        int[] inverse = new int[Trie.ALPHABET.length()];
+        for (int i = 0; i < Trie.ALPHABET.length(); ++i) {
+            char c = Trie.ALPHABET.charAt(i);
+            if (c == '+') {
+                inverse[26] = i;
+            } else {
+                inverse[c - 'a'] = i;
+            }
+        }
+        return inverse;
+    }
 
     private Trie[] children = null;
     private int endSet = 0;
 
     private static int charToIndex(char c) {
         if (c == '+') {
-            return 26;
+            return ALPHABET_INVERSE[26];
         } else if (Character.isLowerCase(c)) {
-            return c - 'a';
+            return ALPHABET_INVERSE[c - 'a'];
         }
         throw new IllegalArgumentException("invalid char: " + c);
     }
