@@ -80,7 +80,7 @@ public class Gaddag {
         try {
             Trie child = rootTrie.get(sReversed);
 
-            List<String> list = child.collectAll();
+            Set<String> list = child.collectAll();
 
             List<Join> joinList = new ArrayList<>(list.size());
             for (String rest : list) {

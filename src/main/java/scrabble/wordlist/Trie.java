@@ -191,8 +191,8 @@ public class Trie implements Iterable<String> {
         return new TrieIterator();
     }
 
-    public List<String> collectAll() {
-        List<String> list = new ArrayList<>();
+    public Set<String> collectAll() {
+        Set<String> list = new HashSet<>();
         for (String s : this) {
             list.add(s);
         }

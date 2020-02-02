@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,12 +79,12 @@ class TrieTest {
         trie.add("helloworld");
         trie.add("hello+world");
 
-        List<String> list = trie.collectAll();
+        Set<String> list = trie.collectAll();
 
         assertEquals(2, list.size());
 
-        assertEquals("helloworld", list.get(0));
-        assertEquals("hello+world", list.get(1));
+        assertTrue(list.contains("hello+world"));
+        assertTrue(list.contains("helloworld"));
 
     }
 }
