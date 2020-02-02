@@ -1,8 +1,8 @@
 package scrabble;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Frame {
 
@@ -33,18 +33,17 @@ public class Frame {
             tiles.remove(letter);
             System.out.println(letter.toString() + " has been removed");
         }
-        else throw new IllegalArgumentException(letter.toString() + " does not exist in your frame.");
+        else throw new NoSuchElementException(letter.toString() + " does not exist in your frame.");
     }
 
     /**
      * Refill: the frame from the pool
      */
     public void refill(Pool pool){
-        // TODO: Calculations may require additional testing
         int i = 7 - tiles.size();
         while (i > 0) {
             Tile newTile = pool.takeTile();
-            tiles.addAll(Arrays.asList(newTile));
+            tiles.add(newTile);
             i--;
         }
     }
