@@ -55,7 +55,7 @@ class GaddagTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {""})
+    @ValueSource(strings = {"o", "i", "u", "a", "e"})
     void complete(String middle) {
 
         for (Gaddag.Join join : gaddag.complete(middle)) {
