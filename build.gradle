@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.diffplug.gradle.spotless" version "3.27.1"
 }
 
 group 'org.example'
@@ -19,5 +20,18 @@ test {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+spotless {
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+    java {
+        googleJavaFormat("1.7").aosp()
     }
 }
