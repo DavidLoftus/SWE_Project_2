@@ -1,13 +1,13 @@
 package scrabble;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
     @Test
-    void testName(){
+    void testName() {
         Player newPlayer = new Player("John");
 
         assertEquals("John", newPlayer.getName());
@@ -18,7 +18,7 @@ class PlayerTest {
     }
 
     @Test
-    void testScore(){
+    void testScore() {
         Player newPlayer = new Player("James");
 
         assertEquals(0, newPlayer.getScore());
@@ -28,7 +28,7 @@ class PlayerTest {
     }
 
     @Test
-    void testReset(){
+    void testReset() {
         Player newPlayer = new Player("Steven");
 
         newPlayer.increaseScore(25);
