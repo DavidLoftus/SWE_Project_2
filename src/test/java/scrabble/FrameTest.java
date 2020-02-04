@@ -1,17 +1,16 @@
 package scrabble;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class FrameTest {
     /**
      * FakePool acts as a Pool containing specified tiles in a deterministic order.
      *
-     * Tiles are added to the pool in a FIFO queue-like fashion.
-     * This helps with testing when we want to know exact contents of Pool
+     * <p>Tiles are added to the pool in a FIFO queue-like fashion. This helps with testing when we
+     * want to know exact contents of Pool
      */
     protected static class FakePool extends Pool {
         private Queue<Tile> tilesToReturn = new ArrayDeque<>();
