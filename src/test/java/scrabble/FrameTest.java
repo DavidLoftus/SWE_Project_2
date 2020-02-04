@@ -49,7 +49,11 @@ class FrameTest {
         pool.add(Tile.E);
         pool.add(Tile.BLANK);
 
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.A));
+
         frame.refill(pool);
+
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.F));
 
         assertTrue(frame.hasTile(Tile.BLANK));
 
@@ -58,6 +62,8 @@ class FrameTest {
 
         frame.removeTile(Tile.BLANK);
         assertFalse(frame.hasTile(Tile.BLANK));
+
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.BLANK));
 
         assertTrue(frame.hasTile(Tile.A));
 
