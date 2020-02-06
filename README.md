@@ -3,4 +3,4 @@ Code for stage 2 software engineering project.
 
 Compile using gradle: `./gradlew build`
 
-Run using command: `./gradlew run`
+Build docs using command: `doxygen`
