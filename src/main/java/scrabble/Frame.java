@@ -66,12 +66,9 @@ public class Frame {
      * @param pool The pool to take tiles from to refill the frame.
      */
     public void refill(Pool pool) {
-        int i = 7 - tiles.size();
-        while (i > 0) {
-            // TODO: fix issue where pool can be empty when taking out tiles.
+        while (!pool.isEmpty() && tiles.size() < 7) {
             Tile newTile = pool.takeTile();
             tiles.add(newTile);
-            i--;
         }
     }
 
