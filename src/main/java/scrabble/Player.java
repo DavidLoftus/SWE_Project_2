@@ -1,5 +1,11 @@
 package scrabble;
 
+/**
+ * Player holds the name and tracks the score of the player. 
+ * It also holds the {@link scrabble.Frame} of the player.
+ *
+ * The frame will be empty and the score will be 0 on initialization.
+ */
 public class Player {
 
     private String name;
@@ -9,11 +15,12 @@ public class Player {
     /**
      * sets the players name
      *
-     * @param name
+     * @param name the name of the player
      */
     public Player(String name) {
         this.name = name;
     }
+    
     /** Resets the players scores back to zero and gives them a new frame. */
     public void reset() {
         this.score = 0;
@@ -52,7 +59,8 @@ public class Player {
     public String getName() {
         return this.name;
     }
-    
+    /** @return the players name score and from in a string*/
+    @Override
     public String toString() {
     	return String.format("%s (%d) [%s]", name, score, frame );
     }
