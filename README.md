@@ -2,3 +2,4 @@
 
 This is the docs branch for github pages, please visit the master branch to see actual project.
 
+https://davidloftus.github.io/SWE_Project_2/
