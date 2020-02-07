@@ -35,3 +35,7 @@ spotless {
         googleJavaFormat("1.7").aosp()
     }
 }
+
+javadoc {
+    source = sourceSets.main.allJava
+}
