@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/master'
 
     runs-on: ubuntu-latest
 
@@ -24,15 +25,23 @@ jobs:
     - name: Build docs
       run: ./gradlew javadoc
 
-    - name: Push changes to gh-pages
+    - name: Checkout gh-pages
+      uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+        clean: false
+
+    - name: Commit changes to gh-pages
       run: |
-       git checkout gh-pages
+       git clean -ffd
        git config --local user.email "action@github.com"
        git config --local user.name "GitHub Action"
-       cp -r build/docs/javadoc/ ./
-       git commit -a -m "Automatic javadoc update triggered passing tests after push of commit: ${{ github.sha }}"
+       cp -r build/docs/javadoc/* ./
+       git add .
+       git commit -m "Automatic javadoc update triggered passing tests after push of commit: ${{ github.sha }}"
 
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
