@@ -1,9 +1,7 @@
 package scrabble;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Pool acts as a bag of {@link scrabble.Tile} that the players can take tiles from at random.
@@ -14,6 +12,10 @@ public class Pool {
 
     private List<Tile> tiles = new ArrayList<>();
 
+    /**
+     * Initializes pool with default amount of tiles.
+     * Starting counts are listed in {@link scrabble.Tile}
+     */
     public Pool() {
         reset();
     }
@@ -53,5 +55,27 @@ public class Pool {
         Tile tile = tiles.get(last);
         tiles.remove(last);
         return tile;
+    }
+
+    /**
+     * @return Frame in
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Pool[");
+
+        Map<Tile, Integer> countMap = new TreeMap<>();
+        for (Tile tile : tiles) {
+            countMap.put(tile, countMap.getOrDefault(tile, 0)+1);
+        }
+
+        String joined = countMap.keySet().stream().map(tile -> {
+            int count = countMap.get(tile);
+            return count == 1 ? tile.toString() : String.format("%d*%s", count, tile);
+        }).collect(Collectors.joining(", "));
+
+        sb.append(joined).append(']');
+
+        return sb.toString();
     }
 }

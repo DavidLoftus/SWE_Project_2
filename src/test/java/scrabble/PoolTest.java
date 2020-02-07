@@ -81,4 +81,16 @@ class PoolTest {
         assertTrue(pool.isEmpty());
         assertThrows(NoSuchElementException.class, pool::takeTile);
     }
+
+    @Test
+    void testToString() {
+        Pool pool = new Pool();
+        assertEquals("Pool[2*BLANK, 9*A, 2*B, 2*C, 4*D, 12*E, 2*F, 3*G, 2*H, 9*I, J, K, 4*L, 2*M, 6*N, 8*O, 2*P, Q, 6*R, 4*S, 6*T, 4*U, 2*V, 2*W, X, 2*Y, Z]", pool.toString());
+
+        for (int i = 0; i < 100; i++) {
+            pool.takeTile();
+        }
+
+        assertEquals("Pool[]", pool.toString());
+    }
 }
