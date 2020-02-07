@@ -6,35 +6,6 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class FrameTest {
-    /**
-     * FakePool acts as a Pool containing specified tiles in a deterministic order.
-     *
-     * <p>Tiles are added to the pool in a FIFO queue-like fashion. This helps with testing when we
-     * want to know exact contents of Pool
-     */
-    static class FakePool extends Pool {
-        private Queue<Tile> tilesToReturn = new ArrayDeque<>();
-
-        @Override
-        public boolean isEmpty() {
-            return tilesToReturn.isEmpty();
-        }
-
-        @Override
-        public int size() {
-            return tilesToReturn.size();
-        }
-
-        void add(Tile tile) {
-            tilesToReturn.add(tile);
-        }
-
-        @Override
-        public Tile takeTile() {
-            return tilesToReturn.remove();
-        }
-    }
-
     @Test
     void removeTile() {
         Frame frame = new Frame();
@@ -126,4 +97,7 @@ class FrameTest {
 
         assertFalse(frame.isEmpty());
     }
+
+    @Test
+    void testToString() {}
 }
