@@ -26,8 +26,7 @@ public class Frame {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
             System.out.println(letter.toString() + " has been removed");
-        } else
-            throw new NoSuchElementException(letter.toString() + " is not exist in your frame.");
+        } else throw new NoSuchElementException(letter.toString() + " is not exist in your frame.");
     }
 
     /** Refill the frame with tiles/letters from the Pool */
@@ -45,7 +44,7 @@ public class Frame {
         return tiles.isEmpty();
     }
 
-    public String toString(){
+    public String toString() {
         return ("Frame: " + getTiles()) + " ";
     }
 }
