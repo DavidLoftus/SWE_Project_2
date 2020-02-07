@@ -9,7 +9,6 @@ public class Main {
         System.out.println(player);
         System.out.println(pool);
 
-
         player.getFrame().refill(pool);
         System.out.println(player);
         System.out.println(pool);
@@ -20,5 +19,4 @@ public class Main {
         player.reset();
         System.out.println(player);
     }
-
 }
