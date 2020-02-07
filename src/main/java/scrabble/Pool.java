@@ -13,8 +13,8 @@ public class Pool {
     private List<Tile> tiles = new ArrayList<>();
 
     /**
-     * Initializes pool with default amount of tiles.
-     * Starting counts are listed in {@link scrabble.Tile}
+     * Initializes pool with default amount of tiles. Starting counts are listed in {@link
+     * scrabble.Tile}
      */
     public Pool() {
         reset();
@@ -57,22 +57,26 @@ public class Pool {
         return tile;
     }
 
-    /**
-     * @return Frame in
-     */
+    /** @return Frame in */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Pool[");
 
         Map<Tile, Integer> countMap = new TreeMap<>();
         for (Tile tile : tiles) {
-            countMap.put(tile, countMap.getOrDefault(tile, 0)+1);
+            countMap.put(tile, countMap.getOrDefault(tile, 0) + 1);
         }
 
-        String joined = countMap.keySet().stream().map(tile -> {
-            int count = countMap.get(tile);
-            return count == 1 ? tile.toString() : String.format("%d*%s", count, tile);
-        }).collect(Collectors.joining(", "));
+        String joined =
+                countMap.keySet().stream()
+                        .map(
+                                tile -> {
+                                    int count = countMap.get(tile);
+                                    return count == 1
+                                            ? tile.toString()
+                                            : String.format("%d*%s", count, tile);
+                                })
+                        .collect(Collectors.joining(", "));
 
         sb.append(joined).append(']');
 
