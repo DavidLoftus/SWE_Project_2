@@ -27,7 +27,9 @@ public class Frame {
      */
     public boolean hasTile(Tile letter) {
         for (Tile i : tiles) {
-            if (i == letter) return true;
+            if (i == letter) {
+                return true;
+            }
         }
         return false;
     }
@@ -52,7 +54,9 @@ public class Frame {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
             System.out.println(letter.toString() + " has been removed");
-        } else throw new NoSuchElementException(letter.toString() + " is not exist in your frame.");
+        } else {
+            throw new NoSuchElementException(letter.toString() + " not found in frame");
+        }
     }
 
     /**
