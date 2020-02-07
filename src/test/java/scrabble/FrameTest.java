@@ -12,7 +12,7 @@ class FrameTest {
      * <p>Tiles are added to the pool in a FIFO queue-like fashion. This helps with testing when we
      * want to know exact contents of Pool
      */
-    protected static class FakePool extends Pool {
+    static class FakePool extends Pool {
         private Queue<Tile> tilesToReturn = new ArrayDeque<>();
 
         @Override
