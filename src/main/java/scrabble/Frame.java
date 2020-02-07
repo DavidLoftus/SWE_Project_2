@@ -8,7 +8,10 @@ public class Frame {
 
     private List<Tile> tiles = new ArrayList<>();
 
-    /** Checks if a specific letter/tile is in the frame */
+    /**
+     * @param letter or tile
+     * @return true if the param letter is equal to the value in i
+     */
     public boolean hasTile(Tile letter) {
         for (Tile i : tiles) {
             if (i == letter) return true;
@@ -16,7 +19,7 @@ public class Frame {
         return false;
     }
 
-    /** Access the list of letters/tiles */
+    /** @return the list of tiles in a frame */
     public List<Tile> getTiles() {
         return tiles;
     }
@@ -39,11 +42,12 @@ public class Frame {
         }
     }
 
-    /** Checks if the frame is empty (has no tiles) */
+    /** @return whether the pool is empty or not */
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
 
+    /** @return the list of tiles in the frame as String */
     public String toString() {
         return getTiles().toString();
     }
