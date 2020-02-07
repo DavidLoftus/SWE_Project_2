@@ -4,13 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Frame acts as the tray of 7 tiles given to each player. Frames can be filled & refilled using
+ * {@link Frame#refill(Pool)} method. You can check if the frame contains certain tiles and
+ * additionally remove specified tiles from the frame.
+ */
 public class Frame {
 
     private List<Tile> tiles = new ArrayList<>();
 
     /**
+     * Initializes Frame with an empty list of tiles. Must be filled using {@link
+     * Frame#refill(Pool)} method.
+     */
+    public Frame() {}
+
+    /**
+     * Checks if Frame has given tile
+     *
      * @param letter the {@link Tile} search for
-     * @return true if the param letter is equal to the value in i
+     * @return true if frame contains letter otherwise false
      */
     public boolean hasTile(Tile letter) {
         for (Tile i : tiles) {
@@ -19,7 +32,12 @@ public class Frame {
         return false;
     }
 
-    /** @return the list of tiles in a frame */
+    /**
+     * Gets the list of tiles. This is an immutable view of the list. You may not use this method to
+     * modify the contents of the frame.
+     *
+     * @return the list of tiles in a frame
+     */
     public List<Tile> getTiles() {
         return tiles;
     }
@@ -53,12 +71,21 @@ public class Frame {
         }
     }
 
-    /** @return whether the pool is empty or not */
+    /**
+     * Checks whether the frame is empty.
+     *
+     * @return true if the pool is empty otherwise false
+     */
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
 
-    /** @return the list of tiles in the frame as String */
+    /**
+     * Converts the frame to string format. String format looks like [A, B, C, D]
+     *
+     * @return the list of tiles in the frame as String
+     */
+    @Override
     public String toString() {
         return getTiles().toString();
     }
