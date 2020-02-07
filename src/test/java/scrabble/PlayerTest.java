@@ -8,42 +8,42 @@ class PlayerTest {
 
     @Test
     void testName() {
-        Player newPlayer = new Player("John");
+        Player player = new Player("John");
 
-        assertEquals("John", newPlayer.getName());
+        assertEquals("John", player.getName());
 
-        newPlayer.setName("Doe");
+        player.setName("Doe");
 
-        assertEquals("Doe", newPlayer.getName());
+        assertEquals("Doe", player.getName());
     }
 
     @Test
     void testScore() {
-        Player newPlayer = new Player("James");
+        Player player = new Player("James");
 
-        assertEquals(0, newPlayer.getScore());
+        assertEquals(0, player.getScore());
 
-        newPlayer.increaseScore(10);
-        assertEquals(10, newPlayer.getScore());
+        player.increaseScore(10);
+        assertEquals(10, player.getScore());
     }
 
     @Test
     void testReset() {
-        Player newPlayer = new Player("Steven");
+        Player player = new Player("Steven");
 
-        newPlayer.increaseScore(25);
-        assertEquals(25, newPlayer.getScore());
+        player.increaseScore(25);
+        assertEquals(25, player.getScore());
 
-        newPlayer.reset();
-        assertEquals(0, newPlayer.getScore());
+        player.reset();
+        assertEquals(0, player.getScore());
     }
 
     @Test
     void testToString() {
-        Player newPlayer = new Player("David");
-        assertEquals("David (0) []", newPlayer.toString());
-        newPlayer.increaseScore(30);
-        assertEquals("David (30) []", newPlayer.toString());
+        Player player = new Player("David");
+        assertEquals("David (0) []", player.toString());
+        player.increaseScore(30);
+        assertEquals("David (30) []", player.toString());
         FrameTest.FakePool pool = new FrameTest.FakePool();
 
         pool.add(Tile.BLANK);
@@ -54,6 +54,8 @@ class PlayerTest {
         pool.add(Tile.E);
         pool.add(Tile.BLANK);
 
-        assertEquals("David (30) [BLANK, A, B, C, G, E, BLANK]", newPlayer.toString());
+        player.getFrame().refill(pool);
+
+        assertEquals("David (30) [BLANK, A, B, C, G, E, BLANK]", player.toString());
     }
 }

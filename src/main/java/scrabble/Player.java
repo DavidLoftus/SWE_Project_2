@@ -62,6 +62,6 @@ public class Player {
     /** @return the players name score and from in a string */
     @Override
     public String toString() {
-        return String.format("%s (%d) [%s]", name, score, frame);
+        return String.format("%s (%d) %s", name, score, frame);
     }
 }

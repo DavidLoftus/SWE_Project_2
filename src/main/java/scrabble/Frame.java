@@ -45,6 +45,6 @@ public class Frame {
     }
 
     public String toString() {
-        return ("Frame: " + getTiles()) + " ";
+        return getTiles().toString();
     }
 }
