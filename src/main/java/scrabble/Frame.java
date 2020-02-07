@@ -9,7 +9,7 @@ public class Frame {
     private List<Tile> tiles = new ArrayList<>();
 
     /**
-     * @param letter or tile
+     * @param letter the {@link Tile} search for
      * @return true if the param letter is equal to the value in i
      */
     public boolean hasTile(Tile letter) {
@@ -24,7 +24,12 @@ public class Frame {
         return tiles;
     }
 
-    /** Remove a specific letter/tile in the frame */
+    /**
+     * Removes specified tile from the frame.
+     *
+     * @param letter the letter to remove
+     * @throws NoSuchElementException if letter is not in Frame
+     */
     public void removeTile(Tile letter) {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
@@ -32,10 +37,16 @@ public class Frame {
         } else throw new NoSuchElementException(letter.toString() + " is not exist in your frame.");
     }
 
-    /** Refill the frame with tiles/letters from the Pool */
+    /**
+     * Refills frame with tiles from given {@link scrabble.Pool}. After this frame should have
+     * exactly 7 tiles, unless the Pool was emptied.
+     *
+     * @param pool The pool to take tiles from to refill the frame.
+     */
     public void refill(Pool pool) {
         int i = 7 - tiles.size();
         while (i > 0) {
+            // TODO: fix issue where pool can be empty when taking out tiles.
             Tile newTile = pool.takeTile();
             tiles.add(newTile);
             i--;
