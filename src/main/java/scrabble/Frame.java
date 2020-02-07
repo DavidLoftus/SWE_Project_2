@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Frame acts as the tray of 7 tiles given to each player. Frames can be filled & refilled using
+ * Frame acts as the tray of 7 tiles given to each player. Frames can be filled and refilled using
  * {@link Frame#refill(Pool)} method. You can check if the frame contains certain tiles and
  * additionally remove specified tiles from the frame.
  */
