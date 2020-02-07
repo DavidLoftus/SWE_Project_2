@@ -8,7 +8,7 @@ public class Frame {
 
     private List<Tile> tiles = new ArrayList<>();
 
-    /** Check: if a letter is in the frame */
+    /** Checks if a specific letter/tile is in the frame */
     public boolean hasTile(Tile letter) {
         for (Tile i : tiles) {
             if (i == letter) return true;
@@ -16,21 +16,21 @@ public class Frame {
         return false;
     }
 
-    /** Access: letters/tiles in the frame */
+    /** Access the list of letters/tiles */
     public List<Tile> getTiles() {
         return tiles;
     }
 
-    /** Remove: letters/tiles in the frame */
+    /** Remove a specific letter/tile in the frame */
     public void removeTile(Tile letter) {
         if (tiles.contains(letter)) {
             tiles.remove(letter);
             System.out.println(letter.toString() + " has been removed");
         } else
-            throw new NoSuchElementException(letter.toString() + " does not exist in your frame.");
+            throw new NoSuchElementException(letter.toString() + " is not exist in your frame.");
     }
 
-    /** Refill: the frame from the pool */
+    /** Refill the frame with tiles/letters from the Pool */
     public void refill(Pool pool) {
         int i = 7 - tiles.size();
         while (i > 0) {
@@ -40,8 +40,12 @@ public class Frame {
         }
     }
 
-    /** Check: if the frame is empty */
+    /** Checks if the frame is empty (has no tiles) */
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    public String toString(){
+        return ("Frame: " + getTiles()) + " ";
     }
 }
