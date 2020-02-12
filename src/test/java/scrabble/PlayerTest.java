@@ -44,7 +44,7 @@ class PlayerTest {
         assertEquals("David (0) []", player.toString());
         player.increaseScore(30);
         assertEquals("David (30) []", player.toString());
-        FrameTest.FakePool pool = new FrameTest.FakePool();
+        FakePool pool = new FakePool();
 
         pool.add(Tile.BLANK);
         pool.add(Tile.A);
