@@ -2,22 +2,34 @@ package scrabble;
 
 public class Board {
 
-	public void resetBoard() {
-		//TODO
+	public void reset() {
+		// TODO: implement
+		throw new UnsupportedOperationException();
 	}
-	public void setTilePos(Tile tile) {
-		//TODO
+
+	protected void setTile(int i, int j, Tile tile) {
+		// TODO: implement
+		throw new UnsupportedOperationException();
 	}
-	//not void
-	public void getTilePos(){
-		//TODO
+
+	public char getLetterAt(int i, int j) {
+		// TODO: implement
+		throw new UnsupportedOperationException();
 	}
-	//do we want this to place a tile or a hole word
-	public void placeOnBoard(Tile tile) {
-		//TODO
+
+	boolean checkWordPlacement(WordPlacement wordPlacement) {
+		// TODO: implement
+		throw new UnsupportedOperationException();
 	}
-	public void printBoard(Board board) {
-		//TODO
+
+	public void applyWordPlacement(Tile tile) {
+		// TODO: implement
+		throw new UnsupportedOperationException();
+	}
+
+	public void printBoard() {
+		// TODO: implement
+		throw new UnsupportedOperationException();
 	}
 	
 }
