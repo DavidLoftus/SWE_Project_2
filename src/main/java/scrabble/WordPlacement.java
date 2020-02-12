@@ -1,6 +1,3 @@
 package scrabble;
 
-public class WordPlacement {
-	
-	
-}
+public class WordPlacement {}
