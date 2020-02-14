@@ -48,15 +48,15 @@ public class Frame {
      * Removes specified tile from the frame.
      *
      * @param letter the letter to remove
-     * @throws NoSuchElementException if letter is not in Frame
+     * @return letter if it was in the Frame
+     * @throws NoSuchElementException if letter was not in the Frame
      */
-    public void removeTile(Tile letter) {
-        if (tiles.contains(letter)) {
-            tiles.remove(letter);
-            System.out.println(letter.toString() + " has been removed");
-        } else {
+    public Tile removeTile(Tile letter) {
+        if (!tiles.contains(letter)) {
             throw new NoSuchElementException(letter.toString() + " not found in frame");
         }
+        tiles.remove(letter);
+        return letter;
     }
 
     /**
