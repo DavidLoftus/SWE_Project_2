@@ -74,4 +74,21 @@ public enum Tile {
     public int getStartingCount() {
         return startingCount;
     }
+
+    public static Tile parseTile(char tileChar) {
+        if (Character.isAlphabetic(tileChar)) {
+            return values()[Character.toLowerCase(tileChar) - 'a' + 1];
+        } else if (tileChar == '?') {
+            return BLANK;
+        } else {
+            throw new IllegalArgumentException("Bad Tile character: " + tileChar);
+        }
+    }
+
+    public static Tile parseTile(String tileStr) {
+        if (tileStr.length() != 1) {
+            throw new IllegalArgumentException("Bad Tile string: " + tileStr);
+        }
+        return parseTile(tileStr.charAt(0));
+    }
 }
