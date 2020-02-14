@@ -2,7 +2,7 @@ package scrabble;
 
 public class Square {
     enum Modifier {
-        DOUBLLE_WORD,
+        DOUBLE_WORD,
         DOUBLE_LETTER,
         TRIPLE_WORD,
         TRIPLE_LETTER,
@@ -10,18 +10,29 @@ public class Square {
         STAR
     };
 
-    private Tile tile;
+    private Tile tile = null;
     private Modifier mod;
-    private char letter;
+    private char letter = 0;
 
-    public Square(Tile tile, Modifier mod, char letter) {
-        this.tile = tile;
+    public Square(Modifier mod) {
         this.mod = mod;
-        this.letter = letter;
     }
 
     public Tile getTile() {
         return tile;
+    }
+
+    public void setBlankTile(char letter) {
+        this.tile = Tile.BLANK;
+        this.letter = letter;
+    }
+
+    public void setTile(Tile tile) {
+        if (tile == Tile.BLANK) {
+            throw new IllegalArgumentException();
+        }
+        this.tile = tile;
+        this.letter = tile.getSymbol();
     }
 
     public Modifier getModifier() {
@@ -30,5 +41,9 @@ public class Square {
 
     public char getLetter() {
         return letter;
+    }
+
+    public boolean isEmpty() {
+        return tile == null;
     }
 }
