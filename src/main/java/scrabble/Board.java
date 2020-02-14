@@ -13,20 +13,20 @@ public class Board {
 
     private Square.Modifier charToEnum(char c) {
         switch (c) {
-        case ' ':
-            return Square.Modifier.NORMAL;
-        case 'd':
-            return Square.Modifier.DOUBLE_LETTER;
-        case 'D':
-            return Square.Modifier.DOUBLE_WORD;
-        case 't':
-            return Square.Modifier.TRIPLE_LETTER;
-        case 'T':
-            return Square.Modifier.TRIPLE_WORD;
-        case '*':
-            return Square.Modifier.STAR;
-        default:
-            throw new IllegalArgumentException("Bad character in board map: " + c);
+            case ' ':
+                return Square.Modifier.NORMAL;
+            case 'd':
+                return Square.Modifier.DOUBLE_LETTER;
+            case 'D':
+                return Square.Modifier.DOUBLE_WORD;
+            case 't':
+                return Square.Modifier.TRIPLE_LETTER;
+            case 'T':
+                return Square.Modifier.TRIPLE_WORD;
+            case '*':
+                return Square.Modifier.STAR;
+            default:
+                throw new IllegalArgumentException("Bad character in board map: " + c);
         }
     }
 
