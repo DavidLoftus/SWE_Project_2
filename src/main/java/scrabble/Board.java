@@ -1,6 +1,51 @@
 package scrabble;
 
+import java.io.InputStream;
+import java.util.Scanner;
+
 public class Board {
+
+    private Square[][] grid = new Square[15][15];
+
+    public Board() {
+        setupBoardContents();
+    }
+
+    private Square.Modifier charToEnum(char c) {
+        switch (c) {
+        case ' ':
+            return Square.Modifier.NORMAL;
+        case 'd':
+            return Square.Modifier.DOUBLE_LETTER;
+        case 'D':
+            return Square.Modifier.DOUBLE_WORD;
+        case 't':
+            return Square.Modifier.TRIPLE_LETTER;
+        case 'T':
+            return Square.Modifier.TRIPLE_WORD;
+        case '*':
+            return Square.Modifier.STAR;
+        default:
+            throw new IllegalArgumentException("Bad character in board map: " + c);
+        }
+    }
+
+    private void setupBoardContents(Scanner sc) {
+        for (int i = 0; i < 15; ++i) {
+            String row = sc.nextLine();
+            assert row.length() == 15;
+            for (int j = 0; j < 15; ++j) {
+                grid[i][j] = new Square(charToEnum(row.charAt(i)));
+            }
+        }
+    }
+
+    private void setupBoardContents() {
+        InputStream stream = this.getClass().getResourceAsStream("map.txt");
+        assert stream != null;
+
+        setupBoardContents(new Scanner(stream));
+    }
 
     public void reset() {
         // TODO: implement
