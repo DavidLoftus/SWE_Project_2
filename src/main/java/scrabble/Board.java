@@ -35,7 +35,7 @@ public class Board {
             String row = sc.nextLine();
             assert row.length() == 15;
             for (int j = 0; j < 15; ++j) {
-                grid[i][j] = new Square(charToEnum(row.charAt(i)));
+                grid[i][j] = new Square(charToEnum(row.charAt(j)));
             }
         }
     }
@@ -73,7 +73,11 @@ public class Board {
     }
 
     public void printBoard() {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+		for (int i = 0; i < 15; ++i) {
+            for (int j = 0; j < 15; ++j) {
+            	System.out.print(grid[i][j].toString());
+            }
+            System.out.println();
+        }
     }
 }
