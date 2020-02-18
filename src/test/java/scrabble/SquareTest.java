@@ -55,7 +55,21 @@ public class SquareTest {
     void testtoString() {
         Square square = new Square(Square.Modifier.NORMAL);
         assertEquals("  ", square.toString());
+        Square square5 = new Square(Square.Modifier.STAR);
+        assertEquals("* ", square.toString());
+        Square square1 = new Square(Square.Modifier.DOUBLE_WORD);
+        assertEquals("DW", square.toString());
+        Square square2 = new Square(Square.Modifier.DOUBLE_LETTER);
+        assertEquals("DL", square.toString());
+        Square square3 = new Square(Square.Modifier.TRIPLE_WORD);
+        assertEquals("TW", square.toString());
+        Square square4 = new Square(Square.Modifier.TRIPLE_LETTER);
+        assertEquals("TL", square.toString());
         square.setTile(Tile.A);
         assertEquals("A ", square.toString());
+        square2.setTile(Tile.S);
+        assertEquals("S ", square2.toString());
+        square4.setTile(Tile.P);
+        assertEquals("P ", square4.toString());
     }
 }
