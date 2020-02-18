@@ -48,15 +48,15 @@ public class Frame {
      * Removes specified tile from the frame.
      *
      * @param letter the letter to remove
-     * @throws NoSuchElementException if letter is not in Frame
+     * @return letter if it was in the Frame
+     * @throws NoSuchElementException if letter was not in the Frame
      */
-    public void removeTile(Tile letter) {
-        if (tiles.contains(letter)) {
-            tiles.remove(letter);
-            System.out.println(letter.toString() + " has been removed");
-        } else {
+    public Tile removeTile(Tile letter) {
+        if (!tiles.contains(letter)) {
             throw new NoSuchElementException(letter.toString() + " not found in frame");
         }
+        tiles.remove(letter);
+        return letter;
     }
 
     /**
@@ -89,5 +89,34 @@ public class Frame {
     @Override
     public String toString() {
         return getTiles().toString();
+    }
+
+    /**
+     * Returns the tiles from the frame that can be used to place word on the board. This method, if
+     * successful will modify the contents of frame.
+     *
+     * @param neededTiles the tiles needed to place the word on the board
+     * @return If all needed tiles were found returns a list containing those needed tiles.
+     *     Otherwise returns null.
+     */
+    List<Tile> getTilesToPlace(List<Tile> neededTiles) {
+        if (neededTiles.size() > 7) {
+            return null;
+        }
+        List<Tile> ret = new ArrayList<>(neededTiles.size());
+
+        for (Tile tile : neededTiles) {
+            if (hasTile(tile)) {
+                ret.add(removeTile(tile));
+            } else if (hasTile(Tile.BLANK)) {
+                ret.add(removeTile(Tile.BLANK));
+            } else {
+                // Re-add tiles back to frame if failed
+                tiles.addAll(ret);
+                return null;
+            }
+        }
+
+        return ret;
     }
 }

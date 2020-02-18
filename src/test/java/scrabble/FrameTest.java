@@ -3,7 +3,10 @@ package scrabble;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FrameTest {
     @Test
@@ -100,4 +103,42 @@ class FrameTest {
 
     @Test
     void testToString() {}
+
+    private List<Tile> stringToTileList(String tiles) {
+        if (tiles == null) {
+            return null;
+        }
+        return tiles.chars().mapToObj(c -> Tile.parseTile((char) c)).collect(Collectors.toList());
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                "FOOTE?H,F,F",
+                "FOOTE?H,FOOT,FOOT",
+                "FOOTE?H,TOE,TOE",
+                "FOOTE?H,HOE,HOE",
+                "FOOTE?H,PHOTO,?HOTO",
+                "F?OTE?H,PHOTO,?HOT?",
+                "F?OTE?H,PORT,?O?T",
+                "FOOTE?H,CAR,null",
+                "FOOTE?H,FART,null",
+                "F?OTE?H,PORTER,null",
+            },
+            nullValues = {"null"})
+    void getTilesToPlace(String frameContents, String neededTiles, String expectedResult) {
+        List<Tile> frameContentsList = stringToTileList(frameContents),
+                neededTilesList = stringToTileList(neededTiles),
+                expectedResultList = stringToTileList(expectedResult);
+
+        FakePool pool = new FakePool();
+        for (Tile tile : frameContentsList) {
+            pool.add(tile);
+        }
+
+        Frame frame = new Frame();
+        frame.refill(pool);
+
+        assertEquals(expectedResultList, frame.getTilesToPlace(neededTilesList));
+    }
 }
