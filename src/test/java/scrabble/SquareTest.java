@@ -50,12 +50,12 @@ public class SquareTest {
         Square square = new Square(Square.Modifier.NORMAL);
         assertEquals(Square.Modifier.NORMAL, square.getModifier());
     }
-    
+
     @Test
     void testtoString() {
-    	Square square = new Square(Square.Modifier.NORMAL);
-    	assertEquals("  ", square.toString());
-    	square.setTile(Tile.A);
-    	assertEquals("A ", square.toString());
+        Square square = new Square(Square.Modifier.NORMAL);
+        assertEquals("  ", square.toString());
+        square.setTile(Tile.A);
+        assertEquals("A ", square.toString());
     }
 }
