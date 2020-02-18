@@ -46,4 +46,27 @@ public class Square {
     public boolean isEmpty() {
         return tile == null;
     }
+
+    // empty print square if full print tile.
+    public String toString() {
+        if (getTile() != null) {
+            return getLetter() + " ";
+        } else {
+            switch (getModifier()) {
+                case DOUBLE_WORD:
+                    return "DW";
+                case DOUBLE_LETTER:
+                    return "DL";
+                case TRIPLE_WORD:
+                    return "TW";
+                case TRIPLE_LETTER:
+                    return "TL";
+                case NORMAL:
+                    return "  ";
+                case STAR:
+                    return "* ";
+            }
+        }
+        return null;
+    }
 }
