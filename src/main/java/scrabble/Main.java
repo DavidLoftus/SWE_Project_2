@@ -23,7 +23,7 @@ public class Main {
         System.out.println("");
         board.printBoard();
         System.out.println("\n");
-        board.setTile(7,7, Tile.X);
+        board.setTile(7, 7, Tile.X);
         board.printBoard();
         System.out.println("\nLetter: " + board.getLetterAt(7, 7));
     }
