@@ -53,13 +53,15 @@ public class Board {
     }
 
     protected void setTile(int i, int j, Tile tile) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        if (tile == Tile.BLANK) {
+            throw new IllegalArgumentException();
+        }
+
+        grid[i][j].setTile(tile);
     }
 
     public char getLetterAt(int i, int j) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return grid[i][j].getLetter();
     }
 
     boolean checkWordPlacement(WordPlacement wordPlacement) {
