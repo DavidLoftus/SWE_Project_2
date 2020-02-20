@@ -27,15 +27,13 @@ public class Main {
         board.printBoard();
         System.out.println(board.getLetterAt(7, 7));
 
-
         System.out.println("");
-        int coordinate = 2;
         WordPlacement tempWord = new WordPlacement();
-        System.out.println(tempWord.getRowForLetter(coordinate));
         tempWord.word = "Vehicle";
+        System.out.println(tempWord.getRowForLetter(3));
+        System.out.println(tempWord.getColumnForLetter(4));
         System.out.println(tempWord.length());
         System.out.println(tempWord.getLetterAt(3));
-        board.getNeededTiles(tempWord);
-
+        System.out.println(board.getNeededTiles(tempWord));
     }
 }

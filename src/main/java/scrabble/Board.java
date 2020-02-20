@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Board {
 
-    private ArrayList<Character> list = new ArrayList<Character>();
     private Square[][] grid = new Square[15][15];
 
     public Board() {
@@ -62,7 +61,9 @@ public class Board {
         grid[i][j].setTile(tile);
     }
 
-    public char getLetterAt(int i, int j) { return grid[i][j].getLetter(); }
+    public char getLetterAt(int i, int j) {
+        return grid[i][j].getLetter();
+    }
 
     boolean checkWordPlacement(WordPlacement wordPlacement) {
         // TODO: implement
@@ -74,25 +75,34 @@ public class Board {
         throw new UnsupportedOperationException();
     }
 
-    public Tile getNeededTiles(WordPlacement wordPlace) {
-        for (int i=0; i < wordPlace.length() ; i++) {
-            list.add(wordPlace.word.toUpperCase().charAt(i));
+    public Tile[] getNeededTiles(WordPlacement wordPlace) {
+        ArrayList<Character> list = new ArrayList<Character>();
+        ArrayList<Tile> tileList = new ArrayList<Tile>();
+        Tile[] tileArray = null;
+
+        for (int i = 0; i < wordPlace.length(); i++) {
+            list.add(wordPlace.word.charAt(i));
+            tileList.add(i, Tile.parseTile(wordPlace.word.charAt(i)));
         }
-        System.out.println(list);
+        /* debug */
+        // System.out.println(list);
+        System.out.println(tileList);
 
-        for (int i=0; i<15 ; i++) {
-            for (int j=0; j<15; j++) {
+        tileArray = tileList.toArray(new Tile[0]);
+
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
                 if (grid[i][j].isEmpty()) {
-                    // TODO
-                }
-
-                if (grid[i][j].getLetter() != list.get(i)) {
-                    return null;
+                    return tileArray;
+                } else {
+                    if (grid[i][j].getLetter() != list.get(i)) {
+                        return null;
+                    }
                 }
             }
         }
 
-        return null;
+        return tileArray;
     }
 
     public void printBoard() {

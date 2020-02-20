@@ -3,9 +3,19 @@ package scrabble;
 public class WordPlacement {
 
     public String word = "";
-    public int start;
-    public int end;
-    public int direction;
+    public int startI;
+    public int startJ;
+
+    public enum Direction {
+        H("Horizontal"),
+        V("Vertical");
+
+        private final String dir;
+
+        private Direction(String dir) {
+            this.dir = dir;
+        }
+    }
 
     public int length() {
         return word.length();
@@ -28,7 +38,20 @@ public class WordPlacement {
     }
 
     public char getLetterAt(int i) {
-        return word.toUpperCase().charAt(i);
+        return word.charAt(i);
     }
 
+    public void Move(Direction direction, int startI, int startJ) {
+        String word = this.word;
+        this.startI = startI;
+        this.startJ = startJ;
+
+        if (direction == Direction.H) {
+            // Horizontal move
+        }
+
+        if (direction == Direction.V) {
+            // Vertical move
+        }
+    }
 }
