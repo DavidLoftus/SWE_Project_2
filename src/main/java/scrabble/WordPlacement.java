@@ -2,13 +2,21 @@ package scrabble;
 
 public class WordPlacement {
 
-    private String word;
-    private int startI;
-    private int startJ;
-
     public enum Direction {
         HORIZONTAL,
         DIRECTION
+    }
+
+    private int startI;
+    private int startJ;
+    private Direction direction;
+    private String word;
+
+    public WordPlacement(int startI, int startJ, Direction direction, String word) {
+        this.startI = startI;
+        this.startJ = startJ;
+        this.direction = direction;
+        this.word = word;
     }
 
     public int length() {
