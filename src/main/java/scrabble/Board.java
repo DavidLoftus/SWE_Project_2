@@ -79,7 +79,8 @@ public class Board {
         ArrayList<Tile> tileList = new ArrayList<>();
 
         for (int i = 0; i < wordPlace.length(); i++) {
-            tileList.add(i, Tile.parseTile(wordPlace.word.charAt(i)));
+            Tile tile = Tile.parseTile(wordPlace.getLetterAt(i));
+            tileList.add(tile);
         }
         /* debug */
         System.out.println(list);
