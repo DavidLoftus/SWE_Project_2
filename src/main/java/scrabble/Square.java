@@ -32,7 +32,7 @@ public class Square {
             throw new IllegalArgumentException();
         }
         this.tile = tile;
-        this.letter = tile.getSymbol();
+        this.letter = tile.getLetter();
     }
 
     public Modifier getModifier() {

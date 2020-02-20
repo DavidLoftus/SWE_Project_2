@@ -61,7 +61,7 @@ public enum Tile {
      *
      * @return the symbol for <code>this</code>
      */
-    public char getSymbol() {
+    public char getLetter() {
         return symbol;
     }
 
