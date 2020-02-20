@@ -29,11 +29,13 @@ public class Main {
 
         System.out.println("");
         WordPlacement tempWord = new WordPlacement();
-        tempWord.word = "Vehicle";
-        System.out.println(tempWord.getRowForLetter(3));
-        System.out.println(tempWord.getColumnForLetter(4));
-        System.out.println(tempWord.length());
-        System.out.println(tempWord.getLetterAt(3));
+        tempWord.word = "apple";
+        tempWord.startI = 4;
+        tempWord.startJ = 2;
+        System.out.println("getRow: " + tempWord.getRowForLetter(1));
+        System.out.println("getCol: " + tempWord.getColumnForLetter(1));
+        System.out.println("Word Length: " + tempWord.length());
+        System.out.println("LetterAt: " + tempWord.getLetterAt(2));
         System.out.println(board.getNeededTiles(tempWord));
     }
 }

@@ -22,36 +22,40 @@ public class WordPlacement {
     }
 
     public int getRowForLetter(int i) {
-        if (i > 15 || i < 0) {
+        // TODO : should be a constant when word is placed horizontally (maybe assumed)
+        int row = 0;
+
+        if (i > word.length()) {
+            throw new IllegalArgumentException("Word size error");
+        }
+
+        row = startI + i - 1;
+
+        if (row > 15 || row < 0) {
             throw new IllegalArgumentException("Out of bounds");
         }
 
-        return i;
+        return row;
     }
 
     public int getColumnForLetter(int i) {
-        if (i > 15 || i < 0) {
+        // TODO : should be a constant when word is placed vertically (maybe assumed)
+        int col = 0;
+
+        if (i > word.length()) {
+            throw new IllegalArgumentException("Word size error");
+        }
+
+        col = startJ + i - 1;
+
+        if (col > 15 || col < 0) {
             throw new IllegalArgumentException("Out of bounds");
         }
 
-        return i;
+        return col;
     }
 
     public char getLetterAt(int i) {
         return word.charAt(i);
-    }
-
-    public void Move(Direction direction, int startI, int startJ) {
-        String word = this.word;
-        this.startI = startI;
-        this.startJ = startJ;
-
-        if (direction == Direction.H) {
-            // Horizontal move
-        }
-
-        if (direction == Direction.V) {
-            // Vertical move
-        }
     }
 }
