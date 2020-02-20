@@ -20,13 +20,13 @@ public class WordPlacement {
         int row = 0;
 
         if (i > word.length()) {
-            throw new IllegalArgumentException("Word size error");
+            throw new IndexOutOfBoundsException("Word size error");
         }
 
         row = startI + i - 1;
 
-        if (row > 15 || row < 0) {
-            throw new IllegalArgumentException("Out of bounds");
+        if (row >= 15 || row < 0) {
+            throw new IndexOutOfBoundsException("Word goes off edge of board");
         }
 
         return row;
