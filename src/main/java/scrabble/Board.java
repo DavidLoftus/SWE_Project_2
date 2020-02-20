@@ -80,23 +80,15 @@ public class Board {
 
         for (int i = 0; i < wordPlace.length(); i++) {
             Tile tile = Tile.parseTile(wordPlace.getLetterAt(i));
-            tileList.add(tile);
-        }
-        /* debug */
-        System.out.println(list);
-        System.out.println(tileList);
 
-        tileArray = tileList.toArray(new Tile[0]);
+            // TODO: = ???
+            int row = 0;
+            int column = 0;
 
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                if (grid[i][j].isEmpty()) {
-                    return tileArray;
-                } else {
-                    if (grid[i][j].getLetter() != list.get(i)) {
-                        return null;
-                    }
-                }
+            if (grid[row][column].isEmpty()) {
+                tileList.add(tile);
+            } else if (grid[row][column].getLetter() != 0) { // TODO: != ???
+                return null;
             }
         }
 
