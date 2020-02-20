@@ -76,12 +76,9 @@ public class Board {
     }
 
     public Tile[] getNeededTiles(WordPlacement wordPlace) {
-        ArrayList<Character> list = new ArrayList<>();
         ArrayList<Tile> tileList = new ArrayList<>();
-        Tile[] tileArray;
 
         for (int i = 0; i < wordPlace.length(); i++) {
-            list.add(wordPlace.word.charAt(i));
             tileList.add(i, Tile.parseTile(wordPlace.word.charAt(i)));
         }
         /* debug */
@@ -102,7 +99,7 @@ public class Board {
             }
         }
 
-        return tileArray;
+        return tileList.toArray(new Tile[0]);
     }
 
     public void printBoard() {
