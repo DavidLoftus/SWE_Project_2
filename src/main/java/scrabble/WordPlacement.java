@@ -2,9 +2,9 @@ package scrabble;
 
 public class WordPlacement {
 
-    public String word = "";
-    public int startI;
-    public int startJ;
+    private String word;
+    private int startI;
+    private int startJ;
 
     public enum Direction {
         HORIZONTAL,
