@@ -2,20 +2,33 @@ package scrabble;
 
 public class WordPlacement {
 
-    // placeholder
-    public Tile letterToPlace(Tile tile) {
-        return tile;
+    public String word = "";
+    public int start;
+    public int end;
+    public int direction;
+
+    public int length() {
+        return word.length();
     }
 
-    // placeholder
-    public boolean checkTile(Player player, Tile tile) {
-        if (player.getFrame().getTiles().contains(letterToPlace(tile))) {
-            return true;
-        } else return false;
+    public int getRowForLetter(int i) {
+        if (i > 15 || i < 0) {
+            throw new IllegalArgumentException("Out of bounds");
+        }
+
+        return i;
     }
 
-    /*public void placeLetter(Tile tile, int i, int j) {
-        if (checkTile() == true){  }
-    }*/
+    public int getColumnForLetter(int i) {
+        if (i > 15 || i < 0) {
+            throw new IllegalArgumentException("Out of bounds");
+        }
+
+        return i;
+    }
+
+    public char getLetterAt(int i) {
+        return word.toUpperCase().charAt(i);
+    }
 
 }

@@ -1,10 +1,12 @@
 package scrabble;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Board {
 
+    private ArrayList<Character> list = new ArrayList<Character>();
     private Square[][] grid = new Square[15][15];
 
     public Board() {
@@ -60,9 +62,7 @@ public class Board {
         grid[i][j].setTile(tile);
     }
 
-    public char getLetterAt(int i, int j) {
-        return grid[i][j].getLetter();
-    }
+    public char getLetterAt(int i, int j) { return grid[i][j].getLetter(); }
 
     boolean checkWordPlacement(WordPlacement wordPlacement) {
         // TODO: implement
@@ -72,6 +72,27 @@ public class Board {
     public void applyWordPlacement(Tile tile) {
         // TODO: implement
         throw new UnsupportedOperationException();
+    }
+
+    public Tile getNeededTiles(WordPlacement wordPlace) {
+        for (int i=0; i < wordPlace.length() ; i++) {
+            list.add(wordPlace.word.toUpperCase().charAt(i));
+        }
+        System.out.println(list);
+
+        for (int i=0; i<15 ; i++) {
+            for (int j=0; j<15; j++) {
+                if (grid[i][j].isEmpty()) {
+                    // TODO
+                }
+
+                if (grid[i][j].getLetter() != list.get(i)) {
+                    return null;
+                }
+            }
+        }
+
+        return null;
     }
 
     public void printBoard() {

@@ -25,6 +25,17 @@ public class Main {
         System.out.println("\n");
         board.setTile(7, 7, Tile.X);
         board.printBoard();
-        System.out.println("\nLetter: " + board.getLetterAt(7, 7));
+        System.out.println(board.getLetterAt(7, 7));
+
+
+        System.out.println("");
+        int coordinate = 2;
+        WordPlacement tempWord = new WordPlacement();
+        System.out.println(tempWord.getRowForLetter(coordinate));
+        tempWord.word = "Vehicle";
+        System.out.println(tempWord.length());
+        System.out.println(tempWord.getLetterAt(3));
+        board.getNeededTiles(tempWord);
+
     }
 }
