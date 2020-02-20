@@ -7,14 +7,8 @@ public class WordPlacement {
     public int startJ;
 
     public enum Direction {
-        H("Horizontal"),
-        V("Vertical");
-
-        private final String dir;
-
-        private Direction(String dir) {
-            this.dir = dir;
-        }
+        HORIZONTAL,
+        DIRECTION
     }
 
     public int length() {
