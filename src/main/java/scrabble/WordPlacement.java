@@ -117,16 +117,12 @@ public class WordPlacement {
     }
 
     public boolean isPlacedAtStar(Board board) {
-        int row = getColumnForLetter(startJ);
-        int column = getRowForLetter(startI);
-        if (direction == Direction.HORIZONTAL) {
-            for (int i = column; i < length(); i++) {
-                // TODO
-            }
-        }
-        if (direction == Direction.VERTICAL) {
-            for (int i = row; i < length(); i++) {
-                // TODO
+        for (int i = 0; i < length(); ++i) {
+            int row = getRowForLetter(i);
+            int column = getColumnForLetter(i);
+
+            if (board.getModiferAt(row, column) == Square.Modifier.STAR) {
+                return true;
             }
         }
         return false;

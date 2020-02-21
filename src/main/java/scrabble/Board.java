@@ -68,6 +68,14 @@ public class Board {
         return grid[i][j].getLetter();
     }
 
+    public boolean hasTileAt(int i, int j) {
+        return grid[i][j].isEmpty();
+    }
+
+    public Square.Modifier getModiferAt(int i, int j) {
+        return grid[i][j].getModifier();
+    }
+
     public void applyWordPlacement(Player player, WordPlacement wordPlacement) {
         List<Tile> neededTiles = getNeededTiles(wordPlacement);
         List<Tile> tilesToPlace = player.getFrame().getTilesToPlace(neededTiles);
