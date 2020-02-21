@@ -50,8 +50,7 @@ public class Board {
     }
 
     public void reset() {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        setupBoardContents();
     }
 
     protected void setTile(int i, int j, Tile tile) {
@@ -74,7 +73,15 @@ public class Board {
     }
 
     private void placesTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
-        throw new UnsupportedOperationException("NYI");
+        int j = 0;
+        for (int i = 0; i < wordPlacement.length(); i++) {
+            int column = wordPlacement.getColumnForLetter(i);
+            int row = wordPlacement.getRowForLetter(i);
+            if (grid[row][column].isEmpty()) {
+                setTile(row, column, tilesToPlace.get(j));
+                j++;
+            }
+        }
     }
 
     public List<Tile> getNeededTiles(WordPlacement wordPlace) {
@@ -83,13 +90,12 @@ public class Board {
         for (int i = 0; i < wordPlace.length(); i++) {
             Tile tile = Tile.parseTile(wordPlace.getLetterAt(i));
 
-            // TODO: = ???
-            int row = 0;
-            int column = 0;
+            int row = wordPlace.getRowForLetter(i);
+            int column = wordPlace.getColumnForLetter(i);
 
             if (grid[row][column].isEmpty()) {
                 tileList.add(tile);
-            } else if (grid[row][column].getLetter() != 0) { // TODO: != ???
+            } else if (grid[row][column].getLetter() != tile.getLetter()) {
                 return null;
             }
         }
