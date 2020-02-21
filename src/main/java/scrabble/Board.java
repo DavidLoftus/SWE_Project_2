@@ -2,6 +2,7 @@ package scrabble;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -65,17 +66,18 @@ public class Board {
         return grid[i][j].getLetter();
     }
 
-    boolean checkWordPlacement(WordPlacement wordPlacement) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+    public void applyWordPlacement(Player player, WordPlacement wordPlacement) {
+        List<Tile> neededTiles = getNeededTiles(wordPlacement);
+        List<Tile> tilesToPlace = player.getFrame().getTilesToPlace(neededTiles);
+
+        placesTiles(wordPlacement, tilesToPlace);
     }
 
-    public void applyWordPlacement(Tile tile) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+    private void placesTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
+        throw new UnsupportedOperationException("NYI");
     }
 
-    public Tile[] getNeededTiles(WordPlacement wordPlace) {
+    public List<Tile> getNeededTiles(WordPlacement wordPlace) {
         ArrayList<Tile> tileList = new ArrayList<>();
 
         for (int i = 0; i < wordPlace.length(); i++) {
@@ -92,7 +94,7 @@ public class Board {
             }
         }
 
-        return tileList.toArray(new Tile[0]);
+        return tileList;
     }
 
     public void printBoard() {
