@@ -28,10 +28,9 @@ public class Main {
         System.out.println(board.getLetterAt(7, 7));
 
         System.out.println("");
-        WordPlacement tempWord =
-                new WordPlacement(4, 2, WordPlacement.Direction.HORIZONTAL, "apple");
-        System.out.println("getRow: " + tempWord.getRowForLetter(1));
-        System.out.println("getCol: " + tempWord.getColumnForLetter(1));
+        WordPlacement tempWord = new WordPlacement(4, 2, WordPlacement.Direction.VERTICAL, "apple");
+        System.out.println("getRow: " + tempWord.getRowForLetter(3));
+        System.out.println("getCol: " + tempWord.getColumnForLetter(4));
         System.out.println("Word Length: " + tempWord.length());
         System.out.println("LetterAt: " + tempWord.getLetterAt(2));
         System.out.println(board.getNeededTiles(tempWord));

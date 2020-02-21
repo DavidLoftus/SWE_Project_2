@@ -31,16 +31,18 @@ public class WordPlacement {
     public int getRowForLetter(int i) {
         int row;
 
-        if (i > word.length()) {
+        if (i < 0 || i > length()) {
             throw new IndexOutOfBoundsException("Word size error");
         }
 
-        if (direction == Direction.HORIZONTAL) {
+        if (direction == Direction.VERTICAL) {
             row = startI;
-        } else row = startI + i - 1;
+        } else {
+            row = startI + i;
+        }
 
         if (row >= 15 || row < 0) {
-            throw new IndexOutOfBoundsException("Word goes off edge of board");
+            throw new IndexOutOfBoundsException("Word is out of bounds");
         }
 
         return row;
@@ -53,21 +55,27 @@ public class WordPlacement {
     public int getColumnForLetter(int i) {
         int col;
 
-        if (i > word.length()) {
-            throw new IllegalArgumentException("Word size error");
+        if (i < 0 || i > length()) {
+            throw new IndexOutOfBoundsException("Word size error");
         }
 
-        if (direction == Direction.VERTICAL) {
+        if (direction == Direction.HORIZONTAL) {
             col = startJ;
-        } else col = startJ + i - 1;
+        } else {
+            col = startJ + i;
+        }
 
-        if (col > 15 || col < 0) {
-            throw new IllegalArgumentException("Out of bounds");
+        if (col >= 15 || col < 0) {
+            throw new IndexOutOfBoundsException("Word is out of bounds");
         }
 
         return col;
     }
 
+    /**
+     * @param i the index of the letter in the word
+     * @return a character of the letter
+     */
     public char getLetterAt(int i) {
         return word.charAt(i);
     }
