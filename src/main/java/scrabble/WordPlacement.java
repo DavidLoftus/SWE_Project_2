@@ -81,39 +81,43 @@ public class WordPlacement {
     }
 
     public boolean isConnectedToExistingTile(Board board) {
+        for (int i = 0; i < length(); ++i) {
+            int row = getRowForLetter(i);
+            int column = getColumnForLetter(i);
 
-        int row = getColumnForLetter(startJ);
-        int column = getRowForLetter(startI);
-        int noOfTiles = 0;
+            if (board.hasTileAt(row, column)) {
+                return true;
+            }
+        }
+
+        int rowOffset = 0, columnOffset = 0;
         if (direction == Direction.HORIZONTAL) {
-            for (int i = column - 1; i < length() + 2; i++) {
-                for (int j = row - 1; j < row + 1; j++) {
-                    try {
-                        board.getLetterAt(i, j);
-                    } catch (IllegalArgumentException e) {
-                        noOfTiles++;
-                    }
-                }
+            rowOffset = 1;
+
+            if (board.hasTileAt(startI, startJ - 1) || board.hasTileAt(startI, startJ + length())) {
+                return true;
+            }
+        } else {
+            columnOffset = 1;
+
+            if (board.hasTileAt(startI - 1, startJ) || board.hasTileAt(startI + length(), startJ)) {
+                return true;
             }
         }
-        if (direction == Direction.VERTICAL) {
-            for (int i = row - 1; i < length() + 2; i++) {
-                for (int j = column - 1; j < 2; j++) {
-                    try {
-                        board.getLetterAt(i, j);
-                    } catch (IllegalArgumentException e) {
-                        noOfTiles++;
-                    }
-                }
+
+        for (int i = 0; i < length(); ++i) {
+            int row = getRowForLetter(i);
+            int column = getColumnForLetter(i);
+
+            if (board.hasTileAt(row + rowOffset, column + columnOffset)) {
+                return true;
+            }
+            if (board.hasTileAt(row - rowOffset, column - columnOffset)) {
+                return true;
             }
         }
-        if (noOfTiles == 0) {
-            return false;
-        }
-        if (isPlacedAtStar(board) == false) {
-            return false;
-        }
-        return true;
+
+        return false;
     }
 
     public boolean isPlacedAtStar(Board board) {

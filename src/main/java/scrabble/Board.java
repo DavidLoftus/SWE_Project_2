@@ -69,6 +69,9 @@ public class Board {
     }
 
     public boolean hasTileAt(int i, int j) {
+        if (i < 0 || i >= 15 || j < 0 || j >= 15) {
+            return false;
+        }
         return grid[i][j].isEmpty();
     }
 
