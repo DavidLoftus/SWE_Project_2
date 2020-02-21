@@ -1,7 +1,5 @@
 package scrabble;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -28,7 +26,6 @@ public class Main {
         board.setTile(7, 7, Tile.X);
         board.printBoard();
         System.out.println(board.getLetterAt(7, 7));
-        System.out.println(board.getLetterAt(7, 7));
 
         System.out.println("");
         WordPlacement tempWord =
@@ -37,6 +34,6 @@ public class Main {
         System.out.println("getCol: " + tempWord.getColumnForLetter(1));
         System.out.println("Word Length: " + tempWord.length());
         System.out.println("LetterAt: " + tempWord.getLetterAt(2));
-        System.out.println(Arrays.toString(board.getNeededTiles(tempWord)));
+        System.out.println(board.getNeededTiles(tempWord));
     }
 }
