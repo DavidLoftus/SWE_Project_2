@@ -79,12 +79,12 @@ public class WordPlacement {
     public char getLetterAt(int i) {
         return word.charAt(i);
     }
-    
+
     public boolean checkForSurrondingNeighbours() {
-    	return true;
+        return true;
     }
-    
+
     public boolean isConnectedToExistingTile() {
-    	return true;
+        return true;
     }
 }
