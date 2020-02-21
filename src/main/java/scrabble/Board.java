@@ -83,13 +83,12 @@ public class Board {
         for (int i = 0; i < wordPlace.length(); i++) {
             Tile tile = Tile.parseTile(wordPlace.getLetterAt(i));
 
-            // TODO: = ???
-            int row = 0;
-            int column = 0;
+            int row = wordPlace.getRowForLetter(i);
+            int column = wordPlace.getColumnForLetter(i);
 
             if (grid[row][column].isEmpty()) {
                 tileList.add(tile);
-            } else if (grid[row][column].getLetter() != 0) { // TODO: != ???
+            } else if (grid[row][column].getLetter() != tile.getLetter()) {
                 return null;
             }
         }
