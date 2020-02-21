@@ -80,13 +80,13 @@ public class WordPlacement {
         return word.charAt(i);
     }
 
-    public boolean isConnectedToExistingTile(WordPlacement wordplacement, Board board) {
+    public boolean isConnectedToExistingTile(Board board) {
 
-        int row = wordplacement.getColumnForLetter(startJ);
-        int column = wordplacement.getRowForLetter(startI);
+        int row = getColumnForLetter(startJ);
+        int column = getRowForLetter(startI);
         int noOfTiles = 0;
         if (direction == Direction.HORIZONTAL) {
-            for (int i = column - 1; i < wordplacement.length() + 2; i++) {
+            for (int i = column - 1; i < length() + 2; i++) {
                 for (int j = row - 1; j < row + 1; j++) {
                     try {
                         board.getLetterAt(i, j);
@@ -97,7 +97,7 @@ public class WordPlacement {
             }
         }
         if (direction == Direction.VERTICAL) {
-            for (int i = row - 1; i < wordplacement.length() + 2; i++) {
+            for (int i = row - 1; i < length() + 2; i++) {
                 for (int j = column - 1; j < 2; j++) {
                     try {
                         board.getLetterAt(i, j);
@@ -110,22 +110,22 @@ public class WordPlacement {
         if (noOfTiles == 0) {
             return false;
         }
-        if (isPlacedAtStar(wordplacement, board) == false) {
+        if (isPlacedAtStar(board) == false) {
             return false;
         }
         return true;
     }
 
-    public boolean isPlacedAtStar(WordPlacement wordplacement, Board board) {
-        int row = wordplacement.getColumnForLetter(startJ);
-        int column = wordplacement.getRowForLetter(startI);
+    public boolean isPlacedAtStar(Board board) {
+        int row = getColumnForLetter(startJ);
+        int column = getRowForLetter(startI);
         if (direction == Direction.HORIZONTAL) {
-            for (int i = column; i < wordplacement.length(); i++) {
+            for (int i = column; i < length(); i++) {
                 // TODO
             }
         }
         if (direction == Direction.VERTICAL) {
-            for (int i = row; i < wordplacement.length(); i++) {
+            for (int i = row; i < length(); i++) {
                 // TODO
             }
         }
