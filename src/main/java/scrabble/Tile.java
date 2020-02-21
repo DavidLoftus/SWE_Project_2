@@ -77,7 +77,7 @@ public enum Tile {
 
     public static Tile parseTile(char tileChar) {
         if (Character.isAlphabetic(tileChar)) {
-            return values()[Character.toLowerCase(tileChar) - 'a' + 1];
+            return values()[Character.toUpperCase(tileChar) - 'A' + 1];
         } else if (tileChar == '?') {
             return BLANK;
         } else {
