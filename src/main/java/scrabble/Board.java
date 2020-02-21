@@ -62,6 +62,9 @@ public class Board {
     }
 
     public char getLetterAt(int i, int j) {
+        if (grid[i][j].getLetter() == 0) {
+            throw new IllegalArgumentException();
+        }
         return grid[i][j].getLetter();
     }
 
