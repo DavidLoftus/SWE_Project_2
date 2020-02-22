@@ -1,8 +1,10 @@
 package scrabble;
 
+import scrabble.exceptions.BadWordPlacementException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BadWordPlacementException {
         Board board = new Board();
         Pool pool = new Pool();
         Player player = new Player("Player");

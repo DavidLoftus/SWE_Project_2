@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import scrabble.exceptions.BadWordPlacementException;
 
 public class Board {
 
@@ -79,9 +80,17 @@ public class Board {
         return grid[i][j].getModifier();
     }
 
-    public void applyWordPlacement(Player player, WordPlacement wordPlacement) {
+    public void applyWordPlacement(Player player, WordPlacement wordPlacement)
+            throws BadWordPlacementException {
         List<Tile> neededTiles = getNeededTiles(wordPlacement);
         List<Tile> tilesToPlace = player.getFrame().getTilesToPlace(neededTiles);
+        if (tilesToPlace == null) {
+            throw new BadWordPlacementException(
+                    wordPlacement, "Player doesn't have enough tiles to place this");
+        }
+        if (tilesToPlace.isEmpty()) {
+            throw new BadWordPlacementException(wordPlacement, "Must place atleast one new tile");
+        }
 
         placesTiles(wordPlacement, tilesToPlace);
     }
@@ -98,7 +107,7 @@ public class Board {
         }
     }
 
-    public List<Tile> getNeededTiles(WordPlacement wordPlace) {
+    public List<Tile> getNeededTiles(WordPlacement wordPlace) throws BadWordPlacementException {
         ArrayList<Tile> tileList = new ArrayList<>();
 
         for (int i = 0; i < wordPlace.length(); i++) {
@@ -110,7 +119,8 @@ public class Board {
             if (grid[row][column].isEmpty()) {
                 tileList.add(tile);
             } else if (grid[row][column].getLetter() != tile.getLetter()) {
-                return null;
+                throw new BadWordPlacementException(
+                        wordPlace, "Different letter already exists in placed location");
             }
         }
 
