@@ -16,7 +16,7 @@ public class WordPlacement {
         this.startI = startI;
         this.startJ = startJ;
         this.direction = direction;
-        this.word = word;
+        this.word = word.toUpperCase();
     }
 
     /** @return the length of the String word */

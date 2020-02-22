@@ -68,6 +68,17 @@ class WordPlacementTest {
 
     @Test
     void getLetterAt() {
+        WordPlacement wordPlacement =
+                new WordPlacement(7, 7, WordPlacement.Direction.VERTICAL, "hello");
+
+        assertEquals('H', wordPlacement.getLetterAt(0));
+        assertEquals('E', wordPlacement.getLetterAt(1));
+        assertEquals('L', wordPlacement.getLetterAt(2));
+        assertEquals('L', wordPlacement.getLetterAt(3));
+        assertEquals('O', wordPlacement.getLetterAt(4));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> wordPlacement.getLetterAt(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> wordPlacement.getLetterAt(5));
     }
 
     @Test
