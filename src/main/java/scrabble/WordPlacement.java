@@ -7,16 +7,24 @@ public class WordPlacement {
         VERTICAL
     }
 
-    private int startI;
-    private int startJ;
+    private BoardPos startPos;
     private Direction direction;
     private String word;
 
-    public WordPlacement(int startI, int startJ, Direction direction, String word) {
-        this.startI = startI;
-        this.startJ = startJ;
+    public WordPlacement(BoardPos startPos, Direction direction, String word) {
+        this.startPos = startPos;
         this.direction = direction;
         this.word = word.toUpperCase();
+
+        if (direction == Direction.HORIZONTAL) {
+            if (startPos.getColumn() + length() > 15) {
+                throw new IllegalArgumentException("Word extends outside bounds of Board");
+            }
+        } else {
+            if (startPos.getRow() + length() > 15) {
+                throw new IllegalArgumentException("Word extends outside bounds of Board");
+            }
+        }
     }
 
     /** @return the length of the String word */
@@ -28,48 +36,15 @@ public class WordPlacement {
      * @param i the index of the letter
      * @return the row in which selected letter is in
      */
-    public int getRowForLetter(int i) {
-        int row;
-
+    public BoardPos getPositionAt(int i) {
         if (i < 0 || i >= length()) {
-            throw new IndexOutOfBoundsException("Word size error");
+            throw new IndexOutOfBoundsException();
         }
-
         if (direction == Direction.HORIZONTAL) {
-            row = startI;
+            return new BoardPos(startPos.getRow(), startPos.getColumn() + i);
         } else {
-            row = startI + i;
+            return new BoardPos(startPos.getRow() + i, startPos.getColumn());
         }
-
-        if (row >= 15 || row < 0) {
-            throw new IndexOutOfBoundsException("Word is out of bounds");
-        }
-
-        return row;
-    }
-
-    /**
-     * @param i the index of the letter
-     * @return the column in which the selected letter is in
-     */
-    public int getColumnForLetter(int i) {
-        int col;
-
-        if (i < 0 || i >= length()) {
-            throw new IndexOutOfBoundsException("Word size error");
-        }
-
-        if (direction == Direction.VERTICAL) {
-            col = startJ;
-        } else {
-            col = startJ + i;
-        }
-
-        if (col >= 15 || col < 0) {
-            throw new IndexOutOfBoundsException("Word is out of bounds");
-        }
-
-        return col;
     }
 
     /**
@@ -80,39 +55,27 @@ public class WordPlacement {
         return word.charAt(i);
     }
 
+    private boolean hasTileAtIfValidPos(Board board, int i, int j) {
+        if (i < 0 || j < 0 || i >= 15 || j >= 15) {
+            return false;
+        }
+        return board.hasTileAt(new BoardPos(i, j));
+    }
+
     public boolean isConnectedToExistingTile(Board board) {
         for (int i = 0; i < length(); ++i) {
-            int row = getRowForLetter(i);
-            int column = getColumnForLetter(i);
+            BoardPos pos = getPositionAt(i);
 
-            if (board.hasTileAt(row, column)) {
+            if (board.hasTileAt(pos)) {
                 return true;
             }
-        }
 
-        int rowOffset = 0, columnOffset = 0;
-        if (direction == Direction.HORIZONTAL) {
-            rowOffset = 1;
+            int row = pos.getRow(), column = pos.getColumn();
 
-            if (board.hasTileAt(startI, startJ - 1) || board.hasTileAt(startI, startJ + length())) {
-                return true;
-            }
-        } else {
-            columnOffset = 1;
-
-            if (board.hasTileAt(startI - 1, startJ) || board.hasTileAt(startI + length(), startJ)) {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < length(); ++i) {
-            int row = getRowForLetter(i);
-            int column = getColumnForLetter(i);
-
-            if (board.hasTileAt(row + rowOffset, column + columnOffset)) {
-                return true;
-            }
-            if (board.hasTileAt(row - rowOffset, column - columnOffset)) {
+            if (hasTileAtIfValidPos(board, row - 1, column)
+                    || hasTileAtIfValidPos(board, row + 1, column)
+                    || hasTileAtIfValidPos(board, row, column - 1)
+                    || hasTileAtIfValidPos(board, row, column + 1)) {
                 return true;
             }
         }
@@ -122,10 +85,9 @@ public class WordPlacement {
 
     public boolean isPlacedAtStar(Board board) {
         for (int i = 0; i < length(); ++i) {
-            int row = getRowForLetter(i);
-            int column = getColumnForLetter(i);
+            BoardPos pos = getPositionAt(i);
 
-            if (board.getModiferAt(row, column) == Square.Modifier.STAR) {
+            if (board.getModiferAt(pos) == Square.Modifier.STAR) {
                 return true;
             }
         }
@@ -135,7 +97,7 @@ public class WordPlacement {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("WordPlacement{");
-        sb.append("[").append(startI).append(", ").append(startJ);
+        sb.append("[").append(startPos);
         sb.append("], ").append(direction);
         sb.append(", '").append(word).append('\'');
         sb.append('}');

@@ -54,30 +54,32 @@ public class Board {
         setupBoardContents();
     }
 
-    protected void setTile(int i, int j, Tile tile) {
+    private Square getSquareAt(BoardPos pos) {
+        return grid[pos.getRow()][pos.getColumn()];
+    }
+
+    protected void setTile(BoardPos pos, Tile tile) {
         if (tile == Tile.BLANK) {
             throw new IllegalArgumentException();
         }
 
-        grid[i][j].setTile(tile);
+        getSquareAt(pos).setTile(tile);
     }
 
-    public char getLetterAt(int i, int j) {
-        if (grid[i][j].getLetter() == 0) {
+    public char getLetterAt(BoardPos pos) {
+        Square square = getSquareAt(pos);
+        if (square.getLetter() == 0) {
             throw new IllegalArgumentException();
         }
-        return grid[i][j].getLetter();
+        return square.getLetter();
     }
 
-    public boolean hasTileAt(int i, int j) {
-        if (i < 0 || i >= 15 || j < 0 || j >= 15) {
-            return false;
-        }
-        return !grid[i][j].isEmpty();
+    public boolean hasTileAt(BoardPos pos) {
+        return !getSquareAt(pos).isEmpty();
     }
 
-    public Square.Modifier getModiferAt(int i, int j) {
-        return grid[i][j].getModifier();
+    public Square.Modifier getModiferAt(BoardPos pos) {
+        return getSquareAt(pos).getModifier();
     }
 
     public void applyWordPlacement(Player player, WordPlacement wordPlacement)
@@ -98,29 +100,27 @@ public class Board {
     private void placesTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
         int j = 0;
         for (int i = 0; i < wordPlacement.length(); i++) {
-            int column = wordPlacement.getColumnForLetter(i);
-            int row = wordPlacement.getRowForLetter(i);
-            if (grid[row][column].isEmpty()) {
-                setTile(row, column, tilesToPlace.get(j));
+            BoardPos pos = wordPlacement.getPositionAt(i);
+            if (!hasTileAt(pos)) {
+                setTile(pos, tilesToPlace.get(j));
                 j++;
             }
         }
     }
 
-    public List<Tile> getNeededTiles(WordPlacement wordPlace) throws BadWordPlacementException {
+    public List<Tile> getNeededTiles(WordPlacement wordPlacement) throws BadWordPlacementException {
         ArrayList<Tile> tileList = new ArrayList<>();
 
-        for (int i = 0; i < wordPlace.length(); i++) {
-            Tile tile = Tile.parseTile(wordPlace.getLetterAt(i));
+        for (int i = 0; i < wordPlacement.length(); i++) {
+            Tile tile = Tile.parseTile(wordPlacement.getLetterAt(i));
 
-            int row = wordPlace.getRowForLetter(i);
-            int column = wordPlace.getColumnForLetter(i);
+            BoardPos pos = wordPlacement.getPositionAt(i);
 
-            if (grid[row][column].isEmpty()) {
+            if (!hasTileAt(pos)) {
                 tileList.add(tile);
-            } else if (grid[row][column].getLetter() != tile.getLetter()) {
+            } else if (getLetterAt(pos) != tile.getLetter()) {
                 throw new BadWordPlacementException(
-                        wordPlace, "Different letter already exists in placed location");
+                        wordPlacement, "Different letter already exists in placed location");
             }
         }
 
