@@ -6,14 +6,41 @@ import java.util.List;
 import java.util.Scanner;
 import scrabble.exceptions.BadWordPlacementException;
 
+/**
+ * Board holds the the 15x15 grid of {@link Square} objects.
+ *
+ * <p>The public interface does not allow explicit placing of tiles. You may only place tiles using
+ * the {@link #applyWordPlacement} method.
+ *
+ * <p>Board has no custom toString method. It can be printed to console using the {@link
+ * #printBoard()} method.
+ */
 public class Board {
 
     private Square[][] grid = new Square[15][15];
 
+    /** Initializes board, setting up empty grid with correct modifiers. */
     public Board() {
         setupBoardContents();
     }
 
+    /**
+     * Converts a character from map.txt resource to a {@link Square.Modifier} enum.
+     *
+     * <p>Legend is:
+     *
+     * <ul>
+     *   <li>' ' => NORMAL
+     *   <li>'d' => DOUBLE_LETTER
+     *   <li>'D' => DOUBLE_WORD
+     *   <li>'t' => TRIPLE_LETTER
+     *   <li>'*' => STAR
+     * </ul>
+     *
+     * @param c the character to transform
+     * @return The modifier associated with that character
+     * @throws IllegalArgumentException if c is not one of the above characters
+     */
     private Square.Modifier charToEnum(char c) {
         switch (c) {
             case ' ':
@@ -33,6 +60,14 @@ public class Board {
         }
     }
 
+    /**
+     * Initializes grid with given data in scanner
+     *
+     * <p>Scanner should contain 15 lines, each with 15 characters (not including newline) These
+     * characters must be from the legend specified in {@link #charToEnum(char)}
+     *
+     * @param sc The scanner containing the map data
+     */
     private void setupBoardContents(Scanner sc) {
         for (int i = 0; i < 15; ++i) {
             String row = sc.nextLine();
@@ -43,6 +78,11 @@ public class Board {
         }
     }
 
+    /**
+     * Initializes grid with contents from map.txt resource.
+     *
+     * <p>Calls {@link #setupBoardContents(Scanner)}
+     */
     private void setupBoardContents() {
         InputStream stream = this.getClass().getResourceAsStream("map.txt");
         assert stream != null;
@@ -50,38 +90,81 @@ public class Board {
         setupBoardContents(new Scanner(stream));
     }
 
+    /** Resets board to original state */
     public void reset() {
         setupBoardContents();
     }
 
+    /**
+     * Gets the {@link Square} object at the given location. This is private since access to Square
+     * allows one to manually set the tiles.
+     *
+     * @param pos position of requested square
+     * @return mutable {@link Square} object
+     */
     private Square getSquareAt(BoardPos pos) {
         return grid[pos.getRow()][pos.getColumn()];
     }
 
+    /**
+     * Puts a tile in the given location. This method only works for non-BLANK tiles, since we don't
+     * provide the letter.
+     *
+     * @param pos The position of destination square
+     * @param tile The tile to place in square
+     * @throws IllegalArgumentException if tile is {@link Tile#BLANK}
+     */
     protected void setTile(BoardPos pos, Tile tile) {
         if (tile == Tile.BLANK) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("can't call setTile with BLANK tile");
         }
 
         getSquareAt(pos).setTile(tile);
     }
 
+    /**
+     * Returns the letter at the given position on the board. Should not be called if {@link
+     * #hasTileAt(BoardPos)} returns false
+     *
+     * @param pos The position to request the letter at.
+     * @return The letter at that position on the board
+     * @throws IllegalArgumentException if no letter was present.
+     */
     public char getLetterAt(BoardPos pos) {
-        Square square = getSquareAt(pos);
-        if (square.getLetter() == 0) {
+        if (!hasTileAt(pos)) {
             throw new IllegalArgumentException();
         }
-        return square.getLetter();
+        return getSquareAt(pos).getLetter();
     }
 
+    /**
+     * Checks if a tile has been placed at given position on the board.
+     *
+     * @param pos The position in board to check
+     * @return true if square at given position is not empty, otherwise false
+     */
     public boolean hasTileAt(BoardPos pos) {
         return !getSquareAt(pos).isEmpty();
     }
 
+    /**
+     * Gets the modifier for square at given position on the board.
+     *
+     * @param pos The position in board to get the modifier for
+     * @return the modifier at the given position
+     */
     public Square.Modifier getModiferAt(BoardPos pos) {
         return getSquareAt(pos).getModifier();
     }
 
+    /**
+     * Tries to apply a given WordPlacement move using player's tiles.
+     *
+     * @param player The player to take tiles from
+     * @param wordPlacement specifies the letters and positions to place the tile at. BLANKs are
+     *     automatically placed if necessary
+     * @throws BadWordPlacementException if wordPlacement would cause an invalid move
+     */
     public void applyWordPlacement(Player player, WordPlacement wordPlacement)
             throws BadWordPlacementException {
         List<Tile> neededTiles = getNeededTiles(wordPlacement);
@@ -90,13 +173,19 @@ public class Board {
             throw new BadWordPlacementException(
                     wordPlacement, "Player doesn't have enough tiles to place this");
         }
-        if (tilesToPlace.isEmpty()) {
-            throw new BadWordPlacementException(wordPlacement, "Must place atleast one new tile");
-        }
 
         placesTiles(wordPlacement, tilesToPlace);
     }
 
+    /**
+     * Places tiles from tilesToPlace onto the board at positions specified by wordPlacement. This
+     * method assumes input has already been checked in {@link #applyWordPlacement(Player,
+     * WordPlacement)}
+     *
+     * @param wordPlacement specifies where to place the tile, and (in the case of a blank) what
+     *     letter to place.
+     * @param tilesToPlace The tiles belonging to the player to place on the board.
+     */
     private void placesTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
         int j = 0;
         for (int i = 0; i < wordPlacement.length(); i++) {
@@ -108,6 +197,17 @@ public class Board {
         }
     }
 
+    /**
+     * Gets tiles needed from Player's frame in order to fully apply wordPlacement Takes into
+     * account what is already on the board and returns a list of necessary tiles. These may not be
+     * exactly the tiles that are placed however. Since a tile can be exchanged for a BLANK if
+     * necessary.
+     *
+     * @param wordPlacement specifies what letter and where it is to be placed
+     * @return A non-empty list of tiles that have not already been placed.
+     * @throws BadWordPlacementException if a differing letter already exists in one of the
+     *     destinations, or if no tiles need to be placed.
+     */
     public List<Tile> getNeededTiles(WordPlacement wordPlacement) throws BadWordPlacementException {
         ArrayList<Tile> tileList = new ArrayList<>();
 
@@ -124,9 +224,16 @@ public class Board {
             }
         }
 
+        if (tileList.isEmpty()) {
+            throw new BadWordPlacementException(wordPlacement, "Must place atleast one new tile");
+        }
+
         return tileList;
     }
 
+    /**
+     * Prints the board in stylised fashion. All squares are seperated using +, / and - characters.
+     */
     public void printBoard() {
         System.out.println("+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
         for (int i = 0; i < 15; ++i) {
