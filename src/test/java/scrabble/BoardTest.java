@@ -3,6 +3,7 @@ package scrabble;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import scrabble.exceptions.BadWordPlacementException;
 
 public class BoardTest {
 
@@ -35,7 +36,6 @@ public class BoardTest {
     void hasTileAt() {
         Board board = new Board();
 
-
         assertFalse(board.hasTileAt(7, 7));
         board.setTile(7, 7, Tile.E);
         assertTrue(board.hasTileAt(7, 7));
@@ -62,10 +62,34 @@ public class BoardTest {
     }
 
     @Test
-    void applyWordPlacement() {
-    }
+    void applyWordPlacement() throws BadWordPlacementException {
+        FakePool pool = new FakePool();
+        pool.add(Tile.H);
+        pool.add(Tile.E);
+        pool.add(Tile.L);
+        pool.add(Tile.L);
+        pool.add(Tile.O);
+        pool.add(Tile.X);
+        pool.add(Tile.K);
 
-    @Test
-    void getNeededTiles() {
+        Board board = new Board();
+
+        Player player = new Player("Bob");
+
+        WordPlacement wordPlacement =
+                new WordPlacement(7, 7, WordPlacement.Direction.HORIZONTAL, "hello");
+
+        assertThrows(BadWordPlacementException.class, () -> board.applyWordPlacement(player, wordPlacement));
+
+        player.getFrame().refill(pool);
+        board.applyWordPlacement(player, wordPlacement);
+
+        assertEquals('H', board.getLetterAt(7, 7));
+        assertEquals('E', board.getLetterAt(7, 8));
+        assertEquals('L', board.getLetterAt(7, 9));
+        assertEquals('L', board.getLetterAt(7, 10));
+        assertEquals('O', board.getLetterAt(7, 11));
+
+        assertThrows(BadWordPlacementException.class, () -> board.applyWordPlacement(player, wordPlacement));
     }
 }
