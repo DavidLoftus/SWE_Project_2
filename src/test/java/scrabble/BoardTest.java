@@ -30,4 +30,42 @@ public class BoardTest {
         board.reset();
         assertThrows(IllegalArgumentException.class, () -> board.getLetterAt(7, 7));
     }
+
+    @Test
+    void hasTileAt() {
+        Board board = new Board();
+
+
+        assertFalse(board.hasTileAt(7, 7));
+        board.setTile(7, 7, Tile.E);
+        assertTrue(board.hasTileAt(7, 7));
+
+        assertFalse(board.hasTileAt(7, 8));
+        board.setTile(7, 8, Tile.A);
+        assertTrue(board.hasTileAt(7, 8));
+
+        assertFalse(board.hasTileAt(7, 9));
+        board.setTile(7, 9, Tile.D);
+        assertTrue(board.hasTileAt(7, 9));
+    }
+
+    @Test
+    void getModiferAt() {
+        Board board = new Board();
+
+        assertEquals(Square.Modifier.STAR, board.getModiferAt(7, 7));
+
+        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModiferAt(0, 0));
+        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModiferAt(0, 14));
+
+        assertEquals(Square.Modifier.NORMAL, board.getModiferAt(1, 14));
+    }
+
+    @Test
+    void applyWordPlacement() {
+    }
+
+    @Test
+    void getNeededTiles() {
+    }
 }
