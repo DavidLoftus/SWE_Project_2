@@ -57,7 +57,7 @@ public class Pool {
         return tile;
     }
 
-    /** @return Frame in */
+    /** @return String representation showing how many of each tile are stored in the Pool */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Pool[");

@@ -26,6 +26,7 @@ public class Player {
         this.score = 0;
         this.frame = new Frame();
     }
+
     /**
      * Increases the score of a player by amount.
      *
@@ -55,10 +56,12 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
+
     /** @return the name of the player */
     public String getName() {
         return this.name;
     }
+
     /** @return the players name score and from in a string */
     @Override
     public String toString() {
