@@ -131,4 +131,14 @@ public class WordPlacement {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("WordPlacement{");
+        sb.append("[").append(startI).append(", ").append(startJ);
+        sb.append("], ").append(direction);
+        sb.append(", '").append(word).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
