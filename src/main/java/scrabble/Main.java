@@ -25,16 +25,15 @@ public class Main {
         System.out.println("");
         board.printBoard();
         System.out.println("\n");
-        board.setTile(7, 7, Tile.X);
+        board.setTile(new BoardPos(7, 7), Tile.X);
         board.printBoard();
-        System.out.println(board.getLetterAt(7, 7));
+        System.out.println(board.getLetterAt(new BoardPos(7, 7)));
 
         System.out.println("");
-        WordPlacement tempWord = new WordPlacement(4, 2, WordPlacement.Direction.VERTICAL, "apple");
-        System.out.println("getRow: " + tempWord.getRowForLetter(3));
-        System.out.println("getCol: " + tempWord.getColumnForLetter(4));
+        WordPlacement tempWord = new WordPlacement(new BoardPos(2, 3), WordPlacement.Direction.VERTICAL, "apple");
+        System.out.println("getPositionAt: " + tempWord.getPositionAt(3));
         System.out.println("Word Length: " + tempWord.length());
-        System.out.println("LetterAt: " + tempWord.getLetterAt(2));
+        System.out.println("getLetterAt: " + tempWord.getLetterAt(2));
         System.out.println(board.getNeededTiles(tempWord));
     }
 }
