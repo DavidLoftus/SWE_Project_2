@@ -31,11 +31,11 @@ public class WordPlacement {
     public int getRowForLetter(int i) {
         int row;
 
-        if (i < 0 || i > length()) {
+        if (i < 0 || i >= length()) {
             throw new IndexOutOfBoundsException("Word size error");
         }
 
-        if (direction == Direction.VERTICAL) {
+        if (direction == Direction.HORIZONTAL) {
             row = startI;
         } else {
             row = startI + i;
@@ -55,11 +55,11 @@ public class WordPlacement {
     public int getColumnForLetter(int i) {
         int col;
 
-        if (i < 0 || i > length()) {
+        if (i < 0 || i >= length()) {
             throw new IndexOutOfBoundsException("Word size error");
         }
 
-        if (direction == Direction.HORIZONTAL) {
+        if (direction == Direction.VERTICAL) {
             col = startJ;
         } else {
             col = startJ + i;
