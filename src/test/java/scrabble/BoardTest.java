@@ -10,7 +10,9 @@ public class BoardTest {
     @Test
     void setTile() {
         Board board = new Board();
-        assertThrows(IllegalArgumentException.class, () -> board.setTile(new BoardPos(7, 7), Tile.BLANK));
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> board.setTile(new BoardPos(7, 7), Tile.BLANK));
     }
 
     @Test

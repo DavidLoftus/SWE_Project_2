@@ -30,7 +30,8 @@ public class Main {
         System.out.println(board.getLetterAt(new BoardPos(7, 7)));
 
         System.out.println("");
-        WordPlacement tempWord = new WordPlacement(new BoardPos(2, 3), WordPlacement.Direction.VERTICAL, "apple");
+        WordPlacement tempWord =
+                new WordPlacement(new BoardPos(2, 3), WordPlacement.Direction.VERTICAL, "apple");
         System.out.println("getPositionAt: " + tempWord.getPositionAt(3));
         System.out.println("Word Length: " + tempWord.length());
         System.out.println("getLetterAt: " + tempWord.getLetterAt(2));

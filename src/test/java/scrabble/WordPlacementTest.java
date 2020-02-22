@@ -19,7 +19,8 @@ class WordPlacementTest {
     void getPositionAt() {
         {
             WordPlacement wordPlacement =
-                    new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello");
+                    new WordPlacement(
+                            new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello");
 
             assertEquals(new BoardPos(7, 7), wordPlacement.getPositionAt(0));
             assertEquals(new BoardPos(7, 9), wordPlacement.getPositionAt(2));
@@ -30,7 +31,8 @@ class WordPlacementTest {
 
         {
             WordPlacement wordPlacement =
-                    new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello");
+                    new WordPlacement(
+                            new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello");
 
             assertEquals(new BoardPos(7, 7), wordPlacement.getPositionAt(0));
             assertEquals(new BoardPos(9, 7), wordPlacement.getPositionAt(2));
@@ -64,22 +66,32 @@ class WordPlacementTest {
         List<WordPlacement> validSet =
                 Arrays.asList(
                         // On existing word
-                        new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 7), WordPlacement.Direction.VERTICAL, "ohello"),
+                        new WordPlacement(
+                                new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 7), WordPlacement.Direction.VERTICAL, "ohello"),
 
                         // Neighbouring existing word
-                        new WordPlacement(new BoardPos(7, 6), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 6), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(8, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 6), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 6), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(8, 7), WordPlacement.Direction.VERTICAL, "hello"),
 
                         // On existing word
-                        new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 6), WordPlacement.Direction.HORIZONTAL, "ohello"),
+                        new WordPlacement(
+                                new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 6), WordPlacement.Direction.HORIZONTAL, "ohello"),
 
                         // Neighbouring existing word
-                        new WordPlacement(new BoardPos(6, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 6), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 8), WordPlacement.Direction.HORIZONTAL, "hello"));
+                        new WordPlacement(
+                                new BoardPos(6, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 6), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 8), WordPlacement.Direction.HORIZONTAL, "hello"));
 
         for (WordPlacement wordPlacement : validSet) {
             assertTrue(wordPlacement.isConnectedToExistingTile(board), wordPlacement.toString());
@@ -87,10 +99,14 @@ class WordPlacementTest {
 
         List<WordPlacement> invalidSet =
                 Arrays.asList(
-                        new WordPlacement(new BoardPos(9, 7), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 9), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(9, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 9), WordPlacement.Direction.HORIZONTAL, "hello"));
+                        new WordPlacement(
+                                new BoardPos(9, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 9), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(9, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 9), WordPlacement.Direction.HORIZONTAL, "hello"));
 
         for (WordPlacement wordPlacement : invalidSet) {
             assertFalse(wordPlacement.isConnectedToExistingTile(board), wordPlacement.toString());
@@ -105,12 +121,16 @@ class WordPlacementTest {
         List<WordPlacement> validSet =
                 Arrays.asList(
                         // On existing word
-                        new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 7), WordPlacement.Direction.VERTICAL, "ohello"),
+                        new WordPlacement(
+                                new BoardPos(7, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 7), WordPlacement.Direction.VERTICAL, "ohello"),
 
                         // On existing word
-                        new WordPlacement(new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 6), WordPlacement.Direction.HORIZONTAL, "ohello"));
+                        new WordPlacement(
+                                new BoardPos(7, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 6), WordPlacement.Direction.HORIZONTAL, "ohello"));
 
         for (WordPlacement wordPlacement : validSet) {
             assertTrue(wordPlacement.isPlacedAtStar(board), wordPlacement.toString());
@@ -118,20 +138,30 @@ class WordPlacementTest {
 
         List<WordPlacement> invalidSet =
                 Arrays.asList(
-                        new WordPlacement(new BoardPos(9, 7), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 9), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(9, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 9), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(9, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 9), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(9, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 9), WordPlacement.Direction.HORIZONTAL, "hello"),
 
                         // Neighbouring existing word
-                        new WordPlacement(new BoardPos(7, 6), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 6), WordPlacement.Direction.VERTICAL, "hello"),
-                        new WordPlacement(new BoardPos(8, 7), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 6), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 6), WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(8, 7), WordPlacement.Direction.VERTICAL, "hello"),
 
                         // Neighbouring existing word
-                        new WordPlacement(new BoardPos(6, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(6, 6), WordPlacement.Direction.HORIZONTAL, "hello"),
-                        new WordPlacement(new BoardPos(7, 8), WordPlacement.Direction.HORIZONTAL, "hello"));
+                        new WordPlacement(
+                                new BoardPos(6, 7), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(6, 6), WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(
+                                new BoardPos(7, 8), WordPlacement.Direction.HORIZONTAL, "hello"));
 
         for (WordPlacement wordPlacement : invalidSet) {
             assertFalse(wordPlacement.isPlacedAtStar(board), wordPlacement.toString());
