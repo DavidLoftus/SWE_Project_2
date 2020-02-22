@@ -44,3 +44,9 @@ javadoc {
 application {
     mainClassName 'scrabble.Main'
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'scrabble.Main'
+    }
+}
