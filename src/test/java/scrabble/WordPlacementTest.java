@@ -1,10 +1,9 @@
 package scrabble;
 
-import org.graalvm.compiler.word.Word;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class WordPlacementTest {
@@ -83,9 +82,46 @@ class WordPlacementTest {
 
     @Test
     void isConnectedToExistingTile() {
+
+        Board board = new Board();
+        board.setTile(7, 7, Tile.H);
+
+        List<WordPlacement> validSet =
+                Arrays.asList(
+                        // On existing word
+                        new WordPlacement(7, 7, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(6, 7, WordPlacement.Direction.VERTICAL, "ohello"),
+
+                        // Neighbouring existing word
+                        new WordPlacement(7, 6, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(6, 6, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(8, 7, WordPlacement.Direction.VERTICAL, "hello"),
+
+                        // On existing word
+                        new WordPlacement(7, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 6, WordPlacement.Direction.HORIZONTAL, "ohello"),
+
+                        // Neighbouring existing word
+                        new WordPlacement(6, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(6, 6, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 8, WordPlacement.Direction.HORIZONTAL, "hello"));
+
+        for (WordPlacement wordPlacement : validSet) {
+            assertTrue(wordPlacement.isConnectedToExistingTile(board), wordPlacement.toString());
+        }
+
+        List<WordPlacement> invalidSet =
+                Arrays.asList(
+                        new WordPlacement(9, 7, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(7, 9, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(9, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 9, WordPlacement.Direction.HORIZONTAL, "hello"));
+
+        for (WordPlacement wordPlacement : invalidSet) {
+            assertFalse(wordPlacement.isConnectedToExistingTile(board), wordPlacement.toString());
+        }
     }
 
     @Test
-    void isPlacedAtStar() {
-    }
+    void isPlacedAtStar() {}
 }

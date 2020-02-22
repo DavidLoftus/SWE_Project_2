@@ -72,7 +72,7 @@ public class Board {
         if (i < 0 || i >= 15 || j < 0 || j >= 15) {
             return false;
         }
-        return grid[i][j].isEmpty();
+        return !grid[i][j].isEmpty();
     }
 
     public Square.Modifier getModiferAt(int i, int j) {
