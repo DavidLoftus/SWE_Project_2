@@ -123,5 +123,43 @@ class WordPlacementTest {
     }
 
     @Test
-    void isPlacedAtStar() {}
+    void isPlacedAtStar() {
+
+        Board board = new Board();
+
+        List<WordPlacement> validSet =
+                Arrays.asList(
+                        // On existing word
+                        new WordPlacement(7, 7, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(6, 7, WordPlacement.Direction.VERTICAL, "ohello"),
+
+                        // On existing word
+                        new WordPlacement(7, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 6, WordPlacement.Direction.HORIZONTAL, "ohello"));
+
+        for (WordPlacement wordPlacement : validSet) {
+            assertTrue(wordPlacement.isPlacedAtStar(board), wordPlacement.toString());
+        }
+
+        List<WordPlacement> invalidSet =
+                Arrays.asList(
+                        new WordPlacement(9, 7, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(7, 9, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(9, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 9, WordPlacement.Direction.HORIZONTAL, "hello"),
+
+                        // Neighbouring existing word
+                        new WordPlacement(7, 6, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(6, 6, WordPlacement.Direction.VERTICAL, "hello"),
+                        new WordPlacement(8, 7, WordPlacement.Direction.VERTICAL, "hello"),
+
+                        // Neighbouring existing word
+                        new WordPlacement(6, 7, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(6, 6, WordPlacement.Direction.HORIZONTAL, "hello"),
+                        new WordPlacement(7, 8, WordPlacement.Direction.HORIZONTAL, "hello"));
+
+        for (WordPlacement wordPlacement : invalidSet) {
+            assertFalse(wordPlacement.isPlacedAtStar(board), wordPlacement.toString());
+        }
+    }
 }
