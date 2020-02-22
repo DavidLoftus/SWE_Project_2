@@ -79,7 +79,9 @@ public class BoardTest {
         WordPlacement wordPlacement =
                 new WordPlacement(7, 7, WordPlacement.Direction.HORIZONTAL, "hello");
 
-        assertThrows(BadWordPlacementException.class, () -> board.applyWordPlacement(player, wordPlacement));
+        assertThrows(
+                BadWordPlacementException.class,
+                () -> board.applyWordPlacement(player, wordPlacement));
 
         player.getFrame().refill(pool);
         board.applyWordPlacement(player, wordPlacement);
@@ -90,6 +92,8 @@ public class BoardTest {
         assertEquals('L', board.getLetterAt(7, 10));
         assertEquals('O', board.getLetterAt(7, 11));
 
-        assertThrows(BadWordPlacementException.class, () -> board.applyWordPlacement(player, wordPlacement));
+        assertThrows(
+                BadWordPlacementException.class,
+                () -> board.applyWordPlacement(player, wordPlacement));
     }
 }
