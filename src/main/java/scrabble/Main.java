@@ -1,40 +1,53 @@
 package scrabble;
 
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import scrabble.exceptions.BadWordPlacementException;
 
 public class Main {
 
-    public static void main(String[] args) throws BadWordPlacementException {
+    public static void main(String[] args) {
         Board board = new Board();
         Pool pool = new Pool();
         Player player = new Player("Player");
 
-        System.out.println(player);
-        System.out.println(pool);
-
         player.getFrame().refill(pool);
-        System.out.println(player);
-        System.out.println(pool);
 
-        player.increaseScore(5);
-        System.out.println(player);
+        try (Scanner sc = new Scanner(System.in)) {
+            while (true) {
+                board.printBoard();
+                System.out.println(player);
 
-        player.reset();
-        System.out.println(player);
+                System.out.println("Please enter row:");
+                int i = sc.nextInt();
 
-        System.out.println("");
-        board.printBoard();
-        System.out.println("\n");
-        board.setTile(new BoardPos(7, 7), Tile.X);
-        board.printBoard();
-        System.out.println(board.getLetterAt(new BoardPos(7, 7)));
+                System.out.println("Please enter column:");
+                int j = sc.nextInt();
 
-        System.out.println("");
-        WordPlacement tempWord =
-                new WordPlacement(new BoardPos(2, 3), WordPlacement.Direction.VERTICAL, "apple");
-        System.out.println("getPositionAt: " + tempWord.getPositionAt(3));
-        System.out.println("Word Length: " + tempWord.length());
-        System.out.println("getLetterAt: " + tempWord.getLetterAt(2));
-        System.out.println(board.getNeededTiles(tempWord));
+                BoardPos pos = new BoardPos(i, j);
+
+                System.out.println("HORIZONTAL or VERTICAL:");
+                WordPlacement.Direction direction =
+                        WordPlacement.Direction.valueOf(sc.next().toUpperCase());
+
+                System.out.println("Enter your word:");
+                String word = sc.next();
+
+                WordPlacement wordPlacement = new WordPlacement(pos, direction, word);
+
+                try {
+                    board.applyWordPlacement(player, wordPlacement);
+                    System.out.println("Word placement successful.");
+
+                    player.getFrame().refill(pool);
+                } catch (BadWordPlacementException e) {
+                    System.out.printf("Failed to place word: %s\n", e.getMessage());
+                }
+
+                TimeUnit.SECONDS.sleep(1);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
