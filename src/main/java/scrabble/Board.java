@@ -178,7 +178,7 @@ public class Board {
                     wordPlacement, "Player doesn't have enough tiles to place this");
         }
 
-        placesTiles(wordPlacement, tilesToPlace);
+        placeTiles(wordPlacement, tilesToPlace);
     }
 
     /**
@@ -190,12 +190,17 @@ public class Board {
      *     letter to place.
      * @param tilesToPlace The tiles belonging to the player to place on the board.
      */
-    private void placesTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
+    private void placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
         int j = 0;
         for (int i = 0; i < wordPlacement.length(); i++) {
             BoardPos pos = wordPlacement.getPositionAt(i);
             if (!hasTileAt(pos)) {
-                setTile(pos, tilesToPlace.get(j));
+                Tile tile = tilesToPlace.get(j);
+                if (tile == Tile.BLANK) {
+                    getSquareAt(pos).setBlankTile(wordPlacement.getLetterAt(i));
+                } else {
+                    setTile(pos, tilesToPlace.get(j));
+                }
                 j++;
             }
         }
