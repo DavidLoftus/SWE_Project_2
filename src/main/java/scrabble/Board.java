@@ -167,6 +167,10 @@ public class Board {
      */
     public void applyWordPlacement(Player player, WordPlacement wordPlacement)
             throws BadWordPlacementException {
+        if (!wordPlacement.isConnectedToExistingTile(this) && !wordPlacement.isPlacedAtStar(this)) {
+            throw new BadWordPlacementException(
+                    wordPlacement, "Word must be placed on star or be neighbouring existing tile");
+        }
         List<Tile> neededTiles = getNeededTiles(wordPlacement);
         List<Tile> tilesToPlace = player.getFrame().getTilesToPlace(neededTiles);
         if (tilesToPlace == null) {
