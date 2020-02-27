@@ -1,60 +1,61 @@
 package scrabble;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
     @Test
-    void reset() {
-        Player player = new Player("Bob");
+    void testName() {
+        Player player = new Player("John");
 
-        player.increaseScore(17);
-        assertEquals(17, player.getScore());
+        assertEquals("John", player.getName());
+
+        player.setName("Doe");
+
+        assertEquals("Doe", player.getName());
+    }
+
+    @Test
+    void testScore() {
+        Player player = new Player("James");
+
+        assertEquals(0, player.getScore());
+
+        player.increaseScore(10);
+        assertEquals(10, player.getScore());
+    }
+
+    @Test
+    void testReset() {
+        Player player = new Player("Steven");
+
+        player.increaseScore(25);
+        assertEquals(25, player.getScore());
 
         player.reset();
         assertEquals(0, player.getScore());
     }
 
     @Test
-    void testScore() {
-        Player player = new Player("Bob");
+    void testToString() {
+        Player player = new Player("David");
+        assertEquals("David (0) []", player.toString());
+        player.increaseScore(30);
+        assertEquals("David (30) []", player.toString());
+        FakePool pool = new FakePool();
 
-        // Player should start with score 0
-        assertEquals(0, player.getScore());
+        pool.add(Tile.BLANK);
+        pool.add(Tile.A);
+        pool.add(Tile.B);
+        pool.add(Tile.C);
+        pool.add(Tile.G);
+        pool.add(Tile.E);
+        pool.add(Tile.BLANK);
 
-        player.increaseScore(10);
-        assertEquals(10, player.getScore());
+        player.getFrame().refill(pool);
 
-        player.increaseScore(7);
-        assertEquals(17, player.getScore());
-
-        player.increaseScore(0);
-        assertEquals(17, player.getScore());
-
-        assertThrows(IllegalArgumentException.class, () -> player.increaseScore(-1));
-    }
-
-    @Test
-    void getFrame() {
-        Player player = new Player("Bob");
-
-        assertNotNull(player.getFrame());
-    }
-
-    @Test
-    void setName() {
-        Player player = new Player("Bob");
-
-        player.setName("Alice");
-        assertEquals("Alice", player.getName());
-    }
-
-    @Test
-    void getName() {
-        Player player = new Player("Bob");
-
-        assertEquals("Bob", player.getName());
+        assertEquals("David (30) [BLANK, A, B, C, G, E, BLANK]", player.toString());
     }
 }

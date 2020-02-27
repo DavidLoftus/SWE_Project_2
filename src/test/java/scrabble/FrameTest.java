@@ -1,41 +1,14 @@
 package scrabble;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.*;
+import java.util.stream.Collectors;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 class FrameTest {
-    /**
-     * FakePool acts as a Pool containing specified tiles in a deterministic order.
-     *
-     * Tiles are added to the pool in a FIFO queue-like fashion.
-     * This helps with testing when we want to know exact contents of Pool
-     */
-    protected static class FakePool extends Pool {
-        private Queue<Tile> tilesToReturn = new ArrayDeque<>();
-
-        @Override
-        public boolean isEmpty() {
-            return tilesToReturn.isEmpty();
-        }
-
-        @Override
-        public int size() {
-            return tilesToReturn.size();
-        }
-
-        void add(Tile tile) {
-            tilesToReturn.add(tile);
-        }
-
-        @Override
-        public Tile takeTile() {
-            return tilesToReturn.remove();
-        }
-    }
-
     @Test
     void removeTile() {
         Frame frame = new Frame();
@@ -49,7 +22,11 @@ class FrameTest {
         pool.add(Tile.E);
         pool.add(Tile.BLANK);
 
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.A));
+
         frame.refill(pool);
+
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.F));
 
         assertTrue(frame.hasTile(Tile.BLANK));
 
@@ -58,6 +35,8 @@ class FrameTest {
 
         frame.removeTile(Tile.BLANK);
         assertFalse(frame.hasTile(Tile.BLANK));
+
+        assertThrows(NoSuchElementException.class, () -> frame.removeTile(Tile.BLANK));
 
         assertTrue(frame.hasTile(Tile.A));
 
@@ -120,5 +99,46 @@ class FrameTest {
         frame.refill(pool);
 
         assertFalse(frame.isEmpty());
+    }
+
+    @Test
+    void testToString() {}
+
+    private List<Tile> stringToTileList(String tiles) {
+        if (tiles == null) {
+            return null;
+        }
+        return tiles.chars().mapToObj(c -> Tile.parseTile((char) c)).collect(Collectors.toList());
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                "FOOTE?H,F,F",
+                "FOOTE?H,FOOT,FOOT",
+                "FOOTE?H,TOE,TOE",
+                "FOOTE?H,HOE,HOE",
+                "FOOTE?H,PHOTO,?HOTO",
+                "F?OTE?H,PHOTO,?HOT?",
+                "F?OTE?H,PORT,?O?T",
+                "FOOTE?H,CAR,null",
+                "FOOTE?H,FART,null",
+                "F?OTE?H,PORTER,null",
+            },
+            nullValues = {"null"})
+    void getTilesToPlace(String frameContents, String neededTiles, String expectedResult) {
+        List<Tile> frameContentsList = stringToTileList(frameContents),
+                neededTilesList = stringToTileList(neededTiles),
+                expectedResultList = stringToTileList(expectedResult);
+
+        FakePool pool = new FakePool();
+        for (Tile tile : frameContentsList) {
+            pool.add(tile);
+        }
+
+        Frame frame = new Frame();
+        frame.refill(pool);
+
+        assertEquals(expectedResultList, frame.getTilesToPlace(neededTilesList));
     }
 }

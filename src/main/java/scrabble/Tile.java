@@ -3,7 +3,8 @@ package scrabble;
 /**
  * Tile represents an unplaced tile inside the {@link scrabble.Pool}
  *
- * This enum is not appropriate for placed tiles, as it does not associate a symbol with the wildcard BLANK enum.
+ * <p>This enum is not appropriate for placed tiles, as it does not associate a symbol with the
+ * wildcard BLANK enum.
  */
 public enum Tile {
     BLANK(0, '?', 2),
@@ -45,8 +46,8 @@ public enum Tile {
     }
 
     /**
-     * Gets the value associated with this tile.
-     * This is the score given to the player when they use a tile of this type.
+     * Gets the value associated with this tile. This is the score given to the player when they use
+     * a tile of this type.
      *
      * @return the value of <code>this</code>
      */
@@ -55,22 +56,39 @@ public enum Tile {
     }
 
     /**
-     * Gets the character associated with this tile.
-     * This is either an uppercase character or a <code>'?'</code> in the case of the BLANK tile.
+     * Gets the character associated with this tile. This is either an uppercase character or a
+     * <code>'?'</code> in the case of the BLANK tile.
      *
      * @return the symbol for <code>this</code>
      */
-    public char getSymbol() {
+    public char getLetter() {
         return symbol;
     }
 
     /**
-     * Gets the starting number of this kind of tile that should be placed in the {@link scrabble.Pool} at the start of
-     * a game.
+     * Gets the starting number of this kind of tile that should be placed in the {@link
+     * scrabble.Pool} at the start of a game.
      *
      * @return how many of this tile should be put in the pool
      */
     public int getStartingCount() {
         return startingCount;
+    }
+
+    public static Tile parseTile(char tileChar) {
+        if (Character.isAlphabetic(tileChar)) {
+            return values()[Character.toUpperCase(tileChar) - 'A' + 1];
+        } else if (tileChar == '?') {
+            return BLANK;
+        } else {
+            throw new IllegalArgumentException("Bad Tile character: " + tileChar);
+        }
+    }
+
+    public static Tile parseTile(String tileStr) {
+        if (tileStr.length() != 1) {
+            throw new IllegalArgumentException("Bad Tile string: " + tileStr);
+        }
+        return parseTile(tileStr.charAt(0));
     }
 }
