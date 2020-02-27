@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id "com.diffplug.gradle.spotless" version "3.27.1"
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'betrayed'
@@ -42,11 +43,15 @@ javadoc {
 }
 
 application {
-    mainClassName 'scrabble.Main'
+    mainClassName 'scrabble.gui.ScrabbleApplication'
 }
 
 jar {
     manifest {
         attributes 'Main-Class': 'scrabble.Main'
     }
+}
+
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
