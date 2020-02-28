@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import scrabble.*;
 
 import java.io.IOException;
 
@@ -24,5 +25,10 @@ public class ScrabbleApplication extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        Board board = new Board();
+
+        scrabbleController.boardGrid.setBoard(board);
+        scrabbleController.setCurrentPlayer(new Player("Bob"));
     }
 }

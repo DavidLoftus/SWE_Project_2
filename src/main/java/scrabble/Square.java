@@ -1,7 +1,9 @@
 package scrabble;
 
+import javafx.scene.paint.Paint;
+
 public class Square {
-    enum Modifier {
+    public enum Modifier {
         DOUBLE_WORD,
         DOUBLE_LETTER,
         TRIPLE_WORD,
@@ -23,8 +25,11 @@ public class Square {
     }
 
     public void setBlankTile(char letter) {
+        if (!Character.isAlphabetic(letter)) {
+            throw new IllegalArgumentException("setBlankTile accepts letters only");
+        }
         this.tile = Tile.BLANK;
-        this.letter = letter;
+        this.letter = Character.toUpperCase(letter);
     }
 
     public void setTile(Tile tile) {

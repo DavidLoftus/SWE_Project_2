@@ -102,7 +102,7 @@ public class Board {
      * @param pos position of requested square
      * @return mutable {@link Square} object
      */
-    private Square getSquareAt(BoardPos pos) {
+    public Square getSquareAt(BoardPos pos) {
         return grid[pos.getRow()][pos.getColumn()];
     }
 
