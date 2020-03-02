@@ -26,5 +26,4 @@ public class Scrabble {
         }
         currentPlayer = 0;
     }
-
 }

@@ -1,4 +1,3 @@
 package scrabble.gui;
 
-public class ScrabbleController {
-}
+public class ScrabbleController {}
