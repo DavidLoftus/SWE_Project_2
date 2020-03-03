@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
+<?import scrabble.gui.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="scrabble.gui.ScrabbleController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.scene.control.Label?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.gui.ScrabbleController">
+    <FrameView style="-fx-background-color: darkgreen;">
+        <Label prefHeight="40.0" prefWidth="40.0" text="C" style="-fx-background-color: beige;" />
+        <Label prefHeight="40.0" prefWidth="40.0" text="A" style="-fx-background-color: beige;"
+            GridPane.columnIndex="3" />
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="0" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="1" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="G" GridPane.columnIndex="2" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="3" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="O" GridPane.columnIndex="4" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="5" /> -->
+        <!-- <TileView prefHeight="40.0" prefWidth="40.0" tile="BLANK" GridPane.columnIndex="6" /> -->
+    </FrameView>
 </AnchorPane>
