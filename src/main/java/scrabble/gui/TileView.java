@@ -1,4 +1,5 @@
 package scrabble.gui;
 
-public class TileView {
-}
+import javafx.scene.layout.StackPane;
+
+public class TileView extends StackPane {}
