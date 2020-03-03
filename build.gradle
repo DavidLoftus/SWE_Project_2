@@ -33,6 +33,15 @@ spotless {
         indentWithSpaces(4)
         endWithNewline()
     }
+
+    format 'xml', {
+        target fileTree('src') {
+            include '**/*.xml', '**/*.xsd', '**/*.fxml'
+        }
+
+        eclipseWtp('xml').configFile 'spotless.xmlformat.prefs'
+    }
+
     java {
         googleJavaFormat("1.7").aosp()
     }
