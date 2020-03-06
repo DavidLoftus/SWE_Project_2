@@ -5,19 +5,29 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import scrabble.gui.*?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-    xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.gui.ScrabbleController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.gui.ScrabbleController">
     <FrameView style="-fx-background-color: darkgreen;">
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="0" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="1" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="G" GridPane.columnIndex="2" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="3" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="O" GridPane.columnIndex="4" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="5" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="BLANK" GridPane.columnIndex="6" />
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="0"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="1"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="G" GridPane.columnIndex="2"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="3"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="O" GridPane.columnIndex="4"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="5"/>
+        <TileView prefHeight="40.0" prefWidth="40.0" tile="BLANK" GridPane.columnIndex="6"/>
     </FrameView>
-    <StackPane layoutX="29.0" layoutY="94.0" prefHeight="50.0" prefWidth="50.0" />
+    <StackPane layoutX="29.0" layoutY="94.0" prefHeight="50.0" prefWidth="50.0"/>
     <Label alignment="CENTER" layoutX="48.0" layoutY="160.0" prefHeight="40.0" prefWidth="40.0"
-        style="-fx-background-color: gold;" text="C" />
+           style="-fx-background-color: gold;" text="C"/>
+
+    <StackPane layoutX="32.0" layoutY="28.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: yellow;">
+        <TileView/>
+        <Label prefHeight="50.0" prefWidth="50.0" text="DL" textAlignment="CENTER">
+            <font>
+                <Font size="34.0"/>
+            </font>
+        </Label>
+    </StackPane>
 </AnchorPane>

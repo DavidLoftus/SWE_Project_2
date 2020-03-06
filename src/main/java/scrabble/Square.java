@@ -1,7 +1,7 @@
 package scrabble;
 
 public class Square {
-    enum Modifier {
+    public enum Modifier {
         DOUBLE_WORD,
         DOUBLE_LETTER,
         TRIPLE_WORD,
