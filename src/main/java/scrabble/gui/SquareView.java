@@ -15,8 +15,7 @@ public class SquareView extends StackPane {
         this.square = square;
 
         setBackground(
-                new Background(
-                        new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+                new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public Color getColourForModifier(Square.Modifier modifier) {
