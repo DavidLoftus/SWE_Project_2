@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10};
+var data = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -90,13 +90,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -192,6 +192,27 @@ extends javafx.scene.layout.StackPane</pre>
 </li>
 </ul>
 </section>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="constructor.summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="memberSummary">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Constructor</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(scrabble.Square)">SquareView</a></span>&#8203;(<a href="../Square.html" title="class in scrabble">Square</a>&nbsp;square)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -212,8 +233,13 @@ extends javafx.scene.layout.StackPane</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>javafx.scene.control.Label</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLabelForModifier(scrabble.Square.Modifier)">getLabelForModifier</a></span>&#8203;(<a href="../Square.Modifier.html" title="enum in scrabble">Square.Modifier</a>&nbsp;modifier)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSquare(scrabble.Square)">setSquare</a></span>&#8203;(<a href="../Square.html" title="class in scrabble">Square</a>&nbsp;square)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateTile()">updateTile</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -275,6 +301,25 @@ extends javafx.scene.layout.StackPane</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="constructor.detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a id="&lt;init&gt;(scrabble.Square)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>SquareView</h4>
+<pre>public&nbsp;SquareView&#8203;(<a href="../Square.html" title="class in scrabble">Square</a>&nbsp;square)</pre>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -291,13 +336,22 @@ extends javafx.scene.layout.StackPane</pre>
 <pre class="methodSignature">public&nbsp;javafx.scene.paint.Color&nbsp;getColourForModifier&#8203;(<a href="../Square.Modifier.html" title="enum in scrabble">Square.Modifier</a>&nbsp;modifier)</pre>
 </li>
 </ul>
-<a id="setSquare(scrabble.Square)">
+<a id="getLabelForModifier(scrabble.Square.Modifier)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLabelForModifier</h4>
+<pre class="methodSignature">public&nbsp;javafx.scene.control.Label&nbsp;getLabelForModifier&#8203;(<a href="../Square.Modifier.html" title="enum in scrabble">Square.Modifier</a>&nbsp;modifier)</pre>
+</li>
+</ul>
+<a id="updateTile()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>setSquare</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setSquare&#8203;(<a href="../Square.html" title="class in scrabble">Square</a>&nbsp;square)</pre>
+<h4>updateTile</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;updateTile()</pre>
 </li>
 </ul>
 </li>
@@ -353,13 +407,13 @@ extends javafx.scene.layout.StackPane</pre>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
