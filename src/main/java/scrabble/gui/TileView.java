@@ -16,6 +16,7 @@ public class TileView extends StackPane {
         this.tile = tile;
 
         setPrefSize(40.0, 40.0);
+        setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
         setBackground(
                 new Background(
