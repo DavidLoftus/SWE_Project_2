@@ -1,10 +1,15 @@
 package scrabble.gui;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import scrabble.Frame;
+import scrabble.Tile;
 
 public class FrameView extends GridPane {
     private Frame frame;
@@ -31,7 +36,18 @@ public class FrameView extends GridPane {
         setFrame(frame);
     }
 
-    private void setFrame(Frame frame) {
+    public void setFrame(Frame frame) {
         this.frame = frame;
+        updateFrame();
+    }
+
+    public void updateFrame() {
+        ObservableList<Node> children = getChildren();
+        List<Tile> tiles = frame.getTiles();
+
+        children.setAll(tiles.stream().map(TileView::new).collect(Collectors.toList()));
+        for (int i = 0; i < children.size(); ++i) {
+            setColumnIndex(children.get(i), i);
+        }
     }
 }
