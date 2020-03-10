@@ -4,24 +4,33 @@ import javafx.beans.NamedArg;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import scrabble.Tile;
 
-public class TileView extends Label {
+public class TileView extends StackPane {
 
     private Tile tile;
 
     public TileView(@NamedArg("tile") Tile tile) {
         this.tile = tile;
 
+        setPrefSize(40.0, 40.0);
+
         setBackground(
                 new Background(
-                        new BackgroundFill(Color.GOLDENROD, new CornerRadii(1.0), Insets.EMPTY)));
-        setText(Character.toString(tile.getLetter()));
+                        new BackgroundFill(Color.GOLDENROD, new CornerRadii(7.0), Insets.EMPTY)));
+        Label charLabel = new Label(Character.toString(tile.getLetter()));
 
-        setAlignment(Pos.CENTER);
+        Label scoreLabel = new Label(Integer.toString(tile.getValue()));
+
+        getChildren().setAll(charLabel, scoreLabel);
+
+        setAlignment(charLabel, Pos.CENTER);
+        setAlignment(scoreLabel, Pos.BOTTOM_RIGHT);
+    }
+
+    public Tile getTile() {
+        return tile;
     }
 }
