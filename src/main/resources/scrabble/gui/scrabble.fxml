@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import scrabble.gui.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.gui.ScrabbleController">
-    <FrameView layoutX="266.0" layoutY="331.0" style="-fx-background-color: darkgreen;">
-        <TileView tile="B" GridPane.columnIndex="0" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="1" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="G" GridPane.columnIndex="2" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="B" GridPane.columnIndex="3" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="O" GridPane.columnIndex="4" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="I" GridPane.columnIndex="5" />
-        <TileView prefHeight="40.0" prefWidth="40.0" tile="BLANK" GridPane.columnIndex="6" />
-    </FrameView>
-    <StackPane layoutX="164.0" layoutY="160.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: yellow;">
-        <Label prefHeight="50.0" prefWidth="50.0" text="DL" textAlignment="CENTER">
-            <font>
-                <Font size="34.0" />
-            </font>
-        </Label>
-    </StackPane>
-    <StackPane layoutX="80.0" layoutY="272.0" prefHeight="40.0" prefWidth="40.0">
-        <Label text="B" />
-        <Label layoutX="30.0" layoutY="25.0" text="2" StackPane.alignment="BOTTOM_RIGHT" />
-    </StackPane>
-</AnchorPane>
+<HBox prefHeight="750.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.gui.ScrabbleController">
+
+    <BoardView fx:id="boardGrid">
+    </BoardView>
+    <VBox>
+        <CommandPanel />
+        <FrameView fx:id="frame" />
+    </VBox>
+</HBox>
