@@ -1,6 +1,7 @@
 package scrabble;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -118,5 +119,11 @@ public class Frame {
         }
 
         return ret;
+    }
+
+    // For debugging only
+    public void setAll(Tile... tile) {
+        tiles.clear();
+        tiles.addAll(Arrays.asList(tile));
     }
 }

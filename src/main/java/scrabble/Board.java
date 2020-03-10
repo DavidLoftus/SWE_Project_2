@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import scrabble.exceptions.BadWordPlacementException;
+import scrabble.gui.SquareView;
 
 /**
  * Board holds the the 15x15 grid of {@link Square} objects.
@@ -155,6 +156,10 @@ public class Board {
      */
     public Square.Modifier getModiferAt(BoardPos pos) {
         return getSquareAt(pos).getModifier();
+    }
+
+    public SquareView getSquareViewAt(BoardPos pos) {
+        return new SquareView(getSquareAt(pos));
     }
 
     /**
