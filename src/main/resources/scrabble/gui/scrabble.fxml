@@ -9,7 +9,7 @@
     <BoardView fx:id="boardGrid">
     </BoardView>
     <VBox>
-        <CommandPanel />
-        <FrameView fx:id="frame" />
+       <CommandPanel fx:id="commandPanel"/>
+       <FrameView fx:id="frame" />
     </VBox>
 </HBox>
