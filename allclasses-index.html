@@ -27,8 +27,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":8,"i1":2,"i2":2,"i3":2,"i4":2,"i5":2,"i6":2,"i7":2,"i8":2,"i9":2,"i10":2,"i11":2,"i12":2,"i13":2,"i14":4,"i15":2,"i16":4,"i17":2,"i18":2,"i19":4};
-var tabs = {65535:["t0","All Classes"],2:["t2","Class Summary"],4:["t3","Enum Summary"],8:["t4","Exception Summary"]};
+var data = {"i0":8,"i1":2,"i2":2,"i3":2,"i4":2,"i5":2,"i6":2,"i7":2,"i8":2,"i9":1,"i10":2,"i11":2,"i12":2,"i13":2,"i14":2,"i15":2,"i16":2,"i17":2,"i18":4,"i19":2,"i20":4,"i21":2,"i22":2,"i23":4};
+var tabs = {65535:["t0","All Classes"],1:["t1","Interface Summary"],2:["t2","Class Summary"],4:["t3","Enum Summary"],8:["t4","Exception Summary"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -105,7 +105,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <table class="typeSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Exception Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Interface Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Exception Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Class</th>
 <th class="colLast" scope="col">Description</th>
@@ -135,70 +135,86 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><a href="scrabble/input/ExchangeCommand.html" title="class in scrabble.input">ExchangeCommand</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><a href="scrabble/Frame.html" title="class in scrabble">Frame</a></td>
 <th class="colLast" scope="row">
 <div class="block">Frame acts as the tray of 7 tiles given to each player.</div>
 </th>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><a href="scrabble/gui/FrameView.html" title="class in scrabble.gui">FrameView</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><a href="scrabble/input/HelpCommand.html" title="class in scrabble.input">HelpCommand</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><a href="scrabble/input/InputCommand.html" title="interface in scrabble.input">InputCommand</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><a href="scrabble/Main.html" title="class in scrabble">Main</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i11" class="rowColor">
+<td class="colFirst"><a href="scrabble/input/PlaceCommand.html" title="class in scrabble.input">PlaceCommand</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><a href="scrabble/Player.html" title="class in scrabble">Player</a></td>
 <th class="colLast" scope="row">
 <div class="block">Player holds the name and tracks the score of the player.</div>
 </th>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><a href="scrabble/Pool.html" title="class in scrabble">Pool</a></td>
 <th class="colLast" scope="row">
 <div class="block">Pool acts as a bag of <a href="scrabble/Tile.html" title="enum in scrabble"><code>Tile</code></a> that the players can take tiles from at random.</div>
 </th>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><a href="scrabble/Scrabble.html" title="class in scrabble">Scrabble</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><a href="scrabble/gui/ScrabbleApplication.html" title="class in scrabble.gui">ScrabbleApplication</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><a href="scrabble/gui/ScrabbleController.html" title="class in scrabble.gui">ScrabbleController</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><a href="scrabble/Square.html" title="class in scrabble">Square</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><a href="scrabble/Square.Modifier.html" title="enum in scrabble">Square.Modifier</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><a href="scrabble/gui/SquareView.html" title="class in scrabble.gui">SquareView</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><a href="scrabble/Tile.html" title="enum in scrabble">Tile</a></td>
 <th class="colLast" scope="row">
 <div class="block">Tile represents an unplaced tile inside the <a href="scrabble/Pool.html" title="class in scrabble"><code>Pool</code></a></div>
 </th>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><a href="scrabble/gui/TileView.html" title="class in scrabble.gui">TileView</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><a href="scrabble/WordPlacement.html" title="class in scrabble">WordPlacement</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><a href="scrabble/WordPlacement.Direction.html" title="enum in scrabble">WordPlacement.Direction</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
