@@ -1,9 +1,6 @@
 package scrabble;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Frame acts as the tray of 7 tiles given to each player. Frames can be filled and refilled using
@@ -33,6 +30,26 @@ public class Frame {
             }
         }
         return false;
+    }
+
+    public boolean hasTiles(List<Tile> tiles) {
+        Map<Tile, Integer> map = getTileCounts();
+        for (Tile tile : tiles) {
+            int count = map.getOrDefault(tile, 0);
+            if (count == 0) {
+                return false;
+            }
+            map.put(tile, count - 1);
+        }
+        return true;
+    }
+
+    public Map<Tile, Integer> getTileCounts() {
+        Map<Tile, Integer> map = new EnumMap<Tile, Integer>(Tile.class);
+        for (Tile tile : tiles) {
+            map.put(tile, map.getOrDefault(tile, 0) + 1);
+        }
+        return map;
     }
 
     /**
