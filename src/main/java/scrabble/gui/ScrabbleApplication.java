@@ -12,7 +12,7 @@ public class ScrabbleApplication extends Application {
 
     private ScrabbleController scrabbleController;
     private Scrabble scrabble;
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException, BadWordPlacementException {
         primaryStage.setTitle("Hello World!");
@@ -25,7 +25,7 @@ public class ScrabbleApplication extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
-        
+
         scrabble = new Scrabble(new String[] {"eadaoin", "clo"});
     }
 }
