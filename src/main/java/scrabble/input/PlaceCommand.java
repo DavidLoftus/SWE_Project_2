@@ -8,6 +8,10 @@ public class PlaceCommand implements InputCommand {
 
     public WordPlacement wordPlacement;
 
+    public PlaceCommand(WordPlacement wordPlacement) {
+        this.wordPlacement = wordPlacement;
+    }
+
     @Override
     public boolean usesTurn() {
         return true;
@@ -36,13 +40,13 @@ public class PlaceCommand implements InputCommand {
         BoardPos bp = new BoardPos(startposi, startposj);
         String direction = string.nextToken();
         String word = string.nextToken();
-        WordPlacement wp;
+        WordPlacement wp = null;
         if (direction.startsWith("A")) {
             wp = new WordPlacement(bp, WordPlacement.Direction.HORIZONTAL, word);
         } else if (direction.startsWith("D")) {
             wp = new WordPlacement(bp, WordPlacement.Direction.VERTICAL, word);
         }
-        // okay not sure how to deal with this
-        return wp;
+        PlaceCommand pc = new PlaceCommand(wp);
+        return pc;
     }
 }
