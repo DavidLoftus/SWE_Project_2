@@ -29,14 +29,21 @@ public class CommandPanel extends VBox {
 
         inputField.setOnAction(
                 evt -> {
-                    print(inputField.getText());
+                    String inputString = inputField.getText();
+                    inputField.clear();
+
+                    println(inputString);
                 });
 
         getChildren().setAll(scrollPane, inputField);
     }
 
+    public void println(String str) {
+        print(str + "\n");
+    }
+
     public void print(String str) {
-        Text text = new Text(str + "\n");
+        Text text = new Text(str);
         text.setStyle("-fx-text-fill: #ff282f;");
         textContainer.getChildren().add(text);
         inputField.clear();
