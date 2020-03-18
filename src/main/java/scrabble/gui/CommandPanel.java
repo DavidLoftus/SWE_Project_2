@@ -14,6 +14,8 @@ public class CommandPanel extends VBox {
     ScrollPane scrollPane;
     TextField inputField;
 
+    InputEventHandler inputEventHandler = new InputEventHandler();
+
     public CommandPanel() {
 
         textContainer = new TextFlow();
@@ -33,6 +35,14 @@ public class CommandPanel extends VBox {
                     inputField.clear();
 
                     println(inputString);
+
+                    InputCommand command = InputCommand.valueOf(inputString);
+
+                    if (command == null) {
+                        println("Bad command.");
+                    } else {
+                        inputEventHandler.accept(command);
+                    }
                 });
 
         getChildren().setAll(scrollPane, inputField);
@@ -48,5 +58,9 @@ public class CommandPanel extends VBox {
         textContainer.getChildren().add(text);
         inputField.clear();
         scrollPane.setVvalue(1.0);
+    }
+
+    public void addListener(InputListener listener) {
+        inputEventHandler.addListener(listener);
     }
 }
