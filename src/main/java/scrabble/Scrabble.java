@@ -2,12 +2,9 @@ package scrabble;
 
 import java.io.PrintStream;
 import scrabble.exceptions.BadWordPlacementException;
-import scrabble.input.ExchangeCommand;
-import scrabble.input.HelpCommand;
-import scrabble.input.InputCommand;
-import scrabble.input.PlaceCommand;
+import scrabble.input.*;
 
-public class Scrabble {
+public class Scrabble implements InputListener {
 
     private Pool pool = new Pool();
     private Board board = new Board();
@@ -25,7 +22,7 @@ public class Scrabble {
         reset();
     }
 
-    public void acceptCommand(InputCommand command) {
+    public void accept(InputCommand command) {
         Player player = players[currentPlayer];
         if (command instanceof PlaceCommand) {
             PlaceCommand place = (PlaceCommand) command;
