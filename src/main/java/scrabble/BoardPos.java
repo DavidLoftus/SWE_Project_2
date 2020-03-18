@@ -1,5 +1,7 @@
 package scrabble;
 
+import java.util.Objects;
+
 /**
  * BoardPos represents a single cell in the scrabble {@link Board}. This simplifies the methods as
  * it avoids having to pass around a row,column pair each time.
@@ -50,5 +52,21 @@ public class BoardPos {
         if (o == null || getClass() != o.getClass()) return false;
         BoardPos boardPos = (BoardPos) o;
         return row == boardPos.row && column == boardPos.column;
+    }
+
+    public BoardPos valueOf(String str) {
+        char charI = str.charAt(0);
+        if (!Character.isAlphabetic(charI) || !Character.isUpperCase(charI) || charI > 'O') {
+            throw new IllegalArgumentException("First character must be a letter between A to O");
+        }
+        int i = charI - 'A';
+        int j = Integer.parseInt(str.substring(1));
+
+        return new BoardPos(i, j);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }
