@@ -57,4 +57,16 @@ public class Scrabble implements InputListener {
         }
         currentPlayer = 0;
     }
+
+    public Pool getPool() {
+        return pool;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
 }
