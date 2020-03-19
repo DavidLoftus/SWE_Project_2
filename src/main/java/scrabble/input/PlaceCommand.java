@@ -17,11 +17,11 @@ public class PlaceCommand implements InputCommand {
         return true;
     }
 
-    static PlaceCommand valueOf(String str) {
-        str.toUpperCase(); // not sure if input has to be in upper case to be accepted or???
+    public static PlaceCommand valueOf(String str) {
+        str = str.toUpperCase(); // not sure if input has to be in upper case to be accepted or???
         StringTokenizer string = new StringTokenizer(str, " ");
         char[] start = string.nextToken().toCharArray();
-        if ('A' < start[0] || start[0] > 'O') {
+        if (start[0] < 'A' || start[0] > 'O') {
             return null;
         }
         // do the start postions go from 0-14 or 1-15? who knows ive said 0-14

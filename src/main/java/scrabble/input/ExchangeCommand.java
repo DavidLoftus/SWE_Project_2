@@ -10,7 +10,7 @@ public class ExchangeCommand implements InputCommand {
     public List<Tile> tiles;
 
     public ExchangeCommand(List<Tile> tiles) {
-        tiles = tiles;
+        this.tiles = tiles;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ExchangeCommand implements InputCommand {
         return true;
     }
 
-    static ExchangeCommand valueOf(String str) {
+    public static ExchangeCommand valueOf(String str) {
         str = str.toUpperCase(); // not sure if input has to be in upper case to be accepted or???
         StringTokenizer string = new StringTokenizer(str, " ");
         if (!string.nextToken().equals("EXCHANGE")) {
