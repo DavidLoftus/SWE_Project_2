@@ -1,13 +1,14 @@
 package scrabble;
 
 import java.io.PrintStream;
-
-import org.graalvm.compiler.graph.Node;
 import scrabble.exceptions.BadWordPlacementException;
 import scrabble.gui.ScrabbleController;
 import scrabble.input.*;
 
 public class Scrabble implements InputListener {
+
+    ScrabbleController uiController;
+    PrintStream logOutput;
 
     private Pool pool = new Pool();
     private Board board = new Board();
@@ -16,9 +17,11 @@ public class Scrabble implements InputListener {
     private PrintStream logOutput;
 
     public Scrabble(ScrabbleController uiController) {
+        this.uiController = uiController;
+        this.logOutput = uiController.commandPanel.getOutputStream();
+        uiController.commandPanel.addListener(this);
 
-
-
+        uiController.boardGrid.setBoard(board);
     }
 
     public void accept(String inputStr) {
