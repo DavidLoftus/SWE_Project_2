@@ -1,5 +1,7 @@
 package scrabble.gui;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -53,5 +55,35 @@ public class CommandPanel extends VBox {
 
     public void addListener(InputListener listener) {
         inputEventHandler.addListener(listener);
+    }
+
+    public PrintStream getOutputStream() {
+        OutputStream os =
+                new OutputStream() {
+
+                    private StringBuffer buffer = new StringBuffer();
+
+                    @Override
+                    public void write(int i) {
+                        buffer.appendCodePoint(i);
+                    }
+
+                    @Override
+                    public void write(byte[] b) {
+                        buffer.append(new String(b));
+                    }
+
+                    @Override
+                    public void write(byte[] b, int off, int len) {
+                        buffer.append(new String(b, off, len));
+                    }
+
+                    @Override
+                    public void flush() {
+                        print(buffer.toString());
+                        buffer.delete(0, buffer.length());
+                    }
+                };
+        return new PrintStream(os, true);
     }
 }

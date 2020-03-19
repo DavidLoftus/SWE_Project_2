@@ -26,9 +26,6 @@ public class ScrabbleApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        scrabble = new Scrabble(new String[] {"eadaoin", "clo"});
-
-        scrabbleController.boardGrid.setBoard(scrabble.getBoard());
-        scrabbleController.commandPanel.addListener(scrabble);
+        scrabble = new Scrabble(scrabbleController);
     }
 }
