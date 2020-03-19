@@ -1,7 +1,10 @@
 package scrabble;
 
 import java.io.PrintStream;
+
+import org.graalvm.compiler.graph.Node;
 import scrabble.exceptions.BadWordPlacementException;
+import scrabble.gui.ScrabbleController;
 import scrabble.input.*;
 
 public class Scrabble implements InputListener {
@@ -12,17 +15,15 @@ public class Scrabble implements InputListener {
     private int currentPlayer;
     private PrintStream logOutput;
 
-    public Scrabble(String[] names) {
-        this.players = new Player[names.length];
+    public Scrabble(ScrabbleController uiController) {
 
-        for (int i = 0; i < names.length; ++i) {
-            players[i] = new Player(names[i]);
-        }
 
-        reset();
+
     }
 
-    public void accept(InputCommand command) {
+    public void accept(String inputStr) {
+        InputCommand command = InputCommand.valueOf(inputStr);
+
         Player player = players[currentPlayer];
         if (command instanceof PlaceCommand) {
             PlaceCommand place = (PlaceCommand) command;

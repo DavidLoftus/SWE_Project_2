@@ -5,7 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import scrabble.input.InputCommand;
 import scrabble.input.InputEventHandler;
 import scrabble.input.InputListener;
 
@@ -35,13 +34,7 @@ public class CommandPanel extends VBox {
 
                     println(inputString);
 
-                    InputCommand command = InputCommand.valueOf(inputString);
-
-                    if (command == null) {
-                        println("Bad command.");
-                    } else {
-                        inputEventHandler.accept(command);
-                    }
+                    inputEventHandler.accept(inputString);
                 });
 
         getChildren().setAll(scrollPane, inputField);

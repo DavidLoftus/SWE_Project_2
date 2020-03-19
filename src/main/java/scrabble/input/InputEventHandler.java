@@ -16,7 +16,7 @@ public class InputEventHandler implements InputListener {
     }
 
     @Override
-    public void accept(InputCommand input) {
+    public void accept(String input) {
         listeners.forEach(listener -> listener.accept(input));
     }
 }
