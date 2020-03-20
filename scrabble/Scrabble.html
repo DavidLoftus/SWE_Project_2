@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -130,9 +130,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="input/InputListener.html" title="interface in scrabble.input">InputListener</a></code></dd>
+</dl>
 <hr>
 <pre>public class <span class="typeNameLabel">Scrabble</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="input/InputListener.html" title="interface in scrabble.input">InputListener</a></pre>
 </li>
 </ul>
 </div>
@@ -176,10 +181,25 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#acceptCommand(scrabble.input.InputCommand)">acceptCommand</a></span>&#8203;(<a href="input/InputCommand.html" title="interface in scrabble.input">InputCommand</a>&nbsp;command)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#accept(scrabble.input.InputCommand)">accept</a></span>&#8203;(<a href="input/InputCommand.html" title="interface in scrabble.input">InputCommand</a>&nbsp;command)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="Board.html" title="class in scrabble">Board</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBoard()">getBoard</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="Player.html" title="class in scrabble">Player</a>[]</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPlayers()">getPlayers</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="Pool.html" title="class in scrabble">Pool</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPool()">getPool</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -227,22 +247,53 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="acceptCommand(scrabble.input.InputCommand)">
+<a id="accept(scrabble.input.InputCommand)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>acceptCommand</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;acceptCommand&#8203;(<a href="input/InputCommand.html" title="interface in scrabble.input">InputCommand</a>&nbsp;command)</pre>
+<h4>accept</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;accept&#8203;(<a href="input/InputCommand.html" title="interface in scrabble.input">InputCommand</a>&nbsp;command)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="input/InputListener.html#accept(scrabble.input.InputCommand)">accept</a></code>&nbsp;in interface&nbsp;<code><a href="input/InputListener.html" title="interface in scrabble.input">InputListener</a></code></dd>
+</dl>
 </li>
 </ul>
 <a id="reset()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;reset()</pre>
+</li>
+</ul>
+<a id="getPool()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPool</h4>
+<pre class="methodSignature">public&nbsp;<a href="Pool.html" title="class in scrabble">Pool</a>&nbsp;getPool()</pre>
+</li>
+</ul>
+<a id="getBoard()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBoard</h4>
+<pre class="methodSignature">public&nbsp;<a href="Board.html" title="class in scrabble">Board</a>&nbsp;getBoard()</pre>
+</li>
+</ul>
+<a id="getPlayers()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getPlayers</h4>
+<pre class="methodSignature">public&nbsp;<a href="Player.html" title="class in scrabble">Player</a>[]&nbsp;getPlayers()</pre>
 </li>
 </ul>
 </li>
