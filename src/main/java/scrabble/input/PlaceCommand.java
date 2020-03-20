@@ -45,8 +45,8 @@ public class PlaceCommand implements InputCommand {
             wp = new WordPlacement(bp, WordPlacement.Direction.HORIZONTAL, word);
         } else if (direction.startsWith("D")) {
             wp = new WordPlacement(bp, WordPlacement.Direction.VERTICAL, word);
-        }else {
-        	return null;
+        } else {
+            return null;
         }
         return new PlaceCommand(wp);
     }

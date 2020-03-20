@@ -10,9 +10,9 @@ public class ExchangeCommand implements InputCommand {
     public List<Tile> tiles;
 
     public ExchangeCommand(List<Tile> tiles) {
-    	tiles = tiles;
+        tiles = tiles;
     }
-    
+
     @Override
     public boolean usesTurn() {
         return true;
@@ -26,8 +26,8 @@ public class ExchangeCommand implements InputCommand {
         }
         List<Tile> tilesToReturn = new ArrayList<>();
         char[] tileList = string.nextToken().toCharArray();
-        if(!string.hasMoreTokens()) {
-        	return null;
+        if (!string.hasMoreTokens()) {
+            return null;
         }
         for (int i = 0; i < tileList.length; i++) {
             for (Tile t : Tile.values()) {
@@ -36,7 +36,6 @@ public class ExchangeCommand implements InputCommand {
                 }
             }
         }
-        return  new ExchangeCommand(tilesToReturn);
+        return new ExchangeCommand(tilesToReturn);
     }
-
 }
