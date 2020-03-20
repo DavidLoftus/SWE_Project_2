@@ -7,14 +7,13 @@ import scrabble.input.*;
 
 public class Scrabble implements InputListener {
 
-    ScrabbleController uiController;
-    PrintStream logOutput;
+    private ScrabbleController uiController;
+    private PrintStream logOutput;
 
     private Pool pool = new Pool();
     private Board board = new Board();
     private Player[] players;
     private int currentPlayer;
-    private PrintStream logOutput;
 
     public Scrabble(ScrabbleController uiController) {
         this.uiController = uiController;
