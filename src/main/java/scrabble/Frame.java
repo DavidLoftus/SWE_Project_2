@@ -77,6 +77,12 @@ public class Frame {
         return letter;
     }
 
+    public void removeTiles(List<Tile> letters) {
+        // TODO: implement
+    }
+
+
+
     /**
      * Refills frame with tiles from given {@link scrabble.Pool}. After this frame should have
      * exactly 7 tiles, unless the Pool was emptied.

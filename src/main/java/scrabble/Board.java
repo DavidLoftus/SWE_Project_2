@@ -170,7 +170,7 @@ public class Board {
      *     automatically placed if necessary
      * @throws BadWordPlacementException if wordPlacement would cause an invalid move
      */
-    public void applyWordPlacement(Player player, WordPlacement wordPlacement)
+    public int applyWordPlacement(Player player, WordPlacement wordPlacement)
             throws BadWordPlacementException {
         if (!wordPlacement.isConnectedToExistingTile(this) && !wordPlacement.isPlacedAtStar(this)) {
             throw new BadWordPlacementException(
@@ -183,8 +183,51 @@ public class Board {
                     wordPlacement, "Player doesn't have enough tiles to place this");
         }
 
-        placeTiles(wordPlacement, tilesToPlace);
+        List<BoardPos> placedPositions = placeTiles(wordPlacement, tilesToPlace);
+
+        List<WordRange> ranges = getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
+
+        int totalPlayScore = 0;
+        for (WordRange range : ranges) {
+            totalPlayScore += getWordScore(placedPositions, range);
+        }
+
+        return totalPlayScore;
     }
+
+    private List<WordRange> getWordRangesFromPlacement(List<BoardPos> placedPositions, WordPlacement.Direction direction) {
+        /// TODO: should get all newly created word ranges after placing tiles along this range
+        // Should add one wordrange for word along `direction`, and one wordrange for each position in
+        // `placedPositions` where there are adjacent tiles perpendicular to `direction`
+        return null;
+    }
+
+    private int getWordScore(List<BoardPos> placedPositions, WordRange range) {
+        int wordScore = 0;
+        int multiplier = 1;
+        for (BoardPos pos : range) {
+            wordScore += getSquareAt(pos).getTile().getValue();
+            if (placedPositions.contains(pos)) {
+                switch (getModiferAt(pos)) {
+                    case DOUBLE_WORD:
+                        multiplier *= 2;
+                        break;
+                    case DOUBLE_LETTER:
+                        wordScore += getSquareAt(pos).getTile().getValue();
+                        break;
+                    case TRIPLE_WORD:
+                        multiplier *= 3;
+                        break;
+                    case TRIPLE_LETTER:
+                        wordScore += 2*getSquareAt(pos).getTile().getValue();
+                        break;
+                    default:
+                }
+            }
+        }
+        return wordScore * multiplier;
+    }
+
 
     /**
      * Places tiles from tilesToPlace onto the board at positions specified by wordPlacement. This
@@ -195,7 +238,8 @@ public class Board {
      *     letter to place.
      * @param tilesToPlace The tiles belonging to the player to place on the board.
      */
-    private void placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
+    private List<BoardPos> placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
+        // TODO: should return a list of positions it placed tiles at
         int j = 0;
         for (int i = 0; i < wordPlacement.length(); i++) {
             BoardPos pos = wordPlacement.getPositionAt(i);
