@@ -185,7 +185,8 @@ public class Board {
 
         List<BoardPos> placedPositions = placeTiles(wordPlacement, tilesToPlace);
 
-        List<WordRange> ranges = getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
+        List<WordRange> ranges =
+                getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
 
         int totalPlayScore = 0;
         for (WordRange range : ranges) {
@@ -195,9 +196,11 @@ public class Board {
         return totalPlayScore;
     }
 
-    private List<WordRange> getWordRangesFromPlacement(List<BoardPos> placedPositions, WordPlacement.Direction direction) {
+    private List<WordRange> getWordRangesFromPlacement(
+            List<BoardPos> placedPositions, WordPlacement.Direction direction) {
         /// TODO: should get all newly created word ranges after placing tiles along this range
-        // Should add one wordrange for word along `direction`, and one wordrange for each position in
+        // Should add one wordrange for word along `direction`, and one wordrange for each position
+        // in
         // `placedPositions` where there are adjacent tiles perpendicular to `direction`
         return null;
     }
@@ -219,7 +222,7 @@ public class Board {
                         multiplier *= 3;
                         break;
                     case TRIPLE_LETTER:
-                        wordScore += 2*getSquareAt(pos).getTile().getValue();
+                        wordScore += 2 * getSquareAt(pos).getTile().getValue();
                         break;
                     default:
                 }
@@ -227,7 +230,6 @@ public class Board {
         }
         return wordScore * multiplier;
     }
-
 
     /**
      * Places tiles from tilesToPlace onto the board at positions specified by wordPlacement. This
@@ -241,6 +243,8 @@ public class Board {
     private List<BoardPos> placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
         // TODO: should return a list of positions it placed tiles at
         int j = 0;
+        List<BoardPos> positions = null;
+
         for (int i = 0; i < wordPlacement.length(); i++) {
             BoardPos pos = wordPlacement.getPositionAt(i);
             if (!hasTileAt(pos)) {
@@ -251,8 +255,10 @@ public class Board {
                     setTile(pos, tilesToPlace.get(j));
                 }
                 j++;
+                positions.add(pos);
             }
         }
+        return positions;
     }
 
     /**
