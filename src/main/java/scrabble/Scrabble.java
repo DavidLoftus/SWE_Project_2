@@ -7,13 +7,15 @@ import scrabble.input.*;
 
 public class Scrabble implements InputListener {
 
-    private ScrabbleController uiController;
-    private PrintStream logOutput;
+    ScrabbleController uiController;
+    PrintStream logOutput;
 
     private Pool pool = new Pool();
     private Board board = new Board();
-    private Player[] players;
-    private int currentPlayer;
+
+    private Player[] players = null;
+
+    private int currentPlayer = 0;
 
     public Scrabble(ScrabbleController uiController) {
         this.uiController = uiController;
@@ -21,18 +23,78 @@ public class Scrabble implements InputListener {
         uiController.commandPanel.addListener(this);
 
         uiController.boardGrid.setBoard(board);
+
+        requestPlayerNames();
+    }
+
+    private void requestPlayerNames() {
+        InputEventHandler inputHandler = uiController.commandPanel.getInputEventHandler();
+
+        logOutput.println("Player 1 what is your name?");
+        inputHandler.addOneTimeListener(player1Name -> {
+            logOutput.printf("Player 1 set to %s\n", player1Name);
+
+            logOutput.println("Player 2 what is your name?");
+
+            inputHandler.addOneTimeListener(player2Name -> {
+                logOutput.printf("Player 2 set to %s\n", player2Name);
+
+                players = new Player[] {
+                        new Player(player1Name),
+                        new Player(player2Name)
+                };
+
+                logOutput.println("Starting game...");
+
+                startGame();
+            });
+        });
+    }
+
+    private Player nextPlayer(int i) {
+        currentPlayer = i;
+        Player player = players[currentPlayer];
+
+        logOutput.printf("%s it is your turn please make a move: \n", player.getName());
+
+        uiController.frame.setFrame(player.getFrame());
+
+        return player;
+    }
+
+    private Player nextPlayer() {
+        return nextPlayer((currentPlayer + 1) % players.length);
+    }
+
+    private void startGame() {
+        InputEventHandler inputHandler = uiController.commandPanel.getInputEventHandler();
+        inputHandler.addListener(this);
+
+        for (Player player : players) {
+            player.getFrame().refill(pool);
+        }
+
+        Player player = nextPlayer(0);
+
     }
 
     public void accept(String inputStr) {
         InputCommand command = InputCommand.valueOf(inputStr);
+        if (command == null) {
+            logOutput.println("Bad command.");
+            return;
+        }
 
         Player player = players[currentPlayer];
         if (command instanceof PlaceCommand) {
             PlaceCommand place = (PlaceCommand) command;
             try {
-                board.applyWordPlacement(player, place.wordPlacement);
+                int score = board.applyWordPlacement(player, place.wordPlacement);
+                uiController.boardGrid.updateGridTiles();
+                player.increaseScore(score);
+                nextPlayer();
             } catch (BadWordPlacementException e) {
-                logOutput.println("Some error");
+                logOutput.printf("Failed to place word: %s\n", e.getMessage());
             }
             currentPlayer = (currentPlayer + 1) % players.length;
         } else if (command instanceof HelpCommand) {
@@ -41,9 +103,7 @@ public class Scrabble implements InputListener {
         } else if (command instanceof ExchangeCommand) {
             ExchangeCommand exchange = (ExchangeCommand) command;
             if (player.getFrame().hasTiles(exchange.tiles)) {
-                for (int i = 0; i < exchange.toString().length(); i++) {
-                    player.getFrame().removeTile(Tile.parseTile(exchange.toString().charAt(i)));
-                }
+                player.getFrame().removeTiles(exchange.tiles);
                 player.getFrame().refill(pool);
             } else {
                 logOutput.println("Error");
