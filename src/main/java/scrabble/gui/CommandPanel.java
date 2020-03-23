@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import scrabble.Scrabble;
 import scrabble.input.InputEventHandler;
 import scrabble.input.InputListener;
 
@@ -53,8 +54,8 @@ public class CommandPanel extends VBox {
         scrollPane.setVvalue(1.0);
     }
 
-    public void addListener(InputListener listener) {
-        inputEventHandler.addListener(listener);
+    public InputEventHandler getInputEventHandler() {
+        return inputEventHandler;
     }
 
     public PrintStream getOutputStream() {
@@ -85,5 +86,9 @@ public class CommandPanel extends VBox {
                     }
                 };
         return new PrintStream(os, true);
+    }
+
+    public void addListener(InputListener listener) {
+        inputEventHandler.addListener(listener);
     }
 }
