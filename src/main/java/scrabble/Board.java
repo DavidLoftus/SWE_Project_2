@@ -198,17 +198,24 @@ public class Board {
 
     private List<WordRange> getWordRangesFromPlacement(
             List<BoardPos> placedPositions, WordPlacement.Direction direction) {
-        /// TODO: should get all newly created word ranges after placing tiles along this range
-        // Should add one wordrange for word along `direction`, and one wordrange for each position
-        // in `placedPositions` where there are adjacent tiles perpendicular to `direction`
         List<WordRange> rangeList = new ArrayList<>();
 
+        if (direction == WordPlacement.Direction.HORIZONTAL) {
+            rangeList.add(spanWordRangeHorizontal(placedPositions.get(0)));
+        } else {
+            rangeList.add(spanWordRangeVertical(placedPositions.get(0)));
+        }
+
         for (BoardPos pos : placedPositions) {
+            WordRange range;
             if (direction == WordPlacement.Direction.HORIZONTAL) {
-                WordRange range = spanWordRangeVertical(pos);
-                if (range.getLength() > 1) {
-                    rangeList.add(range);
-                }
+                range = spanWordRangeVertical(pos);
+            } else {
+                range = spanWordRangeHorizontal(pos);
+            }
+
+            if (range.getLength() > 1) {
+                rangeList.add(range);
             }
         }
 
