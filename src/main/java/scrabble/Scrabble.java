@@ -20,7 +20,6 @@ public class Scrabble implements InputListener {
     public Scrabble(ScrabbleController uiController) {
         this.uiController = uiController;
         this.logOutput = uiController.commandPanel.getOutputStream();
-        uiController.commandPanel.addListener(this);
 
         uiController.boardGrid.setBoard(board);
 
@@ -31,24 +30,26 @@ public class Scrabble implements InputListener {
         InputEventHandler inputHandler = uiController.commandPanel.getInputEventHandler();
 
         logOutput.println("Player 1 what is your name?");
-        inputHandler.addOneTimeListener(player1Name -> {
-            logOutput.printf("Player 1 set to %s\n", player1Name);
+        inputHandler.addOneTimeListener(
+                player1Name -> {
+                    logOutput.printf("Player 1 set to %s\n", player1Name);
 
-            logOutput.println("Player 2 what is your name?");
+                    logOutput.println("Player 2 what is your name?");
 
-            inputHandler.addOneTimeListener(player2Name -> {
-                logOutput.printf("Player 2 set to %s\n", player2Name);
+                    inputHandler.addOneTimeListener(
+                            player2Name -> {
+                                logOutput.printf("Player 2 set to %s\n", player2Name);
 
-                players = new Player[] {
-                        new Player(player1Name),
-                        new Player(player2Name)
-                };
+                                players =
+                                        new Player[] {
+                                            new Player(player1Name), new Player(player2Name)
+                                        };
 
-                logOutput.println("Starting game...");
+                                logOutput.println("Starting game...");
 
-                startGame();
-            });
-        });
+                                startGame();
+                            });
+                });
     }
 
     private Player nextPlayer(int i) {
@@ -75,7 +76,6 @@ public class Scrabble implements InputListener {
         }
 
         Player player = nextPlayer(0);
-
     }
 
     public void accept(String inputStr) {
@@ -92,6 +92,8 @@ public class Scrabble implements InputListener {
                 int score = board.applyWordPlacement(player, place.wordPlacement);
                 uiController.boardGrid.updateGridTiles();
                 player.increaseScore(score);
+                logOutput.printf(
+                        "Success! Added %d to your score, total: %d\n", score, player.getScore());
                 nextPlayer();
             } catch (BadWordPlacementException e) {
                 logOutput.printf("Failed to place word: %s\n", e.getMessage());
