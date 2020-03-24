@@ -3,13 +3,12 @@ package scrabble;
 public class WordPlacement extends WordRange {
 
     private String word;
-    
-    public WordPlacement(BoardPos startPos, Direction direction, int length,String word) {
-        super(startPos, direction,length);
-        this.word = word.toUpperCase();
 
+    public WordPlacement(BoardPos startPos, Direction direction, String word) {
+        super(startPos, direction, word.length());
+        this.word = word.toUpperCase();
     }
-    
+
     /** @return the length of the String word */
     public int length() {
         return word.length();
@@ -18,7 +17,6 @@ public class WordPlacement extends WordRange {
     /**
      * @param i the index of the letter in the word
      * @return a character of the letter
-     * 
      */
     public char getLetterAt(int i) {
         return word.charAt(i);
