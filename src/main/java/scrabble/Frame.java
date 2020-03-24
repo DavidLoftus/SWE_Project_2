@@ -78,10 +78,10 @@ public class Frame {
     }
 
     public void removeTiles(List<Tile> letters) {
-        // TODO: implement
+        for (Tile tiles : letters) {
+            removeTile(tiles);
+        }
     }
-
-
 
     /**
      * Refills frame with tiles from given {@link scrabble.Pool}. After this frame should have
