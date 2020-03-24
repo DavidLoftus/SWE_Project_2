@@ -1,35 +1,18 @@
 package scrabble;
 
-public class WordPlacement {
+public class WordPlacement extends WordRange {
 
-    public enum Direction {
-        HORIZONTAL,
-        VERTICAL
-    }
-
-    private BoardPos startPos;
-    private Direction direction;
     private String word;
-
-    public WordPlacement(BoardPos startPos, Direction direction, String word) {
-        this.startPos = startPos;
-        this.direction = direction;
+    
+    public WordPlacement(BoardPos startPos, Direction direction, int length,String word) {
+        super(startPos, direction,length);
         this.word = word.toUpperCase();
 
-        new WordRange(startPos, direction, word.length());
     }
     
     /** @return the length of the String word */
     public int length() {
         return word.length();
-    }
-    
-    public BoardPos getStartPos() {
-    	return this.startPos;
-    }
-    
-    public Direction getDirection() {
-    	return this.direction;
     }
 
     /**
@@ -43,8 +26,8 @@ public class WordPlacement {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("WordPlacement{");
-        sb.append("[").append(startPos);
-        sb.append("], ").append(direction);
+        sb.append("[").append(getStartPos());
+        sb.append("], ").append(getDirection());
         sb.append(", '").append(word).append('\'');
         sb.append('}');
         return sb.toString();

@@ -2,11 +2,16 @@ package scrabble;
 
 import java.util.Iterator;
 
-import scrabble.WordPlacement.Direction;
 
 /// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to use WordRange
 // ^ might involve fixing tests
 public class WordRange implements Iterable <BoardPos>{
+	
+
+    public enum Direction {
+        HORIZONTAL,
+        VERTICAL
+    }
 
     private BoardPos startPos;
     private Direction direction;
@@ -26,6 +31,14 @@ public class WordRange implements Iterable <BoardPos>{
                 throw new IllegalArgumentException("Word extends outside bounds of Board");
             }
         }
+    }
+    
+    public BoardPos getStartPos() {
+    	return this.startPos;
+    }
+    
+    public Direction getDirection() {
+    	return this.direction;
     }
 
     /**
