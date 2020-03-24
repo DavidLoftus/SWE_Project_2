@@ -28,6 +28,7 @@ public class WordRange implements Iterable <BoardPos>{
         }
     }
 
+
     /**
      * @param i the index of the letter
      * @return the row in which selected letter is in
@@ -43,6 +44,9 @@ public class WordRange implements Iterable <BoardPos>{
         }
     }
 
+    public int getLength() {
+        return length;
+    }
 
     private boolean hasTileAtIfValidPos(Board board, int i, int j) {
         if (i < 0 || j < 0 || i >= 15 || j >= 15) {
