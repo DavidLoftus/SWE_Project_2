@@ -24,11 +24,14 @@ public class ExchangeCommand implements InputCommand {
         if (!string.nextToken().equals("EXCHANGE")) {
             return null;
         }
-        List<Tile> tilesToReturn = new ArrayList<>();
-        char[] tileList = string.nextToken().toCharArray();
+        
         if (!string.hasMoreTokens()) {
             return null;
         }
+        
+        List<Tile> tilesToReturn = new ArrayList<>();
+        char[] tileList = string.nextToken().toCharArray();
+        
         for (int i = 0; i < tileList.length; i++) {
             for (Tile t : Tile.values()) {
                 if (tileList[i] == t.getLetter()) {
