@@ -200,9 +200,75 @@ public class Board {
             List<BoardPos> placedPositions, WordPlacement.Direction direction) {
         /// TODO: should get all newly created word ranges after placing tiles along this range
         // Should add one wordrange for word along `direction`, and one wordrange for each position
-        // in
-        // `placedPositions` where there are adjacent tiles perpendicular to `direction`
-        return null;
+        // in `placedPositions` where there are adjacent tiles perpendicular to `direction`
+        List<WordRange> rangeList = new ArrayList<>();
+
+        for (BoardPos pos : placedPositions) {
+            if (direction == WordPlacement.Direction.HORIZONTAL) {
+                WordRange range = spanWordRangeVertical(pos);
+                if (range.getLength() > 1) {
+                    rangeList.add(range);
+                }
+            }
+        }
+
+        return rangeList;
+    }
+
+    private WordRange spanWordRangeHorizontal(BoardPos pos) {
+        int row = pos.getRow();
+        int col = pos.getColumn();
+        int count = 1;
+        BoardPos startPos = pos;
+
+        for (int i = col - 1; i >= 0; i--) {
+            BoardPos neighbour = new BoardPos(row, i);
+            if (hasTileAt(neighbour)) {
+                count++;
+                startPos = neighbour;
+            } else {
+                break;
+            }
+        }
+
+        for (int i = col + 1; i < 15; i++) {
+            BoardPos neighbour = new BoardPos(row, i);
+            if (hasTileAt(neighbour)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        return new WordRange(startPos, WordPlacement.Direction.HORIZONTAL, count);
+    }
+
+    private WordRange spanWordRangeVertical(BoardPos pos) {
+        int row = pos.getRow();
+        int col = pos.getColumn();
+        int count = 1;
+        BoardPos startPos = pos;
+
+        for (int i = row - 1; i >= 0; i--) {
+            BoardPos neighbour = new BoardPos(i, col);
+            if (hasTileAt(neighbour)) {
+                count++;
+                startPos = neighbour;
+            } else {
+                break;
+            }
+        }
+
+        for (int i = row + 1; i < 15; i++) {
+            BoardPos neighbour = new BoardPos(i, col);
+            if (hasTileAt(neighbour)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        return new WordRange(startPos, WordPlacement.Direction.VERTICAL, count);
     }
 
     private int getWordScore(List<BoardPos> placedPositions, WordRange range) {
@@ -241,9 +307,8 @@ public class Board {
      * @param tilesToPlace The tiles belonging to the player to place on the board.
      */
     private List<BoardPos> placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
-        // TODO: should return a list of positions it placed tiles at
         int j = 0;
-        List<BoardPos> positions = null;
+        List<BoardPos> positions = new ArrayList<>();
 
         for (int i = 0; i < wordPlacement.length(); i++) {
             BoardPos pos = wordPlacement.getPositionAt(i);

@@ -2,12 +2,10 @@ package scrabble;
 
 import java.util.Iterator;
 
-
-/// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to use WordRange
+/// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to
+// use WordRange
 // ^ might involve fixing tests
-
-public class WordRange implements Iterable <BoardPos>{
-	
+public class WordRange implements Iterable<BoardPos> {
 
     public enum Direction {
         HORIZONTAL,
@@ -33,13 +31,13 @@ public class WordRange implements Iterable <BoardPos>{
             }
         }
     }
-    
+
     public BoardPos getStartPos() {
-    	return this.startPos;
+        return this.startPos;
     }
-    
+
     public Direction getDirection() {
-    	return this.direction;
+        return this.direction;
     }
 
     /**
@@ -57,6 +55,9 @@ public class WordRange implements Iterable <BoardPos>{
         }
     }
 
+    public int getLength() {
+        return length;
+    }
 
     private boolean hasTileAtIfValidPos(Board board, int i, int j) {
         if (i < 0 || j < 0 || i >= 15 || j >= 15) {
@@ -97,23 +98,23 @@ public class WordRange implements Iterable <BoardPos>{
         return false;
     }
 
-    public Iterator<BoardPos> iterator(){
-    	
-    	return new Iterator<BoardPos> () {
+    public Iterator<BoardPos> iterator() {
 
-    		private int i =0;
-    		
-			@Override
-			public boolean hasNext() {
-				return i < length;
-			}
+        return new Iterator<BoardPos>() {
 
-			@Override
-			public BoardPos next() {
-				BoardPos pos = getPositionAt(i);
-				i++;
-				return pos;
-			}};
+            private int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < length;
+            }
+
+            @Override
+            public BoardPos next() {
+                BoardPos pos = getPositionAt(i);
+                i++;
+                return pos;
+            }
+        };
     }
-     
 }
