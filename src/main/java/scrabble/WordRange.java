@@ -1,12 +1,12 @@
 package scrabble;
 
 import java.util.Iterator;
-
 import scrabble.WordPlacement.Direction;
 
-/// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to use WordRange
+/// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to
+// use WordRange
 // ^ might involve fixing tests
-public class WordRange implements Iterable <BoardPos>{
+public class WordRange implements Iterable<BoardPos> {
 
     private BoardPos startPos;
     private Direction direction;
@@ -27,7 +27,6 @@ public class WordRange implements Iterable <BoardPos>{
             }
         }
     }
-
 
     /**
      * @param i the index of the letter
@@ -87,23 +86,23 @@ public class WordRange implements Iterable <BoardPos>{
         return false;
     }
 
-    public Iterator<BoardPos> iterator(){
-    	
-    	return new Iterator<BoardPos> () {
+    public Iterator<BoardPos> iterator() {
 
-    		private int i =0;
-    		
-			@Override
-			public boolean hasNext() {
-				return i < length;
-			}
+        return new Iterator<BoardPos>() {
 
-			@Override
-			public BoardPos next() {
-				BoardPos pos = getPositionAt(i);
-				i++;
-				return pos;
-			}};
+            private int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < length;
+            }
+
+            @Override
+            public BoardPos next() {
+                BoardPos pos = getPositionAt(i);
+                i++;
+                return pos;
+            }
+        };
     }
-     
 }

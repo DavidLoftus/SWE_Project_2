@@ -196,7 +196,8 @@ public class Board {
         return totalPlayScore;
     }
 
-    private List<WordRange> getWordRangesFromPlacement(List<BoardPos> placedPositions, WordPlacement.Direction direction) {
+    private List<WordRange> getWordRangesFromPlacement(
+            List<BoardPos> placedPositions, WordPlacement.Direction direction) {
         /// TODO: should get all newly created word ranges after placing tiles along this range
         // Should add one wordrange for word along `direction`, and one wordrange for each position
         // in `placedPositions` where there are adjacent tiles perpendicular to `direction`
@@ -220,7 +221,7 @@ public class Board {
         int count = 1;
         BoardPos startPos = pos;
 
-        for (int i = col-1; i >= 0; i--) {
+        for (int i = col - 1; i >= 0; i--) {
             BoardPos neighbour = new BoardPos(row, i);
             if (hasTileAt(neighbour)) {
                 count++;
@@ -230,7 +231,7 @@ public class Board {
             }
         }
 
-        for (int i = col+1; i < 15; i++) {
+        for (int i = col + 1; i < 15; i++) {
             BoardPos neighbour = new BoardPos(row, i);
             if (hasTileAt(neighbour)) {
                 count++;
@@ -248,7 +249,7 @@ public class Board {
         int count = 1;
         BoardPos startPos = pos;
 
-        for (int i = row-1; i >= 0; i--) {
+        for (int i = row - 1; i >= 0; i--) {
             BoardPos neighbour = new BoardPos(i, col);
             if (hasTileAt(neighbour)) {
                 count++;
@@ -258,7 +259,7 @@ public class Board {
             }
         }
 
-        for (int i = row+1; i < 15; i++) {
+        for (int i = row + 1; i < 15; i++) {
             BoardPos neighbour = new BoardPos(i, col);
             if (hasTileAt(neighbour)) {
                 count++;
@@ -269,7 +270,6 @@ public class Board {
 
         return new WordRange(startPos, WordPlacement.Direction.VERTICAL, count);
     }
-
 
     private int getWordScore(List<BoardPos> placedPositions, WordRange range) {
         int wordScore = 0;
