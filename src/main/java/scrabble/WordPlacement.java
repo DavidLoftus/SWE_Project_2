@@ -18,6 +18,7 @@ public class WordPlacement extends WordRange {
     /**
      * @param i the index of the letter in the word
      * @return a character of the letter
+     * 
      */
     public char getLetterAt(int i) {
         return word.charAt(i);
