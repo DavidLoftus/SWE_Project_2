@@ -29,9 +29,18 @@ public class PlaceCommand implements InputCommand {
         int startPosJ = Integer.parseInt(start.substring(1));
 
         BoardPos bp = new BoardPos(startPosI, startPosJ);
+
+        if (!string.hasMoreTokens()) {
+            return null;
+        }
         String direction = string.nextToken();
+
+        if (!string.hasMoreTokens()) {
+            return null;
+        }
         String word = string.nextToken();
-        WordPlacement wp = null;
+
+        WordPlacement wp;
         if (direction.startsWith("A")) {
             wp = new WordPlacement(bp, WordPlacement.Direction.HORIZONTAL, word);
         } else if (direction.startsWith("D")) {
