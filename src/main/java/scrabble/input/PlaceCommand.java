@@ -25,10 +25,10 @@ public class PlaceCommand implements InputCommand {
             return null;
         }
         // do the start postions go from 0-14 or 1-15? who knows ive said 0-14
-        int startposi = start.charAt(0);
-        int startposj = Integer.parseInt(start.substring(1));
+        int startPosI = start.charAt(0) - 'A';
+        int startPosJ = Integer.parseInt(start.substring(1));
 
-        BoardPos bp = new BoardPos(startposi, startposj);
+        BoardPos bp = new BoardPos(startPosI, startPosJ);
         String direction = string.nextToken();
         String word = string.nextToken();
         WordPlacement wp = null;
