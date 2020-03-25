@@ -75,6 +75,9 @@ public class Scrabble implements InputListener {
 
         logOutput.printf("%s it is your turn please make a move: \n", player.getName());
 
+        uiController.player1.update();
+        uiController.player2.update();
+
         return player;
     }
 
@@ -135,15 +138,15 @@ public class Scrabble implements InputListener {
         } else if (command instanceof ExchangeCommand) {
             ExchangeCommand exchange = (ExchangeCommand) command;
             if (player.getFrame().hasTiles(exchange.tiles)) {
+
                 player.getFrame().removeTiles(exchange.tiles);
                 player.getFrame().refill(pool);
+
+                nextPlayer();
             } else {
-                logOutput.println("Error");
+                logOutput.println("Player doesn't have those tiles.");
             }
         } else logOutput.println("No such command");
-
-        uiController.player1.update();
-        uiController.player2.update();
     }
 
     /** Resets the current game being played. */

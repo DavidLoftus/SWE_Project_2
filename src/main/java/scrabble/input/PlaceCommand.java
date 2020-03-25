@@ -20,6 +20,11 @@ public class PlaceCommand implements InputCommand {
     public static PlaceCommand valueOf(String str) {
         str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");
+
+        if (!string.hasMoreTokens()) {
+            return null;
+        }
+
         String start = string.nextToken();
         if (!Character.isAlphabetic(start.charAt(0))) {
             return null;

@@ -26,6 +26,9 @@ public class ExchangeCommand implements InputCommand {
     public static ExchangeCommand valueOf(String str) {
         str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");
+        if (!string.hasMoreTokens()) {
+            return null;
+        }
         if (!string.nextToken().equals("EXCHANGE")) {
             return null;
         }
