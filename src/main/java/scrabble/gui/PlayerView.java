@@ -13,6 +13,7 @@ public class PlayerView extends VBox {
 
     public PlayerView() {
         getChildren().setAll(playerNameLabel, frameView);
+        setMinHeight(75);
     }
 
     public void setPlayer(Player player) {
