@@ -131,6 +131,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/exceptions/BadWordPlacementException.html#%3Cinit%3E(scrabble.WordPlacement,java.lang.String,java.lang.Throwable)">BadWordPlacementException(WordPlacement, String, Throwable)</a></span> - Constructor for exception scrabble.exceptions.<a href="scrabble/exceptions/BadWordPlacementException.html" title="class in scrabble.exceptions">BadWordPlacementException</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="scrabble/input/BasicCommand.html" title="class in scrabble.input"><span class="typeNameLink">BasicCommand</span></a> - Class in <a href="scrabble/input/package-summary.html">scrabble.input</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="scrabble/input/BasicCommand.html#%3Cinit%3E(java.lang.String)">BasicCommand(String)</a></span> - Constructor for class scrabble.input.<a href="scrabble/input/BasicCommand.html" title="class in scrabble.input">BasicCommand</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/Tile.html#BLANK">BLANK</a></span> - scrabble.<a href="scrabble/Tile.html" title="enum in scrabble">Tile</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="scrabble/Board.html" title="class in scrabble"><span class="typeNameLink">Board</span></a> - Class in <a href="scrabble/package-summary.html">scrabble</a></dt>
@@ -162,6 +166,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h2 class="title">C</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="scrabble/Tile.html#C">C</a></span> - scrabble.<a href="scrabble/Tile.html" title="enum in scrabble">Tile</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="scrabble/input/BasicCommand.html#command">command</a></span> - Variable in class scrabble.input.<a href="scrabble/input/BasicCommand.html" title="class in scrabble.input">BasicCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/gui/ScrabbleController.html#commandPanel">commandPanel</a></span> - Variable in class scrabble.gui.<a href="scrabble/gui/ScrabbleController.html" title="class in scrabble.gui">ScrabbleController</a></dt>
 <dd>&nbsp;</dd>
@@ -332,10 +338,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Checks if a frame is not empty/contains at least 1 tile.</div>
 </dd>
-<dt><a href="scrabble/input/HelpCommand.html" title="class in scrabble.input"><span class="typeNameLink">HelpCommand</span></a> - Class in <a href="scrabble/input/package-summary.html">scrabble.input</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/HelpCommand.html#%3Cinit%3E()">HelpCommand()</a></span> - Constructor for class scrabble.input.<a href="scrabble/input/HelpCommand.html" title="class in scrabble.input">HelpCommand</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/WordRange.Direction.html#HORIZONTAL">HORIZONTAL</a></span> - scrabble.<a href="scrabble/WordRange.Direction.html" title="enum in scrabble">WordRange.Direction</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -412,6 +414,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/Main.html#%3Cinit%3E()">Main()</a></span> - Constructor for class scrabble.<a href="scrabble/Main.html" title="class in scrabble">Main</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="scrabble/input/BasicCommand.html#makeParser(java.lang.String)">makeParser(String)</a></span> - Static method in class scrabble.input.<a href="scrabble/input/BasicCommand.html" title="class in scrabble.input">BasicCommand</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a id="I:N">
 <!--   -->
@@ -441,10 +445,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="scrabble/Tile.html#parseTile(char)">parseTile(char)</a></span> - Static method in enum scrabble.<a href="scrabble/Tile.html" title="enum in scrabble">Tile</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/Tile.html#parseTile(java.lang.String)">parseTile(String)</a></span> - Static method in enum scrabble.<a href="scrabble/Tile.html" title="enum in scrabble">Tile</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="scrabble/input/PassCommand.html" title="class in scrabble.input"><span class="typeNameLink">PassCommand</span></a> - Class in <a href="scrabble/input/package-summary.html">scrabble.input</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/PassCommand.html#%3Cinit%3E()">PassCommand()</a></span> - Constructor for class scrabble.input.<a href="scrabble/input/PassCommand.html" title="class in scrabble.input">PassCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="scrabble/input/PlaceCommand.html" title="class in scrabble.input"><span class="typeNameLink">PlaceCommand</span></a> - Class in <a href="scrabble/input/package-summary.html">scrabble.input</a></dt>
 <dd>&nbsp;</dd>
@@ -650,16 +650,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/gui/SquareView.html#updateTile()">updateTile()</a></span> - Method in class scrabble.gui.<a href="scrabble/gui/SquareView.html" title="class in scrabble.gui">SquareView</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/ExchangeCommand.html#usesTurn()">usesTurn()</a></span> - Method in class scrabble.input.<a href="scrabble/input/ExchangeCommand.html" title="class in scrabble.input">ExchangeCommand</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/HelpCommand.html#usesTurn()">usesTurn()</a></span> - Method in class scrabble.input.<a href="scrabble/input/HelpCommand.html" title="class in scrabble.input">HelpCommand</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/InputCommand.html#usesTurn()">usesTurn()</a></span> - Method in interface scrabble.input.<a href="scrabble/input/InputCommand.html" title="interface in scrabble.input">InputCommand</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/PassCommand.html#usesTurn()">usesTurn()</a></span> - Method in class scrabble.input.<a href="scrabble/input/PassCommand.html" title="class in scrabble.input">PassCommand</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/PlaceCommand.html#usesTurn()">usesTurn()</a></span> - Method in class scrabble.input.<a href="scrabble/input/PlaceCommand.html" title="class in scrabble.input">PlaceCommand</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <a id="I:V">
 <!--   -->
@@ -672,11 +662,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/input/ExchangeCommand.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in class scrabble.input.<a href="scrabble/input/ExchangeCommand.html" title="class in scrabble.input">ExchangeCommand</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/HelpCommand.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in class scrabble.input.<a href="scrabble/input/HelpCommand.html" title="class in scrabble.input">HelpCommand</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/input/InputCommand.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in interface scrabble.input.<a href="scrabble/input/InputCommand.html" title="interface in scrabble.input">InputCommand</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="scrabble/input/PassCommand.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in class scrabble.input.<a href="scrabble/input/PassCommand.html" title="class in scrabble.input">PassCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="scrabble/input/PlaceCommand.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in class scrabble.input.<a href="scrabble/input/PlaceCommand.html" title="class in scrabble.input">PlaceCommand</a></dt>
 <dd>&nbsp;</dd>
