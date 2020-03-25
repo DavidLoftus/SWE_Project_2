@@ -196,6 +196,13 @@ public class Board {
         return totalPlayScore;
     }
 
+    /**
+     * Returns a list of word ranges based on its placed positions and direction.
+     *
+     * @param placedPositions the list of positions in the board
+     * @param direction the direction of which the tile were placed
+     * @return a list of all the WordRange
+     */
     private List<WordRange> getWordRangesFromPlacement(
             List<BoardPos> placedPositions, WordPlacement.Direction direction) {
         List<WordRange> rangeList = new ArrayList<>();
@@ -222,6 +229,12 @@ public class Board {
         return rangeList;
     }
 
+    /**
+     * Returns a new WordRange object specifically if it spans horizontally.
+     *
+     * @param pos the position in board
+     * @return a new WordRange object
+     */
     private WordRange spanWordRangeHorizontal(BoardPos pos) {
         int row = pos.getRow();
         int col = pos.getColumn();
@@ -250,6 +263,12 @@ public class Board {
         return new WordRange(startPos, WordPlacement.Direction.HORIZONTAL, count);
     }
 
+    /**
+     * Returns a new WordRange object specifically if it spans horizontally.
+     *
+     * @param pos the position in board
+     * @return a new WordRange object
+     */
     private WordRange spanWordRangeVertical(BoardPos pos) {
         int row = pos.getRow();
         int col = pos.getColumn();
@@ -278,6 +297,13 @@ public class Board {
         return new WordRange(startPos, WordPlacement.Direction.VERTICAL, count);
     }
 
+    /**
+     * Returns the total score the word multiplied by possible achievable bonuses from Square.
+     *
+     * @param placedPositions the list of positions in the board
+     * @param range the range of the word
+     * @return the total score of the word
+     */
     private int getWordScore(List<BoardPos> placedPositions, WordRange range) {
         int wordScore = 0;
         int multiplier = 1;
