@@ -5,16 +5,14 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public interface InputCommand {
-
-    boolean usesTurn();
-
     static InputCommand valueOf(String str) {
         Stream<Function<String, InputCommand>> parsers =
                 Stream.of(
                         ExchangeCommand::valueOf,
-                        HelpCommand::valueOf,
                         PlaceCommand::valueOf,
-                        PassCommand::valueOf);
+                        BasicCommand.makeParser("PASS"),
+                        BasicCommand.makeParser("HELP"),
+                        BasicCommand.makeParser("QUIT"));
 
         return parsers.map(
                         parser -> {

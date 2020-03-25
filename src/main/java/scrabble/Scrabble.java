@@ -132,9 +132,6 @@ public class Scrabble implements InputListener {
             } catch (BadWordPlacementException e) {
                 logOutput.printf("Failed to place word: %s\n", e.getMessage());
             }
-        } else if (command instanceof HelpCommand) {
-            logOutput.println("To Exchange: EXCHANGE <letters>");
-            logOutput.println("To Place: <grid ref> <across/down> <word>");
         } else if (command instanceof ExchangeCommand) {
             ExchangeCommand exchange = (ExchangeCommand) command;
             if (player.getFrame().hasTiles(exchange.tiles)) {
@@ -146,7 +143,23 @@ public class Scrabble implements InputListener {
             } else {
                 logOutput.println("Player doesn't have those tiles.");
             }
-        } else logOutput.println("No such command");
+        } else if (command instanceof BasicCommand) {
+            BasicCommand basicCommand = (BasicCommand) command;
+            if (basicCommand.command.equals("PASS")) {
+                logOutput.printf("%s has skipped their turn.\n", player.getName());
+                nextPlayer();
+            } else if (basicCommand.command.equals("HELP")) {
+                logOutput.println("To Exchange: EXCHANGE <letters>");
+                logOutput.println("To Place: <grid ref> <across/down> <word>");
+                logOutput.println("To skip turn: PASS");
+                logOutput.println("To quit game: QUIT");
+            } else if (basicCommand.command.equals("QUIT")) {
+                logOutput.println("Thanks for playing!");
+                System.exit(0);
+            }
+        } else {
+            logOutput.println("No such command");
+        }
     }
 
     /** Resets the current game being played. */

@@ -12,11 +12,6 @@ public class PlaceCommand implements InputCommand {
         this.wordPlacement = wordPlacement;
     }
 
-    @Override
-    public boolean usesTurn() {
-        return true;
-    }
-
     public static PlaceCommand valueOf(String str) {
         str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");

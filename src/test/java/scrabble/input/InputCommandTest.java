@@ -13,7 +13,7 @@ public class InputCommandTest {
     @Test
     void testInputCommand() {
         assertTrue(InputCommand.valueOf("EXCHANGE ABCD") instanceof ExchangeCommand);
-        assertTrue(InputCommand.valueOf("HELP") instanceof HelpCommand);
+        assertTrue(InputCommand.valueOf("HELP") instanceof BasicCommand);
         assertTrue(InputCommand.valueOf("A7 A ABCD") instanceof PlaceCommand);
     }
 

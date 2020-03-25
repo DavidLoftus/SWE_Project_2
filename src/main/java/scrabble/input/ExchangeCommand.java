@@ -14,11 +14,6 @@ public class ExchangeCommand implements InputCommand {
         this.tiles = tiles;
     }
 
-    @Override
-    public boolean usesTurn() {
-        return true;
-    }
-
     /**
      * @param str from user input
      * @return this list of tiles the user wishes to exchange
