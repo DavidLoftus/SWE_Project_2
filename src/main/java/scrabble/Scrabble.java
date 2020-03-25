@@ -17,6 +17,11 @@ public class Scrabble implements InputListener {
 
     private int currentPlayer = 0;
 
+    /**
+     * Initializes the class to be able to controlled through the GUI.
+     *
+     * @param uiController the GUI controller
+     */
     public Scrabble(ScrabbleController uiController) {
         this.uiController = uiController;
         this.logOutput = uiController.commandPanel.getOutputStream();
@@ -26,6 +31,7 @@ public class Scrabble implements InputListener {
         requestPlayerNames();
     }
 
+    /** Asks the user to input and set players' names */
     private void requestPlayerNames() {
         InputEventHandler inputHandler = uiController.commandPanel.getInputEventHandler();
 
@@ -52,6 +58,12 @@ public class Scrabble implements InputListener {
                 });
     }
 
+    /**
+     * This sets the frame based on which player's turn it is.
+     *
+     * @param i iteration of turns between the players.
+     * @return the player who's turn it is.
+     */
     private Player nextPlayer(int i) {
         currentPlayer = i;
         Player player = players[currentPlayer];
@@ -63,10 +75,12 @@ public class Scrabble implements InputListener {
         return player;
     }
 
+    /** @return the next player */
     private Player nextPlayer() {
         return nextPlayer((currentPlayer + 1) % players.length);
     }
 
+    /** Initializes the start of the game */
     private void startGame() {
         InputEventHandler inputHandler = uiController.commandPanel.getInputEventHandler();
         inputHandler.addListener(this);
@@ -78,6 +92,13 @@ public class Scrabble implements InputListener {
         Player player = nextPlayer(0);
     }
 
+    /**
+     * Asks the user for input commands which outputs a print based on what the user inputted. There
+     * are three types of acceptable commands of which are HELP, PLACE and EXCHANGE. If the user
+     * inputs a command that is not any of those three he/she will get a 'bad command' print.
+     *
+     * @param inputStr user input
+     */
     public void accept(String inputStr) {
         InputCommand command = InputCommand.valueOf(inputStr);
         if (command == null) {
@@ -113,6 +134,7 @@ public class Scrabble implements InputListener {
         } else logOutput.println("No such command");
     }
 
+    /** Resets the current game being played. */
     public void reset() {
         board.reset();
         pool.reset();
@@ -123,14 +145,29 @@ public class Scrabble implements InputListener {
         currentPlayer = 0;
     }
 
+    /**
+     * Accessor method to get pool.
+     *
+     * @return the pool of words
+     */
     public Pool getPool() {
         return pool;
     }
 
+    /**
+     * Accessor method to get board.
+     *
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Accessor method to get players.
+     *
+     * @return an array of players.
+     */
     public Player[] getPlayers() {
         return players;
     }
