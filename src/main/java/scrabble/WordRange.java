@@ -2,8 +2,6 @@ package scrabble;
 
 import java.util.Iterator;
 
-/// TODO: This would essentially be copypaste of WordPlacement, fix up and update WordPlacement to
-// use WordRange
 // ^ might involve fixing tests
 public class WordRange implements Iterable<BoardPos> {
 
