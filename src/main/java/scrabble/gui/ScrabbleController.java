@@ -6,7 +6,8 @@ public class ScrabbleController {
 
     @FXML public BoardView boardGrid;
 
-    @FXML public FrameView frame;
+    @FXML public PlayerView player1;
+    @FXML public PlayerView player2;
 
     @FXML public CommandPanel commandPanel;
 }

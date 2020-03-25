@@ -16,6 +16,8 @@ public class ScrabbleApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, BadWordPlacementException {
         primaryStage.setTitle("Scrabble!");
+        primaryStage.setMinWidth(1070);
+        primaryStage.setMinHeight(750);
 
         FXMLLoader fxmlLoader =
                 new FXMLLoader(ScrabbleApplication.class.getResource("scrabble.fxml"));

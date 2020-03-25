@@ -8,8 +8,9 @@
 
     <BoardView fx:id="boardGrid">
     </BoardView>
-    <VBox>
+    <VBox HBox.hgrow="SOMETIMES">
         <CommandPanel fx:id="commandPanel" />
-        <FrameView fx:id="frame" />
+        <PlayerView fx:id="player1" />
+        <PlayerView fx:id="player2" />
     </VBox>
 </HBox>

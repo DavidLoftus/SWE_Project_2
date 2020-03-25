@@ -51,6 +51,9 @@ public class Scrabble implements InputListener {
                                             new Player(player1Name), new Player(player2Name)
                                         };
 
+                                uiController.player1.setPlayer(players[0]);
+                                uiController.player2.setPlayer(players[1]);
+
                                 logOutput.println("Starting game...");
 
                                 startGame();
@@ -70,8 +73,6 @@ public class Scrabble implements InputListener {
 
         logOutput.printf("%s it is your turn please make a move: \n", player.getName());
 
-        uiController.frame.setFrame(player.getFrame());
-
         return player;
     }
 
@@ -89,7 +90,10 @@ public class Scrabble implements InputListener {
             player.getFrame().refill(pool);
         }
 
-        Player player = nextPlayer(0);
+        uiController.player1.update();
+        uiController.player2.update();
+
+        nextPlayer(0);
     }
 
     /**
@@ -111,15 +115,18 @@ public class Scrabble implements InputListener {
             PlaceCommand place = (PlaceCommand) command;
             try {
                 int score = board.applyWordPlacement(player, place.wordPlacement);
-                uiController.boardGrid.updateGridTiles();
                 player.increaseScore(score);
+
                 logOutput.printf(
                         "Success! Added %d to your score, total: %d\n", score, player.getScore());
+
+                // Refresh UI elements
+                uiController.boardGrid.updateGridTiles();
+
                 nextPlayer();
             } catch (BadWordPlacementException e) {
                 logOutput.printf("Failed to place word: %s\n", e.getMessage());
             }
-            currentPlayer = (currentPlayer + 1) % players.length;
         } else if (command instanceof HelpCommand) {
             logOutput.println("To Exchange: EXCHANGE <letters>");
             logOutput.println("To Place: <grid ref> <across/down> <word>");
@@ -132,6 +139,9 @@ public class Scrabble implements InputListener {
                 logOutput.println("Error");
             }
         } else logOutput.println("No such command");
+
+        uiController.player1.update();
+        uiController.player2.update();
     }
 
     /** Resets the current game being played. */
