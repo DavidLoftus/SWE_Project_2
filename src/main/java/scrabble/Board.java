@@ -169,6 +169,7 @@ public class Board {
      * @param wordPlacement specifies the letters and positions to place the tile at. BLANKs are
      *     automatically placed if necessary
      * @throws BadWordPlacementException if wordPlacement would cause an invalid move
+     * @return the points to be awarded for the successful word placement.
      */
     public int applyWordPlacement(Player player, WordPlacement wordPlacement)
             throws BadWordPlacementException {

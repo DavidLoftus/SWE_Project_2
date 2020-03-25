@@ -20,7 +20,7 @@ public class ExchangeCommand implements InputCommand {
     }
 
     /**
-     * @param string from user input
+     * @param str from user input
      * @return this list of tiles the user wishes to exchange
      */
     public static ExchangeCommand valueOf(String str) {
