@@ -18,15 +18,18 @@ public class Square {
         this.mod = mod;
     }
 
+    /** @return the tile */
     public Tile getTile() {
         return tile;
     }
 
+    /** @param letter the letter which will replace the blank tile. */
     public void setBlankTile(char letter) {
         this.tile = Tile.BLANK;
         this.letter = letter;
     }
 
+    /** @param tile mutator method to set tile to a specific letter. */
     public void setTile(Tile tile) {
         if (tile == Tile.BLANK) {
             throw new IllegalArgumentException();
@@ -35,19 +38,22 @@ public class Square {
         this.letter = tile.getLetter();
     }
 
+    /** @return accessor method to get the modifier. */
     public Modifier getModifier() {
         return mod;
     }
 
+    /** @return accessor method to get the letter. */
     public char getLetter() {
         return letter;
     }
 
+    /** @return true or false if the tile is empty. */
     public boolean isEmpty() {
         return tile == null;
     }
 
-    // empty print square if full print tile.
+    /** @return a string that indicates the modifier being used. */
     public String toString() {
         if (getTile() != null) {
             return getLetter() + " ";
