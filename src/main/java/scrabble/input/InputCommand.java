@@ -10,7 +10,11 @@ public interface InputCommand {
 
     static InputCommand valueOf(String str) {
         Stream<Function<String, InputCommand>> parsers =
-                Stream.of(ExchangeCommand::valueOf, HelpCommand::valueOf, PlaceCommand::valueOf);
+                Stream.of(
+                        ExchangeCommand::valueOf,
+                        HelpCommand::valueOf,
+                        PlaceCommand::valueOf,
+                        PassCommand::valueOf);
 
         return parsers.map(
                         parser -> {
