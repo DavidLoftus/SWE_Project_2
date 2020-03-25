@@ -18,7 +18,7 @@ public class PlaceCommand implements InputCommand {
     }
 
     public static PlaceCommand valueOf(String str) {
-        str = str.toUpperCase(); 
+        str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");
         String start = string.nextToken();
         if (!Character.isAlphabetic(start.charAt(0))) {
@@ -27,7 +27,7 @@ public class PlaceCommand implements InputCommand {
         // do the start postions go from 0-14 or 1-15? who knows ive said 0-14
         int startposi = start.charAt(0);
         int startposj = Integer.parseInt(start.substring(1));
-        
+
         BoardPos bp = new BoardPos(startposi, startposj);
         String direction = string.nextToken();
         String word = string.nextToken();

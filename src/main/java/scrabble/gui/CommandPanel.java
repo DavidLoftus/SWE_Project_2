@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import scrabble.Scrabble;
 import scrabble.input.InputEventHandler;
 import scrabble.input.InputListener;
 
