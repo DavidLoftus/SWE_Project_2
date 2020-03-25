@@ -201,7 +201,7 @@ public class Board {
      *
      * @param placedPositions the list of positions in the board
      * @param direction the direction of which the tile were placed
-     * @return a list of all the WordRange
+     * @return a list of all the WordRange from placement
      */
     private List<WordRange> getWordRangesFromPlacement(
             List<BoardPos> placedPositions, WordPlacement.Direction direction) {
@@ -338,6 +338,7 @@ public class Board {
      * @param wordPlacement specifies where to place the tile, and (in the case of a blank) what
      *     letter to place.
      * @param tilesToPlace The tiles belonging to the player to place on the board.
+     * @return a list of positions in the board each tiles were placed in.
      */
     private List<BoardPos> placeTiles(WordPlacement wordPlacement, List<Tile> tilesToPlace) {
         int j = 0;

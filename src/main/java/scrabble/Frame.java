@@ -32,6 +32,12 @@ public class Frame {
         return false;
     }
 
+    /**
+     * Checks if a frame is not empty/contains at least 1 tile.
+     *
+     * @param tiles the list of tiles in the frame.
+     * @return true if the the list of tiles is not empty (or equal 0).
+     */
     public boolean hasTiles(List<Tile> tiles) {
         Map<Tile, Integer> map = getTileCounts();
         for (Tile tile : tiles) {
@@ -44,6 +50,11 @@ public class Frame {
         return true;
     }
 
+    /**
+     * Counts the tiles currently present in a frame
+     *
+     * @return the number of tiles in a frame
+     */
     public Map<Tile, Integer> getTileCounts() {
         Map<Tile, Integer> map = new EnumMap<Tile, Integer>(Tile.class);
         for (Tile tile : tiles) {
@@ -77,6 +88,11 @@ public class Frame {
         return letter;
     }
 
+    /**
+     * Removes a list of the tiles from the frame
+     *
+     * @param letters the list of tiles in the frame.
+     */
     public void removeTiles(List<Tile> letters) {
         for (Tile tiles : letters) {
             removeTile(tiles);
