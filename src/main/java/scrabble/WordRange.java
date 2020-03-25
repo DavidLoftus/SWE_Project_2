@@ -2,7 +2,6 @@ package scrabble;
 
 import java.util.Iterator;
 
-// ^ might involve fixing tests
 public class WordRange implements Iterable<BoardPos> {
 
     public enum Direction {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import scrabble.Tile;
 
+/** ExhangeCommand is the list of tiles that the player wishes to exchange for different tiles. */
 public class ExchangeCommand implements InputCommand {
 
     public List<Tile> tiles;
@@ -18,20 +19,24 @@ public class ExchangeCommand implements InputCommand {
         return true;
     }
 
+    /**
+     * @param string from user input
+     * @return this list of tiles the user wishes to exchange
+     */
     public static ExchangeCommand valueOf(String str) {
-        str = str.toUpperCase(); // not sure if input has to be in upper case to be accepted or???
+        str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");
         if (!string.nextToken().equals("EXCHANGE")) {
             return null;
         }
-        
+
         if (!string.hasMoreTokens()) {
             return null;
         }
-        
+
         List<Tile> tilesToReturn = new ArrayList<>();
         char[] tileList = string.nextToken().toCharArray();
-        
+
         for (int i = 0; i < tileList.length; i++) {
             for (Tile t : Tile.values()) {
                 if (tileList[i] == t.getLetter()) {

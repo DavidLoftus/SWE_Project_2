@@ -2,8 +2,6 @@ package scrabble;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class WordPlacementTest {
@@ -29,5 +27,4 @@ class WordPlacementTest {
         assertThrows(IndexOutOfBoundsException.class, () -> wordPlacement.getLetterAt(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> wordPlacement.getLetterAt(5));
     }
-
 }
