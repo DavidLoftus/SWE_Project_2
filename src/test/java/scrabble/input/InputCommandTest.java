@@ -1,14 +1,13 @@
-package scrabble;
+package scrabble.input;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import scrabble.input.ExchangeCommand;
-import scrabble.input.HelpCommand;
-import scrabble.input.InputCommand;
-import scrabble.input.PlaceCommand;
+import scrabble.BoardPos;
+import scrabble.Tile;
+import scrabble.WordPlacement;
 
 public class InputCommandTest {
     @Test
