@@ -71,6 +71,8 @@ public class Scrabble implements InputListener {
         currentPlayer = i;
         Player player = players[currentPlayer];
 
+        player.getFrame().refill(pool);
+
         logOutput.printf("%s it is your turn please make a move: \n", player.getName());
 
         return player;
