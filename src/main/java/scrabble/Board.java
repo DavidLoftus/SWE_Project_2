@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import org.graalvm.compiler.word.Word;
 import scrabble.exceptions.BadWordPlacementException;
 import scrabble.gui.SquareView;
 
@@ -171,7 +173,7 @@ public class Board {
      * @throws BadWordPlacementException if wordPlacement would cause an invalid move
      * @return the points to be awarded for the successful word placement.
      */
-    public int applyWordPlacement(Player player, WordPlacement wordPlacement)
+    public AppliedWordPlacement applyWordPlacement(Player player, WordPlacement wordPlacement)
             throws BadWordPlacementException {
         if (!wordPlacement.isConnectedToExistingTile(this) && !wordPlacement.isPlacedAtStar(this)) {
             throw new BadWordPlacementException(
@@ -186,15 +188,23 @@ public class Board {
 
         List<BoardPos> placedPositions = placeTiles(wordPlacement, tilesToPlace);
 
-        List<WordRange> ranges =
-                getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
+        return new AppliedWordPlacement(placedPositions, wordPlacement);
+    }
 
-        int totalPlayScore = 0;
-        for (WordRange range : ranges) {
-            totalPlayScore += getWordScore(placedPositions, range);
+    public class AppliedWordPlacement {
+        List<BoardPos> placedPositions;
+        List<WordRange> ranges;
+        int score;
+
+        public AppliedWordPlacement(List<BoardPos> placedPositions, WordPlacement wordPlacement) {
+            this.placedPositions = placedPositions;
+            this.ranges = getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
+            this.score = 0;
+
+            for (WordRange range : ranges) {
+                this.score += getWordScore(placedPositions, range);
+            }
         }
-
-        return totalPlayScore;
     }
 
     /**
