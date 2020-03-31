@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.graalvm.compiler.word.Word;
 import scrabble.exceptions.BadWordPlacementException;
 import scrabble.gui.SquareView;
 
