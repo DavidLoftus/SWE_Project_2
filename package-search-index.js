@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"scrabble"},{"l":"scrabble.exceptions"},{"l":"scrabble.gui"},{"l":"scrabble.input"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"scrabble"},{"l":"scrabble.exceptions"},{"l":"scrabble.gui"},{"l":"scrabble.input"},{"l":"scrabble.wordlist"}]

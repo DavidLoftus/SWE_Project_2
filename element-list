@@ -2,3 +2,4 @@ scrabble
 scrabble.exceptions
 scrabble.gui
 scrabble.input
+scrabble.wordlist
