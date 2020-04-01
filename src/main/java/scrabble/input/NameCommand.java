@@ -8,8 +8,8 @@ public class NameCommand implements InputCommand {
     }
 
     public static NameCommand valueOf(String str) {
-        String[] strings = str.split(" ", 1);
-        if (strings.length < 1 || strings[0].equalsIgnoreCase("NAME")) {
+        String[] strings = str.split(" ", 2);
+        if (strings.length < 1 || !strings[0].equalsIgnoreCase("NAME")) {
             return null;
         }
         return new NameCommand(strings.length < 2 ? "" : strings[1]);
