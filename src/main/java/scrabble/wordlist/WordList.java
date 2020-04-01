@@ -24,13 +24,13 @@ public class WordList {
         Set<String> wordList = new HashSet<>();
         try (Scanner scanner = new Scanner(inputStream)) {
             while (scanner.hasNext()) {
-                wordList.add(scanner.next());
+                wordList.add(scanner.next().toUpperCase());
             }
         }
         return wordList;
     }
 
     public boolean isValidWord(String word) {
-        return wordList.contains(word);
+        return wordList.contains(word.toUpperCase());
     }
 }
