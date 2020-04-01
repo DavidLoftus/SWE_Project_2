@@ -153,31 +153,35 @@ public class Scrabble implements InputListener {
             }
         } else if (command instanceof BasicCommand) {
             BasicCommand basicCommand = (BasicCommand) command;
-            if (basicCommand.command.equals("PASS")) {
-                logOutput.printf("%s has skipped their turn.\n", player.getName());
-                lastAppliedWordPlacement = null;
-                nextPlayer();
-            } else if (basicCommand.command.equals("HELP")) {
-                logOutput.println("To Exchange: EXCHANGE <letters>");
-                logOutput.println("To Place: <grid ref> <across/down> <word>");
-                logOutput.println("To skip turn: PASS");
-                logOutput.println("To quit game: QUIT");
-            } else if (basicCommand.command.equals("QUIT")) {
-                logOutput.println("Thanks for playing!");
-                System.exit(0);
-            } else if (basicCommand.command.equals("CHALLENGE")) {
-                if (lastAppliedWordPlacement != null) {
-                    if (challengeWordPlacement()) {
-                        logOutput.println("NOT VALID!");
+            switch (basicCommand.command) {
+                case "PASS":
+                    logOutput.printf("%s has skipped their turn.\n", player.getName());
+                    lastAppliedWordPlacement = null;
+                    nextPlayer();
+                    break;
+                case "HELP":
+                    logOutput.println("To Exchange: EXCHANGE <letters>");
+                    logOutput.println("To Place: <grid ref> <across/down> <word>");
+                    logOutput.println("To skip turn: PASS");
+                    logOutput.println("To quit game: QUIT");
+                    break;
+                case "QUIT":
+                    logOutput.println("Thanks for playing!");
+                    System.exit(0);
+                case "CHALLENGE":
+                    if (lastAppliedWordPlacement != null) {
+                        if (challengeWordPlacement()) {
+                            logOutput.println("NOT VALID!");
 //                        undoWordPlacement();
+                        } else {
+                            logOutput.println("VALID!");
+                            nextPlayer();
+                        }
                     } else {
-                        logOutput.println("VALID!");
-                        nextPlayer();
+                        logOutput.println("You can't challenge right now.");
                     }
-                } else {
-                    logOutput.println("You can't challenge right now.");
-                }
-                lastAppliedWordPlacement = null;
+                    lastAppliedWordPlacement = null;
+                    break;
             }
         } else {
             logOutput.println("No such command");
