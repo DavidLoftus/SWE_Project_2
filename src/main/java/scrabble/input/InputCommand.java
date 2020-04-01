@@ -10,6 +10,7 @@ public interface InputCommand {
                 Stream.of(
                         ExchangeCommand::valueOf,
                         PlaceCommand::valueOf,
+                        NameCommand::valueOf,
                         BasicCommand.makeParser("PASS"),
                         BasicCommand.makeParser("HELP"),
                         BasicCommand.makeParser("QUIT"),

@@ -151,6 +151,14 @@ public class Scrabble implements InputListener {
             } else {
                 logOutput.println("Player doesn't have those tiles.");
             }
+        } else if (command instanceof NameCommand) {
+            NameCommand nameCommand = (NameCommand) nameCommand;
+            if (nameCommand.name.isEmpty()) {
+                logOutput.println("Player can not have empty name.");
+            } else {
+                player.setName(nameCommand.name);
+                logOutput.println("Players name updated to" + nameCommand.name);
+            }
         } else if (command instanceof BasicCommand) {
             BasicCommand basicCommand = (BasicCommand) command;
             switch (basicCommand.command) {
