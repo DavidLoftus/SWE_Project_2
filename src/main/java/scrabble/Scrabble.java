@@ -157,7 +157,11 @@ public class Scrabble implements InputListener {
                 logOutput.println("Player can not have empty name.");
             } else {
                 player.setName(nameCommand.name);
-                logOutput.println("Players name updated to" + nameCommand.name);
+
+                uiController.player1.update();
+                uiController.player2.update();
+
+                logOutput.printf("Players name updated to %s\n", nameCommand.name);
             }
         } else if (command instanceof BasicCommand) {
             BasicCommand basicCommand = (BasicCommand) command;
