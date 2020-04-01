@@ -184,7 +184,7 @@ public class Scrabble implements InputListener {
                     if (lastAppliedWordPlacement != null) {
                         if (challengeWordPlacement()) {
                             logOutput.println("NOT VALID!");
-//                        undoWordPlacement();
+                            // undoWordPlacement();
                         } else {
                             logOutput.println("VALID!");
                             nextPlayer();
