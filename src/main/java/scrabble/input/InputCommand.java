@@ -12,7 +12,8 @@ public interface InputCommand {
                         PlaceCommand::valueOf,
                         BasicCommand.makeParser("PASS"),
                         BasicCommand.makeParser("HELP"),
-                        BasicCommand.makeParser("QUIT"));
+                        BasicCommand.makeParser("QUIT"),
+                        BasicCommand.makeParser("CHALLENGE"));
 
         return parsers.map(
                         parser -> {

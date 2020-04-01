@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import scrabble.exceptions.BadWordPlacementException;
 import scrabble.gui.ScrabbleController;
 import scrabble.input.*;
+import scrabble.wordlist.WordList;
 
 public class Scrabble implements InputListener {
 
@@ -16,6 +17,10 @@ public class Scrabble implements InputListener {
     private Player[] players = null;
 
     private int currentPlayer = 0;
+
+    private Board.AppliedWordPlacement lastAppliedWordPlacement = null;
+
+    private WordList wordList = new WordList();
 
     /**
      * Initializes the class to be able to controlled through the GUI.
@@ -119,11 +124,12 @@ public class Scrabble implements InputListener {
         if (command instanceof PlaceCommand) {
             PlaceCommand place = (PlaceCommand) command;
             try {
-                int score = board.applyWordPlacement(player, place.wordPlacement);
-                player.increaseScore(score);
+                lastAppliedWordPlacement = board.applyWordPlacement(player, place.wordPlacement);
+                player.increaseScore(lastAppliedWordPlacement.score);
 
                 logOutput.printf(
-                        "Success! Added %d to your score, total: %d\n", score, player.getScore());
+                        "Success! Added %d to your score, total: %d\n",
+                        lastAppliedWordPlacement.score, player.getScore());
 
                 // Refresh UI elements
                 uiController.boardGrid.updateGridTiles();
@@ -139,6 +145,8 @@ public class Scrabble implements InputListener {
                 player.getFrame().removeTiles(exchange.tiles);
                 player.getFrame().refill(pool);
 
+                lastAppliedWordPlacement = null;
+
                 nextPlayer();
             } else {
                 logOutput.println("Player doesn't have those tiles.");
@@ -147,6 +155,7 @@ public class Scrabble implements InputListener {
             BasicCommand basicCommand = (BasicCommand) command;
             if (basicCommand.command.equals("PASS")) {
                 logOutput.printf("%s has skipped their turn.\n", player.getName());
+                lastAppliedWordPlacement = null;
                 nextPlayer();
             } else if (basicCommand.command.equals("HELP")) {
                 logOutput.println("To Exchange: EXCHANGE <letters>");
@@ -156,10 +165,45 @@ public class Scrabble implements InputListener {
             } else if (basicCommand.command.equals("QUIT")) {
                 logOutput.println("Thanks for playing!");
                 System.exit(0);
+            } else if (basicCommand.command.equals("CHALLENGE")) {
+                if (lastAppliedWordPlacement != null) {
+                    if (challengeWordPlacement()) {
+                        logOutput.println("NOT VALID!");
+//                        undoWordPlacement();
+                    } else {
+                        logOutput.println("VALID!");
+                        nextPlayer();
+                    }
+                } else {
+                    logOutput.println("You can't challenge right now.");
+                }
+                lastAppliedWordPlacement = null;
             }
         } else {
             logOutput.println("No such command");
         }
+    }
+
+    private void undoWordPlacement() {
+        // TODO: implement
+        this.lastAppliedWordPlacement = null;
+        throw new UnsupportedOperationException();
+    }
+
+    private boolean challengeWordPlacement() {
+        for (WordRange wordRange : lastAppliedWordPlacement.ranges) {
+            StringBuilder sb = new StringBuilder();
+            for (BoardPos pos : wordRange) {
+                sb.append(board.getLetterAt(pos));
+            }
+            String word = sb.toString();
+
+            if (!wordList.isValidWord(word)) {
+                logOutput.printf("Word \"%s\" is not valid.\n", word);
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Resets the current game being played. */
