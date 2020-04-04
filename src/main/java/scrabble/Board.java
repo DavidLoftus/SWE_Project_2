@@ -124,6 +124,15 @@ public class Board {
     }
 
     /**
+     * Removes tile at pos if one is present.
+     *
+     * @param pos The position of the square to clear
+     */
+    public void removeTileAt(BoardPos pos) {
+        getSquareAt(pos).removeTile();
+    }
+
+    /**
      * Returns the letter at the given position on the board. Should not be called if {@link
      * #hasTileAt(BoardPos)} returns false
      *
