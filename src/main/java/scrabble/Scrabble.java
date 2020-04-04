@@ -203,7 +203,7 @@ public class Scrabble implements InputListener {
                     if (lastAppliedWordPlacement != null) {
                         if (challengeWordPlacement()) {
                             logOutput.println("NOT VALID!");
-                            // undoWordPlacement();
+                             undoWordPlacement();
                         } else {
                             logOutput.println("VALID!");
                             nextPlayer();
@@ -242,9 +242,13 @@ public class Scrabble implements InputListener {
     }
 
     private void undoWordPlacement() {
-        // TODO: implement
+        lastAppliedWordPlacement.player.decreaseScore(lastAppliedWordPlacement.score);
+
+        for (BoardPos pos : lastAppliedWordPlacement.placedPositions) {
+            board.removeTileAt(pos);
+        }
+
         this.lastAppliedWordPlacement = null;
-        throw new UnsupportedOperationException();
     }
 
     private boolean challengeWordPlacement() {
