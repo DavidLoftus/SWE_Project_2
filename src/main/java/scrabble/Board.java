@@ -186,15 +186,17 @@ public class Board {
 
         List<BoardPos> placedPositions = placeTiles(wordPlacement, tilesToPlace);
 
-        return new AppliedWordPlacement(placedPositions, wordPlacement);
+        return new AppliedWordPlacement(player, placedPositions, wordPlacement);
     }
 
     public class AppliedWordPlacement {
+        Player player;
         List<BoardPos> placedPositions;
         List<WordRange> ranges;
         int score;
 
-        public AppliedWordPlacement(List<BoardPos> placedPositions, WordPlacement wordPlacement) {
+        public AppliedWordPlacement(Player player, List<BoardPos> placedPositions, WordPlacement wordPlacement) {
+            this.player = player;
             this.placedPositions = placedPositions;
             this.ranges = getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());
             this.score = 0;
