@@ -39,6 +39,18 @@ public class Player {
         this.score += amount;
     }
 
+    /**
+     * Decreases the score of a player by amount. Used when word placement is successfully challenged.
+     *
+     * @param amount to decrease score by.
+     */
+    public void decreaseScore(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("amount cant be negative");
+        }
+        this.score -= amount;
+    }
+
     /** @return the player's current score */
     public int getScore() {
         return this.score;
