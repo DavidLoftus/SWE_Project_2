@@ -19,6 +19,7 @@ public class Scrabble implements InputListener {
     private int currentPlayer = 0;
 
     private Board.AppliedWordPlacement lastAppliedWordPlacement = null;
+    private int numZeroScoreMoves = 0;
 
     private WordList wordList = new WordList();
 
@@ -120,6 +121,20 @@ public class Scrabble implements InputListener {
             return;
         }
 
+        if (isGameOver()) {
+            if (command instanceof BasicCommand) {
+                BasicCommand basicCommand = (BasicCommand) command;
+                if (basicCommand.command.equals("QUIT")) {
+                    System.exit(0);
+                } else if (basicCommand.command.equals("RESET")) {
+                    reset();
+                    return;
+                }
+            }
+            logOutput.println("Game is over, type QUIT or RESET.\n");
+            return;
+        }
+
         Player player = players[currentPlayer];
         if (command instanceof PlaceCommand) {
             PlaceCommand place = (PlaceCommand) command;
@@ -134,6 +149,8 @@ public class Scrabble implements InputListener {
                 // Refresh UI elements
                 uiController.boardGrid.updateGridTiles();
 
+                numZeroScoreMoves = 0;
+
                 nextPlayer();
             } catch (BadWordPlacementException e) {
                 logOutput.printf("Failed to place word: %s\n", e.getMessage());
@@ -146,6 +163,7 @@ public class Scrabble implements InputListener {
                 player.getFrame().refill(pool);
 
                 lastAppliedWordPlacement = null;
+                numZeroScoreMoves++;
 
                 nextPlayer();
             } else {
@@ -169,6 +187,7 @@ public class Scrabble implements InputListener {
                 case "PASS":
                     logOutput.printf("%s has skipped their turn.\n", player.getName());
                     lastAppliedWordPlacement = null;
+                    numZeroScoreMoves++;
                     nextPlayer();
                     break;
                 case "HELP":
@@ -194,9 +213,31 @@ public class Scrabble implements InputListener {
                     }
                     lastAppliedWordPlacement = null;
                     break;
+                case "RESET":
+                    reset();
+                    break;
             }
         } else {
             logOutput.println("No such command");
+        }
+
+        if (isGameOver()) {
+            if (numZeroScoreMoves >= 6) {
+                logOutput.println("Number of zero score moves exceeded limit.");
+            }
+            logOutput.println("Game over.");
+            switch (Integer.compare(players[0].getScore(), players[1].getScore())) {
+                case 0:
+                    logOutput.println("It's a tie!");
+                    break;
+                case 1:
+                    logOutput.printf("Player %s wins!\n", players[0].getName());
+                    break;
+                case -1:
+                    logOutput.printf("Player %s wins!\n", players[1].getName());
+                    break;
+
+            }
         }
     }
 
@@ -224,13 +265,15 @@ public class Scrabble implements InputListener {
 
     /** Resets the current game being played. */
     public void reset() {
+        lastAppliedWordPlacement = null;
+        numZeroScoreMoves = 0;
         board.reset();
         pool.reset();
         for (Player player : players) {
             player.reset();
             player.getFrame().refill(pool);
         }
-        currentPlayer = 0;
+        nextPlayer(0);
     }
 
     /**
@@ -258,5 +301,9 @@ public class Scrabble implements InputListener {
      */
     public Player[] getPlayers() {
         return players;
+    }
+
+    public boolean isGameOver() {
+        return numZeroScoreMoves >= 6 || pool.isEmpty() && players[0].getFrame().isEmpty() && players[2].getFrame().isEmpty();
     }
 }

@@ -14,7 +14,8 @@ public interface InputCommand {
                         BasicCommand.makeParser("PASS"),
                         BasicCommand.makeParser("HELP"),
                         BasicCommand.makeParser("QUIT"),
-                        BasicCommand.makeParser("CHALLENGE"));
+                        BasicCommand.makeParser("CHALLENGE"),
+                        BasicCommand.makeParser("RESET"));
 
         return parsers.map(
                         parser -> {
