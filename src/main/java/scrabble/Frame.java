@@ -114,6 +114,7 @@ public class Frame {
 
     /**
      * Adds a tile to the frame if there is space
+     *
      * @param tile the tile to add to the frame
      * @throws IllegalArgumentException if there is no space for tile.
      */

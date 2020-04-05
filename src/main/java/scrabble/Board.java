@@ -150,6 +150,7 @@ public class Board {
     /**
      * Returns the letter at the given position on the board. Should not be called if {@link
      * #hasTileAt(BoardPos)} returns false
+     *
      * @param pos The position to request the tile at.
      * @return The tile at that position on the board
      * @throws IllegalArgumentException if no letter was present.
