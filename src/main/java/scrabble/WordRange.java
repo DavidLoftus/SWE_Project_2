@@ -18,12 +18,12 @@ public class WordRange implements Iterable<BoardPos> {
      *
      * @param startPos the position of the first letter of the word.
      * @param direction the direction of the word placed.
-     * @param lenght the length of the word.
+     * @param length the length of the word.
      */
-    public WordRange(BoardPos startPos, Direction direction, int lenght) {
+    public WordRange(BoardPos startPos, Direction direction, int length) {
         this.startPos = startPos;
         this.direction = direction;
-        this.length = lenght;
+        this.length = length;
 
         if (direction == Direction.HORIZONTAL) {
             if (startPos.getColumn() + length > 15) {
