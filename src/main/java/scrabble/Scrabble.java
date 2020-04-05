@@ -287,11 +287,13 @@ public class Scrabble implements InputListener {
         lastAppliedWordPlacement = null;
         numZeroScoreMoves = 0;
         board.reset();
+        uiController.boardGrid.setBoard(board);
         pool.reset();
         for (Player player : players) {
             player.reset();
             player.getFrame().refill(pool);
         }
+
         nextPlayer(0);
     }
 
