@@ -38,9 +38,7 @@ public class Square {
         this.letter = tile.getLetter();
     }
 
-    /**
-     * Removes the stored tile if one is present.
-     */
+    /** Removes the stored tile if one is present. */
     public void removeTile() {
         this.tile = null;
         this.letter = 0;

@@ -204,7 +204,15 @@ public class Board {
         List<WordRange> ranges;
         int score;
 
-        public AppliedWordPlacement(Player player, List<BoardPos> placedPositions, WordPlacement wordPlacement) {
+        /**
+         * Constructor for AppliedWordPlacement
+         *
+         * @param player the player.
+         * @param placedPositions the list of positions of applied word.
+         * @param wordPlacement the placement of the word.
+         */
+        public AppliedWordPlacement(
+                Player player, List<BoardPos> placedPositions, WordPlacement wordPlacement) {
             this.player = player;
             this.placedPositions = placedPositions;
             this.ranges = getWordRangesFromPlacement(placedPositions, wordPlacement.getDirection());

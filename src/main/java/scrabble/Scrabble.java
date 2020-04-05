@@ -203,7 +203,7 @@ public class Scrabble implements InputListener {
                     if (lastAppliedWordPlacement != null) {
                         if (challengeWordPlacement()) {
                             logOutput.println("NOT VALID!");
-                             undoWordPlacement();
+                            undoWordPlacement();
                         } else {
                             logOutput.println("VALID!");
                             nextPlayer();
@@ -236,7 +236,6 @@ public class Scrabble implements InputListener {
                 case -1:
                     logOutput.printf("Player %s wins!\n", players[1].getName());
                     break;
-
             }
         }
     }
@@ -308,6 +307,9 @@ public class Scrabble implements InputListener {
     }
 
     public boolean isGameOver() {
-        return numZeroScoreMoves >= 6 || pool.isEmpty() && players[0].getFrame().isEmpty() && players[2].getFrame().isEmpty();
+        return numZeroScoreMoves >= 6
+                || pool.isEmpty()
+                        && players[0].getFrame().isEmpty()
+                        && players[2].getFrame().isEmpty();
     }
 }

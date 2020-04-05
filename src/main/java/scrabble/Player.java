@@ -40,7 +40,8 @@ public class Player {
     }
 
     /**
-     * Decreases the score of a player by amount. Used when word placement is successfully challenged.
+     * Decreases the score of a player by amount. Used when word placement is successfully
+     * challenged.
      *
      * @param amount to decrease score by.
      */
