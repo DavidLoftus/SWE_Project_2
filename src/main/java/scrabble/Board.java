@@ -200,6 +200,11 @@ public class Board {
         }
         List<Tile> neededTiles = getNeededTiles(wordPlacement);
         List<Tile> tilesToPlace = player.getFrame().getTilesToPlace(neededTiles);
+        if (wordPlacement.getLength() == 1
+                && wordPlacement.getPositionAt(0).equals(new BoardPos(7, 7))) {
+            throw new BadWordPlacementException(
+                    wordPlacement, "Can't place a single tile on first turn.");
+        }
         if (tilesToPlace == null) {
             throw new BadWordPlacementException(
                     wordPlacement, "Player doesn't have enough tiles to place this");
@@ -232,6 +237,10 @@ public class Board {
 
             for (WordRange range : ranges) {
                 this.score += getWordScore(placedPositions, range);
+            }
+
+            if (placedPositions.size() == 7) {
+                this.score += 50; // Bingo!
             }
         }
     }
