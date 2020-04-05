@@ -18,6 +18,13 @@ public class Frame {
     public Frame() {}
 
     /**
+     * Resets frame by clearing all contents.
+     */
+    public void reset() {
+        tiles.clear();
+    }
+
+    /**
      * Checks if Frame has given tile
      *
      * @param letter the {@link Tile} search for
