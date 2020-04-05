@@ -202,10 +202,11 @@ public class Scrabble implements InputListener {
                 case "CHALLENGE":
                     if (lastAppliedWordPlacement != null) {
                         if (challengeWordPlacement()) {
-                            logOutput.println("NOT VALID!");
+                            logOutput.println("Challenge successful!");
                             undoWordPlacement();
                         } else {
-                            logOutput.println("VALID!");
+                            logOutput.println(
+                                    "Challenge failed, all words were valid, skipping turn!");
                             nextPlayer();
                         }
                     } else {
