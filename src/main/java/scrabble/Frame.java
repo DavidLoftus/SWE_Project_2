@@ -113,6 +113,18 @@ public class Frame {
     }
 
     /**
+     * Adds a tile to the frame if there is space
+     * @param tile the tile to add to the frame
+     * @throws IllegalArgumentException if there is no space for tile.
+     */
+    public void addTile(Tile tile) {
+        if (tiles.size() >= 7) {
+            throw new IllegalArgumentException();
+        }
+        tiles.add(tile);
+    }
+
+    /**
      * Checks whether the frame is empty.
      *
      * @return true if the pool is empty otherwise false
