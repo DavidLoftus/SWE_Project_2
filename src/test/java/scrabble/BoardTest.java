@@ -55,12 +55,12 @@ public class BoardTest {
     void getModiferAt() {
         Board board = new Board();
 
-        assertEquals(Square.Modifier.STAR, board.getModiferAt(new BoardPos(7, 7)));
+        assertEquals(Square.Modifier.STAR, board.getModifierAt(new BoardPos(7, 7)));
 
-        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModiferAt(new BoardPos(0, 0)));
-        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModiferAt(new BoardPos(0, 14)));
+        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModifierAt(new BoardPos(0, 0)));
+        assertEquals(Square.Modifier.TRIPLE_WORD, board.getModifierAt(new BoardPos(0, 14)));
 
-        assertEquals(Square.Modifier.NORMAL, board.getModiferAt(new BoardPos(1, 14)));
+        assertEquals(Square.Modifier.NORMAL, board.getModifierAt(new BoardPos(1, 14)));
     }
 
     @Test

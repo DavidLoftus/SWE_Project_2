@@ -174,7 +174,7 @@ public class Board {
      * @param pos The position in board to get the modifier for
      * @return the modifier at the given position
      */
-    public Square.Modifier getModiferAt(BoardPos pos) {
+    public Square.Modifier getModifierAt(BoardPos pos) {
         return getSquareAt(pos).getModifier();
     }
 
@@ -349,7 +349,7 @@ public class Board {
         for (BoardPos pos : range) {
             wordScore += getSquareAt(pos).getTile().getValue();
             if (placedPositions.contains(pos)) {
-                switch (getModiferAt(pos)) {
+                switch (getModifierAt(pos)) {
                     case DOUBLE_WORD:
                         multiplier *= 2;
                         break;

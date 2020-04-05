@@ -112,7 +112,7 @@ public class WordRange implements Iterable<BoardPos> {
         for (int i = 0; i < length; ++i) {
             BoardPos pos = getPositionAt(i);
 
-            if (board.getModiferAt(pos) == Square.Modifier.STAR) {
+            if (board.getModifierAt(pos) == Square.Modifier.STAR) {
                 return true;
             }
         }
