@@ -240,6 +240,7 @@ public class Scrabble implements InputListener {
         }
     }
 
+    /** Undo's the last word that was placed on the word. */
     private void undoWordPlacement() {
         lastAppliedWordPlacement.player.decreaseScore(lastAppliedWordPlacement.score);
 
@@ -250,6 +251,11 @@ public class Scrabble implements InputListener {
         this.lastAppliedWordPlacement = null;
     }
 
+    /**
+     * Checks if the last placed word on the board is a valid word i.e in the dictionary.
+     *
+     * @return True if the last applied word is a valid word from the dictionary.
+     */
     private boolean challengeWordPlacement() {
         for (WordRange wordRange : lastAppliedWordPlacement.ranges) {
             StringBuilder sb = new StringBuilder();

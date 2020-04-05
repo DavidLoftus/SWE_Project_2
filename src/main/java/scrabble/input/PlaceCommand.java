@@ -12,6 +12,13 @@ public class PlaceCommand implements InputCommand {
         this.wordPlacement = wordPlacement;
     }
 
+    /**
+     * The command to place a bunch of tiles (making a word) from a player's frame.
+     *
+     * @param str should be in the form of the starting position of the word to be placed, its
+     *     direction and the word
+     * @return a new PlaceCommand
+     */
     public static PlaceCommand valueOf(String str) {
         str = str.toUpperCase();
         StringTokenizer string = new StringTokenizer(str, " ");
