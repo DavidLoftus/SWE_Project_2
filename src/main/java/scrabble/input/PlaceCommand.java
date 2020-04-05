@@ -26,16 +26,7 @@ public class PlaceCommand implements InputCommand {
         if (!string.hasMoreTokens()) {
             return null;
         }
-
-        String start = string.nextToken();
-        if (!Character.isAlphabetic(start.charAt(0))) {
-            return null;
-        }
-        // do the start postions go from 0-14 or 1-15? who knows ive said 0-14
-        int startPosI = start.charAt(0) - 'A';
-        int startPosJ = Integer.parseInt(start.substring(1));
-
-        BoardPos bp = new BoardPos(startPosI, startPosJ);
+        BoardPos bp = BoardPos.valueOf(string.nextToken());
 
         if (!string.hasMoreTokens()) {
             return null;

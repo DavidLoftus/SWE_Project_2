@@ -54,7 +54,7 @@ public class BoardPos {
         return row == boardPos.row && column == boardPos.column;
     }
 
-    public BoardPos valueOf(String str) {
+    public static BoardPos valueOf(String str) {
         char charI = str.charAt(0);
         if (!Character.isAlphabetic(charI) || !Character.isUpperCase(charI) || charI > 'O') {
             throw new IllegalArgumentException("First character must be a letter between A to O");
