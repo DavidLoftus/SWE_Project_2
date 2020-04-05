@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -256,12 +256,19 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeTileAt(scrabble.BoardPos)">removeTileAt</a></span>&#8203;(<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;pos)</code></th>
+<td class="colLast">
+<div class="block">Removes tile at pos if one is present.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Resets board to original state</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTile(scrabble.BoardPos,scrabble.Tile)">setTile</a></span>&#8203;(<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;pos,
        <a href="Tile.html" title="enum in scrabble">Tile</a>&nbsp;tile)</code></th>
@@ -339,6 +346,20 @@ extends java.lang.Object</pre>
 <dd><code>tile</code> - The tile to place in square</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if tile is <a href="Tile.html#BLANK"><code>Tile.BLANK</code></a></dd>
+</dl>
+</li>
+</ul>
+<a id="removeTileAt(scrabble.BoardPos)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>removeTileAt</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;removeTileAt&#8203;(<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;pos)</pre>
+<div class="block">Removes tile at pos if one is present.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pos</code> - The position of the square to clear</dd>
 </dl>
 </li>
 </ul>

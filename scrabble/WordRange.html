@@ -188,7 +188,9 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(scrabble.BoardPos,scrabble.WordRange.Direction,int)">WordRange</a></span>&#8203;(<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;startPos,
          <a href="WordRange.Direction.html" title="enum in scrabble">WordRange.Direction</a>&nbsp;direction,
          int&nbsp;lenght)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">WordRange constructor.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -283,6 +285,13 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <pre>public&nbsp;WordRange&#8203;(<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;startPos,
                  <a href="WordRange.Direction.html" title="enum in scrabble">WordRange.Direction</a>&nbsp;direction,
                  int&nbsp;lenght)</pre>
+<div class="block">WordRange constructor.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>startPos</code> - the position of the first letter of the word.</dd>
+<dd><code>direction</code> - the direction of the word placed.</dd>
+<dd><code>lenght</code> - the length of the word.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -322,9 +331,9 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <pre class="methodSignature">public&nbsp;<a href="BoardPos.html" title="class in scrabble">BoardPos</a>&nbsp;getPositionAt&#8203;(int&nbsp;i)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>i</code> - the index of the letter</dd>
+<dd><code>i</code> - the index of the letter.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the row in which selected letter is in</dd>
+<dd>the row in which selected letter is in.</dd>
 </dl>
 </li>
 </ul>
@@ -335,6 +344,10 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <li class="blockList">
 <h4>getLength</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;getLength()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the length of the word range.</dd>
+</dl>
 </li>
 </ul>
 <a id="isConnectedToExistingTile(scrabble.Board)">
@@ -344,6 +357,12 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <li class="blockList">
 <h4>isConnectedToExistingTile</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isConnectedToExistingTile&#8203;(<a href="Board.html" title="class in scrabble">Board</a>&nbsp;board)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>board</code> - the board of the game.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if there's a tile above or below.</dd>
+</dl>
 </li>
 </ul>
 <a id="isPlacedAtStar(scrabble.Board)">
@@ -353,6 +372,12 @@ implements java.lang.Iterable&lt;<a href="BoardPos.html" title="class in scrabbl
 <li class="blockList">
 <h4>isPlacedAtStar</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isPlacedAtStar&#8203;(<a href="Board.html" title="class in scrabble">Board</a>&nbsp;board)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>board</code> - the board of the game.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the word is placed at the star.</dd>
+</dl>
 </li>
 </ul>
 <a id="iterator()">
