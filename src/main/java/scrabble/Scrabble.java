@@ -244,9 +244,18 @@ public class Scrabble implements InputListener {
     private void undoWordPlacement() {
         lastAppliedWordPlacement.player.decreaseScore(lastAppliedWordPlacement.score);
 
+        Frame frame = lastAppliedWordPlacement.player.getFrame();
+
         for (BoardPos pos : lastAppliedWordPlacement.placedPositions) {
-            board.removeTileAt(pos);
+            if (board.hasTileAt(pos)) {
+                frame.addTile(board.getTileAt(pos));
+                board.removeTileAt(pos);
+            }
         }
+
+        uiController.player1.update();
+        uiController.player2.update();
+        uiController.boardGrid.updateGridTiles();
 
         this.lastAppliedWordPlacement = null;
     }
