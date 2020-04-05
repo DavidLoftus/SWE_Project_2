@@ -133,6 +133,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">WordList</span>
 extends java.lang.Object</pre>
+<div class="block">WordList holds a set of all valid words according to the SOWPODS scrabble dictionary. This
+ dictionary is stored as a resource in the jar and is loaded during construction of the class.</div>
 </li>
 </ul>
 </div>
@@ -154,7 +156,10 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">WordList</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Constructs the WordList by loading the sowpods.txt.gz file from resources and filling
+ `wordList` with contents.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -177,7 +182,9 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isValidWord(java.lang.String)">isValidWord</a></span>&#8203;(java.lang.String&nbsp;word)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Checks if the given word is valid.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -210,6 +217,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>WordList</h4>
 <pre>public&nbsp;WordList()</pre>
+<div class="block">Constructs the WordList by loading the sowpods.txt.gz file from resources and filling
+ `wordList` with contents.</div>
 </li>
 </ul>
 </li>
@@ -229,6 +238,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>isValidWord</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isValidWord&#8203;(java.lang.String&nbsp;word)</pre>
+<div class="block">Checks if the given word is valid. This function is case insensitive.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>word</code> - to query for</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if word is in dictionary otherwise false.</dd>
+</dl>
 </li>
 </ul>
 </li>
