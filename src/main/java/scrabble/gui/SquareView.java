@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import scrabble.Square;
+import scrabble.Tile;
 
 public class SquareView extends StackPane {
 
@@ -102,6 +103,12 @@ public class SquareView extends StackPane {
                 }
             }
         }
-        getChildren().setAll(modifierLabel, new TileView(square.getTile()));
+        TileView tileView = new TileView(square.getTile());
+
+        if (square.getTile() == Tile.BLANK) {
+            tileView.setLetter(square.getLetter());
+        }
+
+        getChildren().setAll(modifierLabel, tileView);
     }
 }

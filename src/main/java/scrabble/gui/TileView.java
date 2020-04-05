@@ -34,4 +34,9 @@ public class TileView extends StackPane {
     public Tile getTile() {
         return tile;
     }
+
+    public void setLetter(char letter) {
+        Label label = (Label) getChildren().get(0);
+        label.setText(Character.toString(Character.toUpperCase(letter)));
+    }
 }
