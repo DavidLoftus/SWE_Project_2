@@ -17,9 +17,7 @@ public class Frame {
      */
     public Frame() {}
 
-    /**
-     * Resets frame by clearing all contents.
-     */
+    /** Resets frame by clearing all contents. */
     public void reset() {
         tiles.clear();
     }

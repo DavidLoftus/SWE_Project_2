@@ -24,7 +24,7 @@ public class Player {
     /** Resets the players scores back to zero and gives them a new frame. */
     public void reset() {
         this.score = 0;
-        this.frame = new Frame();
+        this.frame.reset();
     }
 
     /**
