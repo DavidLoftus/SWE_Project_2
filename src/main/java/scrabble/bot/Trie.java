@@ -94,9 +94,81 @@ public class Trie implements Iterable<String> {
         }
     }
 
+    private class StatefulTrieCollector {
+        private boolean hasCheckedIsEnd = false;
+        private int childIdx = 0;
+        private StatefulTrieCollector childCollector;
+
+        private void advanceToNextNonNullChild() {
+            while (childIdx < children.length && children[childIdx] == null) {
+                childIdx++;
+            }
+        }
+
+        boolean tryNext(StringBuffer buffer) {
+            // First yielded result should be the smallest string
+            // The rest should be in alphabetical order
+            if (!hasCheckedIsEnd) {
+                hasCheckedIsEnd = true;
+                if (isEnd) {
+                    return true;
+                }
+            }
+
+            advanceToNextNonNullChild();
+
+            // Since we are using lazy iterators, we need alot of ugly stateful code.
+            // This loop proceeds until we found a result to yield
+            // If none is found we escape and return false
+            while (childIdx < children.length) {
+                if (childCollector == null) {
+                    // Append character to buffer
+                    // All subsequent calls to tryNext will have this character present
+                    // At least until childCollect.tryNext() returns false
+                    buffer.append(indexToChar(childIdx));
+                    childCollector = children[childIdx].getCollector();
+                }
+                if (childCollector.tryNext(buffer)) {
+                    return true;
+                }
+                // Collector is finished, clean up collector to proceed to next state
+                buffer.deleteCharAt(buffer.length() - 1);
+                childCollector = null;
+                childIdx++;
+                advanceToNextNonNullChild();
+            }
+            return false;
+        }
+    }
+
+    private StatefulTrieCollector getCollector() {
+        return new StatefulTrieCollector();
+    }
+
+    private class TrieIterator implements Iterator<String> {
+        StatefulTrieCollector collector = getCollector();
+        StringBuffer buffer = new StringBuffer();
+
+        boolean resultPending = false;
+
+        @Override
+        public boolean hasNext() {
+            if (!resultPending) {
+                resultPending = collector.tryNext(buffer);
+            }
+            return resultPending;
+        }
+
+        @Override
+        public String next() {
+            assert hasNext();
+            resultPending = false;
+            return buffer.toString();
+        }
+    }
+
     @Override
     public Iterator<String> iterator() {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new TrieIterator();
     }
 }
