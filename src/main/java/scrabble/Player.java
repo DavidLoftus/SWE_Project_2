@@ -1,83 +1,68 @@
 package scrabble;
 
-/**
- * Player holds the name and tracks the score of the player. It also holds the {@link
- * scrabble.Frame} of the player.
- *
- * <p>The frame will be empty and the score will be 0 on initialization.
- */
-public class Player {
+import java.util.ArrayList;
 
+public class Player implements PlayerAPI, OpponentAPI {
+
+    private int id;
     private String name;
-    private int score = 0;
-    private Frame frame = new Frame();
+    private int score;
+    private Frame frame;
 
-    /**
-     * sets the players name
-     *
-     * @param name the name of the player
-     */
-    public Player(String name) {
-        this.name = name;
+    Player(int id) {
+        this.id = id;
+        name = "";
+        score = 0;
+        frame = new Frame();
     }
 
-    /** Resets the players scores back to zero and gives them a new frame. */
-    public void reset() {
-        this.score = 0;
-        this.frame.reset();
+    public int getPrintableId() {
+        return id + 1;
     }
 
-    /**
-     * Increases the score of a player by amount.
-     *
-     * @param amount to increase score by.
-     */
-    public void increaseScore(int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("amount cant be negative");
-        }
-        this.score += amount;
+    public void setName(String text) {
+        name = text;
     }
 
-    /**
-     * Decreases the score of a player by amount. Used when word placement is successfully
-     * challenged.
-     *
-     * @param amount to decrease score by.
-     */
-    public void decreaseScore(int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("amount cant be negative");
-        }
-        this.score -= amount;
-    }
-
-    /** @return the player's current score */
-    public int getScore() {
-        return this.score;
-    }
-
-    /** @return the frame of the player */
-    public Frame getFrame() {
-        return this.frame;
-    }
-    /**
-     * Sets the player's name.
-     *
-     * @param name is to be the new name of the player
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /** @return the name of the player */
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    /** @return the players name score and from in a string */
-    @Override
+    public void addPoints(int increase) {
+        score = score + increase;
+    }
+
+    public void subtractPoints(int decrease) {
+        score = score - decrease;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public String getFrameAsString() {
+        return frame.toString();
+    }
+
+    public void adjustScore() {
+        int unused = 0;
+        ArrayList<Tile> tiles = frame.getTiles();
+        for (Tile tile : tiles) {
+            unused = unused + tile.getValue();
+        }
+        score = score - unused;
+    }
+
     public String toString() {
-        return String.format("%s (%d) %s", name, score, frame);
+
+        if (name.isEmpty()) {
+            return "scrabble.Player " + getPrintableId();
+        } else {
+            return name;
+        }
     }
 }

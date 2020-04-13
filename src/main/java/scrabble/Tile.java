@@ -1,94 +1,71 @@
 package scrabble;
 
-/**
- * Tile represents an unplaced tile inside the {@link scrabble.Pool}
- *
- * <p>This enum is not appropriate for placed tiles, as it does not associate a symbol with the
- * wildcard BLANK enum.
- */
-public enum Tile {
-    BLANK(0, '?', 2),
-    A(1, 'A', 9),
-    B(3, 'B', 2),
-    C(3, 'C', 2),
-    D(2, 'D', 4),
-    E(1, 'E', 12),
-    F(4, 'F', 2),
-    G(2, 'G', 3),
-    H(4, 'H', 2),
-    I(1, 'I', 9),
-    J(8, 'J', 1),
-    K(5, 'K', 1),
-    L(1, 'L', 4),
-    M(3, 'M', 2),
-    N(1, 'N', 6),
-    O(1, 'O', 8),
-    P(3, 'P', 2),
-    Q(10, 'Q', 1),
-    R(1, 'R', 6),
-    S(1, 'S', 4),
-    T(1, 'T', 6),
-    U(1, 'U', 4),
-    V(4, 'V', 2),
-    W(4, 'W', 2),
-    X(8, 'X', 1),
-    Y(4, 'Y', 2),
-    Z(10, 'Z', 1);
+public class Tile {
 
+    public static final char BLANK = '_';
+    private static final int BLANK_VALUE = 0;
+    private static final int[] TILE_VALUE = {
+        1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
+    };
+
+    private boolean blank;
+    private char letter;
     private int value;
-    private char symbol;
-    private int startingCount;
 
-    Tile(int value, char symbol, int startingCount) {
-        this.value = value;
-        this.symbol = symbol;
-        this.startingCount = startingCount;
+    // scrabble.Tile precondition: must be uppercase letter
+    Tile(char letter) {
+        if (letter == BLANK) {
+            this.blank = true;
+            this.letter = BLANK;
+            this.value = BLANK_VALUE;
+        } else {
+            this.blank = false;
+            this.letter = letter;
+            this.value = TILE_VALUE[(int) letter - (int) 'A'];
+        }
     }
 
-    /**
-     * Gets the value associated with this tile. This is the score given to the player when they use
-     * a tile of this type.
-     *
-     * @return the value of <code>this</code>
-     */
+    Tile(Tile tile) {
+        this.blank = tile.blank;
+        this.letter = tile.letter;
+        this.value = tile.value;
+    }
+
+    public boolean isBlank() {
+        return blank;
+    }
+
+    // getLetter precondition isBlank() = false;
+    public char getLetter() {
+        return letter;
+    }
+
+    // getValue precondition isBlank() = false;
     public int getValue() {
         return value;
     }
 
-    /**
-     * Gets the character associated with this tile. This is either an uppercase character or a
-     * <code>'?'</code> in the case of the BLANK tile.
-     *
-     * @return the symbol for <code>this</code>
-     */
-    public char getLetter() {
-        return symbol;
-    }
-
-    /**
-     * Gets the starting number of this kind of tile that should be placed in the {@link
-     * scrabble.Pool} at the start of a game.
-     *
-     * @return how many of this tile should be put in the pool
-     */
-    public int getStartingCount() {
-        return startingCount;
-    }
-
-    public static Tile parseTile(char tileChar) {
-        if (Character.isAlphabetic(tileChar)) {
-            return values()[Character.toUpperCase(tileChar) - 'A' + 1];
-        } else if (tileChar == '?') {
-            return BLANK;
+    // equals is used by the contains method to find matching objects in an ArrayList
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Tile)) {
+            return false;
         } else {
-            throw new IllegalArgumentException("Bad Tile character: " + tileChar);
+            return (this.letter == ((Tile) object).letter)
+                    || (this.isBlank() && ((Tile) object).isBlank());
         }
     }
 
-    public static Tile parseTile(String tileStr) {
-        if (tileStr.length() != 1) {
-            throw new IllegalArgumentException("Bad Tile string: " + tileStr);
-        }
-        return parseTile(tileStr.charAt(0));
+    public void designate(char letter) {
+        this.letter = letter;
+    }
+
+    public void removeDesignation() {
+        this.letter = BLANK;
+    }
+
+    @Override
+    public String toString() {
+        return Character.toString(letter);
     }
 }

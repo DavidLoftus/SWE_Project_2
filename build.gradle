@@ -6,10 +6,10 @@ plugins {
 }
 
 group 'betrayed'
-version 'assignment-3'
+version 'assignment-5'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 10
+targetCompatibility = 10
 
 repositories {
     mavenCentral()
@@ -56,12 +56,12 @@ javadoc {
 }
 
 application {
-    mainClassName 'scrabble.gui.ScrabbleApplication'
+    mainClassName 'scrabble.Main'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'scrabble.gui.ScrabbleApplication'
+        attributes 'Main-Class': 'scrabble.Main'
     }
 }
 

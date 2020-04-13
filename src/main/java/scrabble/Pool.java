@@ -1,85 +1,59 @@
 package scrabble;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
-/**
- * Pool acts as a bag of {@link scrabble.Tile} that the players can take tiles from at random.
- *
- * <p>When instantiated, will fill itself with correct number of each tile.
- */
 public class Pool {
 
-    private List<Tile> tiles = new ArrayList<>();
+    private static final int TILES_BLANK = 2;
+    private static final int[] TILES_A_TO_Z = {
+        9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1
+    };
 
-    /**
-     * Initializes pool with default amount of tiles. Starting counts are listed in {@link
-     * scrabble.Tile}
-     */
-    public Pool() {
-        reset();
-    }
+    private ArrayList<Tile> pool;
 
-    /** Resets pool to original state by refilling with correct number of each tile. */
-    public void reset() {
-        tiles.clear();
-        for (Tile tile : Tile.values()) {
-            int count = tile.getStartingCount();
-            tiles.addAll(Collections.nCopies(count, tile));
+    Pool() {
+        pool = new ArrayList<>();
+        for (int i = 0; i < TILES_BLANK; i++) {
+            pool.add(new Tile('_'));
         }
-        Collections.shuffle(tiles);
+        for (int i = 0; i < TILES_A_TO_Z.length; i++) {
+            for (int j = 0; j < TILES_A_TO_Z[i]; j++) {
+                pool.add(new Tile((char) ((int) 'A' + i)));
+            }
+        }
     }
 
-    /** @return the number of tiles currently in the pool */
     public int size() {
-        return tiles.size();
+        return pool.size();
     }
 
-    /** @return whether the pool is empty or not */
     public boolean isEmpty() {
-        return tiles.isEmpty();
+        return pool.isEmpty();
     }
 
-    /**
-     * Takes a single {@link scrabble.Tile} from the pool at random. The size of the pool will
-     * decrease by 1.
-     *
-     * @throws java.util.NoSuchElementException if pool is empty.
-     * @return the tile taken from the pool
-     */
-    public Tile takeTile() {
-        if (tiles.isEmpty()) {
-            throw new NoSuchElementException("tried to take from empty pool");
+    public ArrayList<Tile> drawTiles(int numRequested) {
+        int numGiven;
+        if (numRequested > pool.size()) {
+            numGiven = pool.size();
+        } else {
+            numGiven = numRequested;
         }
-        int last = tiles.size() - 1;
-        Tile tile = tiles.get(last);
-        tiles.remove(last);
-        return tile;
+        ArrayList<Tile> draw = new ArrayList<>();
+        for (int i = 0; i < numGiven; i++) {
+            int index = (int) (Math.random() * pool.size());
+            Tile tile = pool.get(index);
+            draw.add(tile);
+            pool.remove(tile);
+        }
+        return draw;
     }
 
-    /** @return String representation showing how many of each tile are stored in the Pool */
+    public void addTiles(ArrayList<Tile> tiles) {
+        pool.addAll(tiles);
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Pool[");
-
-        Map<Tile, Integer> countMap = new TreeMap<>();
-        for (Tile tile : tiles) {
-            countMap.put(tile, countMap.getOrDefault(tile, 0) + 1);
-        }
-
-        String joined =
-                countMap.keySet().stream()
-                        .map(
-                                tile -> {
-                                    int count = countMap.get(tile);
-                                    return count == 1
-                                            ? tile.toString()
-                                            : String.format("%d*%s", count, tile);
-                                })
-                        .collect(Collectors.joining(", "));
-
-        sb.append(joined).append(']');
-
-        return sb.toString();
+        return pool.toString();
     }
 }

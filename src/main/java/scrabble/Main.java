@@ -1,53 +1,24 @@
 package scrabble;
 
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import scrabble.exceptions.BadWordPlacementException;
+import java.io.FileNotFoundException;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
-    public static void main(String[] args) {
-        Board board = new Board();
-        Pool pool = new Pool();
-        Player player = new Player("Player");
+    public static boolean BOT_GAME = true;
+    public static int BOT_DELAY = 3; // s
 
-        player.getFrame().refill(pool);
+    public static void main(String[] args) throws FileNotFoundException {
+        launch(args);
+    }
 
-        try (Scanner sc = new Scanner(System.in)) {
-            while (true) {
-                board.printBoard();
-                System.out.println(player);
-
-                System.out.println("Please enter row:");
-                int i = sc.nextInt();
-
-                System.out.println("Please enter column:");
-                int j = sc.nextInt();
-
-                BoardPos pos = new BoardPos(i, j);
-
-                System.out.println("HORIZONTAL or VERTICAL:");
-                WordPlacement.Direction direction =
-                        WordPlacement.Direction.valueOf(sc.next().toUpperCase());
-
-                System.out.println("Enter your word:");
-                String word = sc.next();
-
-                WordPlacement wordPlacement = new WordPlacement(pos, direction, word);
-
-                try {
-                    board.applyWordPlacement(player, wordPlacement);
-                    System.out.println("Word placement successful.");
-
-                    player.getFrame().refill(pool);
-                } catch (BadWordPlacementException e) {
-                    System.out.printf("Failed to place word: %s\n", e.getMessage());
-                }
-
-                TimeUnit.SECONDS.sleep(1);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void start(Stage primaryStage) throws FileNotFoundException, InterruptedException {
+        Scrabble scrabble = new Scrabble();
+        UserInterface ui = new UserInterface(scrabble);
+        Bots bots = new Bots(scrabble, ui, getParameters());
+        ui.setBots(bots);
+        ui.displayStage(primaryStage);
     }
 }

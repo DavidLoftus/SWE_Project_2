@@ -1,84 +1,67 @@
 package scrabble;
 
 public class Square {
-    public enum Modifier {
-        DOUBLE_WORD,
-        DOUBLE_LETTER,
-        TRIPLE_WORD,
-        TRIPLE_LETTER,
-        NORMAL,
-        STAR
-    };
 
-    private Tile tile = null;
-    private Modifier mod;
-    private char letter = 0;
+    private int letterMuliplier;
+    private int wordMultiplier;
+    private boolean isOccupied;
+    private Tile tile;
 
-    public Square(Modifier mod) {
-        this.mod = mod;
+    Square(int letterMultiplier, int wordMultiplier) {
+        isOccupied = false;
+        this.letterMuliplier = letterMultiplier;
+        this.wordMultiplier = wordMultiplier;
     }
 
-    /** @return the tile */
-    public Tile getTile() {
+    Square(Square square) {
+        this.letterMuliplier = square.letterMuliplier;
+        this.wordMultiplier = square.wordMultiplier;
+        this.isOccupied = square.isOccupied;
+        if (square.isOccupied) {
+            this.tile = new Tile(square.tile);
+        }
+    }
+
+    public int getLetterMuliplier() {
+        return letterMuliplier;
+    }
+
+    public int getWordMultiplier() {
+        return wordMultiplier;
+    }
+
+    public boolean isDoubleLetter() {
+        return letterMuliplier == 2;
+    }
+
+    public boolean isTripleLetter() {
+        return letterMuliplier == 3;
+    }
+
+    public boolean isDoubleWord() {
+        return wordMultiplier == 2;
+    }
+
+    public boolean isTripleWord() {
+        return wordMultiplier == 3;
+    }
+
+    public void add(Tile tile) {
+        isOccupied = true;
+        this.tile = tile;
+    }
+
+    public Tile removeTile() {
+        isOccupied = false;
         return tile;
     }
 
-    /** @param letter the letter which will replace the blank tile. */
-    public void setBlankTile(char letter) {
-        this.tile = Tile.BLANK;
-        this.letter = letter;
+    public boolean isOccupied() {
+        return isOccupied;
     }
 
-    /** @param tile mutator method to set tile to a specific letter. */
-    public void setTile(Tile tile) {
-        if (tile == Tile.BLANK) {
-            throw new IllegalArgumentException();
-        }
-        this.tile = tile;
-        this.letter = tile.getLetter();
-    }
-
-    /** Removes the stored tile if one is present. */
-    public void removeTile() {
-        this.tile = null;
-        this.letter = 0;
-    }
-
-    /** @return accessor method to get the modifier. */
-    public Modifier getModifier() {
-        return mod;
-    }
-
-    /** @return accessor method to get the letter. */
-    public char getLetter() {
-        return letter;
-    }
-
-    /** @return true or false if the tile is empty. */
-    public boolean isEmpty() {
-        return tile == null;
-    }
-
-    /** @return a string that indicates the modifier being used. */
-    public String toString() {
-        if (getTile() != null) {
-            return getLetter() + " ";
-        } else {
-            switch (getModifier()) {
-                case DOUBLE_WORD:
-                    return "DW";
-                case DOUBLE_LETTER:
-                    return "DL";
-                case TRIPLE_WORD:
-                    return "TW";
-                case TRIPLE_LETTER:
-                    return "TL";
-                case NORMAL:
-                    return "  ";
-                case STAR:
-                    return "* ";
-            }
-        }
-        return null;
+    // getTile pre-condition: isOccupied must be true
+    public Tile getTile() {
+        return tile;
     }
 }
