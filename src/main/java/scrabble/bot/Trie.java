@@ -49,11 +49,11 @@ public class Trie implements Iterable<String> {
         s.chars().forEach(c -> charToIndex((char) c));
 
         Trie subTrie = this;
-        for (int i = 0; i < s.length()-1; ++i) {
+        for (int i = 0; i < s.length() - 1; ++i) {
             subTrie = subTrie.addArc(s.charAt(i));
         }
 
-        subTrie.addEnd(s.charAt(s.length()-1));
+        subTrie.addEnd(s.charAt(s.length() - 1));
 
         return subTrie;
     }
@@ -121,7 +121,9 @@ public class Trie implements Iterable<String> {
         private StatefulTrieCollector childCollector;
 
         private void advanceToNextNonNullChild() {
-            while (childIdx < children.length && children[childIdx] == null && !endChars.get(childIdx)) {
+            while (childIdx < children.length
+                    && children[childIdx] == null
+                    && !endChars.get(childIdx)) {
                 childIdx++;
             }
         }

@@ -26,14 +26,12 @@ public class Gaddag {
         }
         st.addFinalArc(word.charAt(1), word.charAt(0));
 
-
         // Add Rev(word[0:l-1])+word[l-1] as path
         st = rootTrie;
         for (int i = word.length() - 2; i >= 0; --i) {
             st = st.addArc(word.charAt(i));
         }
-        st = st.addFinalArc('+', word.charAt(word.length()-1));
-
+        st = st.addFinalArc('+', word.charAt(word.length() - 1));
 
         // Add rest of the paths
         for (int m = word.length() - 3; m >= 0; --m) {
@@ -44,7 +42,7 @@ public class Gaddag {
                 st = st.addArc(word.charAt(i));
             }
             st = st.addArc('+');
-            st.forceArc(word.charAt(m+1), forceSt);
+            st.forceArc(word.charAt(m + 1), forceSt);
         }
     }
 
@@ -102,8 +100,7 @@ public class Gaddag {
         try {
             String reversed = new StringBuilder(subStr).reverse().toString();
             Trie subTrie = rootTrie.get(reversed);
-            return StreamSupport.stream(subTrie.spliterator(), false)
-                    .map(s -> new Join(subStr, s));
+            return StreamSupport.stream(subTrie.spliterator(), false).map(s -> new Join(subStr, s));
         } catch (NoSuchElementException e) {
             return Stream.empty();
         }
