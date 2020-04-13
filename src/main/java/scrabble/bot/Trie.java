@@ -1,5 +1,6 @@
 package scrabble.bot;
 
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -14,7 +15,7 @@ public class Trie implements Iterable<String> {
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz+";
 
     private Trie[] children = new Trie[ALPHABET.length()];
-    private boolean isEnd = false;
+    private BitSet endChars = new BitSet(ALPHABET.length());
 
     private static int charToIndex(char c) {
         int i = ALPHABET.indexOf(c);
@@ -28,16 +29,32 @@ public class Trie implements Iterable<String> {
         return ALPHABET.charAt(i);
     }
 
+    private void addEnd(char c) {
+        int i = charToIndex(c);
+        endChars.set(i);
+    }
+
+    private boolean isEnd(char c) {
+        int i = charToIndex(c);
+        return endChars.get(i);
+    }
+
     public Trie add(String s) {
+        if (s.isEmpty()) {
+            throw new IllegalArgumentException("can't add empty string");
+        }
+
         // Run assertion on validity of chars before mutating trie to ensure operation is
         // transactional.
         s.chars().forEach(c -> charToIndex((char) c));
 
         Trie subTrie = this;
-        for (int i = 0; i < s.length(); ++i) {
+        for (int i = 0; i < s.length()-1; ++i) {
             subTrie = subTrie.addArc(s.charAt(i));
         }
-        subTrie.isEnd = true;
+
+        subTrie.addEnd(s.charAt(s.length()-1));
+
         return subTrie;
     }
 
@@ -54,8 +71,9 @@ public class Trie implements Iterable<String> {
         // transactional.
         charToIndex(c2);
         Trie subTrie = addArc(c1);
-        Trie nestedSubTrie = subTrie.addArc(c2);
-        nestedSubTrie.isEnd = true;
+
+        subTrie.addEnd(c2);
+
         return subTrie;
     }
 
@@ -87,53 +105,60 @@ public class Trie implements Iterable<String> {
 
     public boolean contains(String s) {
         try {
-            Trie subTrie = get(s);
-            return subTrie.isEnd;
+            Trie subTrie = this;
+            for (int i = 0; i < s.length() - 1; ++i) {
+                subTrie = subTrie.get(s.charAt(i));
+            }
+            return subTrie.isEnd(s.charAt(s.length() - 1));
         } catch (NoSuchElementException e) {
             return false;
         }
     }
 
     private class StatefulTrieCollector {
-        private boolean hasCheckedIsEnd = false;
+        private boolean firstIter = true;
         private int childIdx = 0;
         private StatefulTrieCollector childCollector;
 
         private void advanceToNextNonNullChild() {
-            while (childIdx < children.length && children[childIdx] == null) {
+            while (childIdx < children.length && children[childIdx] == null && !endChars.get(childIdx)) {
                 childIdx++;
             }
         }
 
         boolean tryNext(StringBuffer buffer) {
-            // First yielded result should be the smallest string
-            // The rest should be in alphabetical order
-            if (!hasCheckedIsEnd) {
-                hasCheckedIsEnd = true;
-                if (isEnd) {
-                    return true;
-                }
-            }
-
             advanceToNextNonNullChild();
 
             // Since we are using lazy iterators, we need alot of ugly stateful code.
             // This loop proceeds until we found a result to yield
             // If none is found we escape and return false
             while (childIdx < children.length) {
-                if (childCollector == null) {
+                char c = indexToChar(childIdx);
+                if (firstIter) {
+                    firstIter = false;
+
                     // Append character to buffer
                     // All subsequent calls to tryNext will have this character present
-                    // At least until childCollect.tryNext() returns false
-                    buffer.append(indexToChar(childIdx));
-                    childCollector = children[childIdx].getCollector();
+                    // At least until we switch to next character
+                    buffer.append(c);
+
+                    if (isEnd(c)) {
+                        return true;
+                    }
                 }
-                if (childCollector.tryNext(buffer)) {
-                    return true;
+
+                if (children[childIdx] != null) {
+                    if (childCollector == null) {
+                        childCollector = children[childIdx].getCollector();
+                    }
+                    if (childCollector.tryNext(buffer)) {
+                        return true;
+                    }
                 }
-                // Collector is finished, clean up collector to proceed to next state
+                // We are finished with this character, clean up collector to proceed to next state
                 buffer.deleteCharAt(buffer.length() - 1);
                 childCollector = null;
+                firstIter = true;
                 childIdx++;
                 advanceToNextNonNullChild();
             }
