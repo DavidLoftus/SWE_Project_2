@@ -1,6 +1,7 @@
 package scrabble.bot;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Trie implements Iterable<String> {
 
@@ -67,18 +68,28 @@ public class Trie implements Iterable<String> {
     }
 
     public Trie get(char c) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        int i = charToIndex(c);
+        if (children[i] == null) {
+            throw new NoSuchElementException("char '" + c + "' not in trie.");
+        }
+        return children[i];
     }
 
     public Trie get(String s) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        Trie subTrie = this;
+        for (int i = 0; i < s.length(); ++i) {
+            subTrie = subTrie.get(s.charAt(i));
+        }
+        return subTrie;
     }
 
     public boolean contains(String s) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        try {
+            Trie subTrie = get(s);
+            return subTrie.isEnd;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
