@@ -102,30 +102,30 @@ class TrieTest {
             Iterator<String> iter = trie.iterator();
 
             assertTrue(iter.hasNext());
-            assertEquals("hello+world", iter.next());
+            assertEquals("helloworld", iter.next());
 
             assertTrue(iter.hasNext());
-            assertEquals("helloworld", iter.next());
+            assertEquals("hello+world", iter.next());
 
             assertFalse(iter.hasNext());
         }
 
         {
             Trie subTrie = trie.get("hello");
-            Iterator<String> iter = trie.iterator();
-
-            assertTrue(iter.hasNext());
-            assertEquals("+world", iter.next());
+            Iterator<String> iter = subTrie.iterator();
 
             assertTrue(iter.hasNext());
             assertEquals("world", iter.next());
+
+            assertTrue(iter.hasNext());
+            assertEquals("+world", iter.next());
 
             assertFalse(iter.hasNext());
         }
 
         {
             Trie subTrie = trie.get("hello+");
-            Iterator<String> iter = trie.iterator();
+            Iterator<String> iter = subTrie.iterator();
 
             assertTrue(iter.hasNext());
             assertEquals("world", iter.next());
