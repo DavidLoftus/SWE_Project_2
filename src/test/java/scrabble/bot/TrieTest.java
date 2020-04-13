@@ -1,12 +1,11 @@
 package scrabble.bot;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class TrieTest {
 
@@ -28,14 +27,39 @@ class TrieTest {
 
     @Test
     void addArc() {
+        Trie subTrie = trie.addArc('h');
+        assertEquals(subTrie, trie.get('h'));
+
+        Trie nestedSubTrie = subTrie.addArc('+');
+        assertEquals(nestedSubTrie, subTrie.get('+'));
+        assertEquals(nestedSubTrie, trie.get("h+"));
+
+        assertThrows(IllegalArgumentException.class, () -> trie.addArc('?'));
     }
 
     @Test
     void addFinalArc() {
+        trie.addFinalArc('a', 'b');
+        assertTrue(trie.contains("ab"));
+        assertFalse(trie.contains("a"));
+        assertFalse(trie.contains("b"));
+        assertFalse(trie.contains("ba"));
+
+        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('?', 'a'));
+        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('b', '?'));
     }
 
     @Test
     void forceArc() {
+        Trie subTrie = trie.addArc('h');
+        Trie nestedSubTrie = subTrie.addArc('+');
+        nestedSubTrie.addFinalArc('b', 'c');
+
+        trie.forceArc('a', nestedSubTrie);
+        assertTrue(trie.contains("h+bc"));
+        assertTrue(trie.contains("abc"));
+
+        assertThrows(IllegalArgumentException.class, () -> trie.addArc('?'));
     }
 
     @Test

@@ -29,8 +29,9 @@ public class Trie implements Iterable<String> {
     }
 
     public Trie add(String s) {
-        // Run assertion on validity of chars before mutating trie to ensure operation is transactional.
-        s.chars().forEach(c -> charToIndex((char)c));
+        // Run assertion on validity of chars before mutating trie to ensure operation is
+        // transactional.
+        s.chars().forEach(c -> charToIndex((char) c));
 
         Trie subTrie = this;
         for (int i = 0; i < s.length(); ++i) {
@@ -49,7 +50,8 @@ public class Trie implements Iterable<String> {
     }
 
     public Trie addFinalArc(char c1, char c2) {
-        // Run assertion on validity of c2 before mutating trie to ensure operation is transactional.
+        // Run assertion on validity of c2 before mutating trie to ensure operation is
+        // transactional.
         charToIndex(c2);
         Trie subTrie = addArc(c1);
         Trie nestedSubTrie = subTrie.addArc(c2);
