@@ -14,7 +14,7 @@ public class Bots {
         List<String> params = parameters.getRaw();
         String[] botNames = new String[Scrabble.NUM_PLAYERS];
         //        if (params.size() < scrabble.Scrabble.NUM_PLAYERS) {
-        botNames[0] = "scrabble.Bot0";
+        botNames[0] = "scrabble.bot.BetrayedBot";
         botNames[1] = "scrabble.Bot1";
         //        } else {
         //            for (int i = 0; i < scrabble.Scrabble.NUM_PLAYERS; i++) {

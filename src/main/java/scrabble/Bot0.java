@@ -35,7 +35,7 @@ public class Bot0 implements BotAPI {
         String command = "";
         switch (turnCount) {
             case 0:
-                command = "NAME scrabble.Bot0";
+                command = "NAME Bot0";
                 break;
             case 1:
                 command = "PASS";

@@ -33,7 +33,7 @@ public class Bot1 implements BotAPI {
         String command = "";
         switch (turnCount) {
             case 0:
-                command = "NAME scrabble.Bot1";
+                command = "NAME Bot1";
                 break;
             case 1:
                 command = "PASS";
@@ -48,7 +48,11 @@ public class Bot1 implements BotAPI {
                 command = "POOL";
                 break;
             default:
-                command = "H8 A AN";
+                String frameArrayStr = me.getFrameAsString();
+                String[] frameChars =
+                        frameArrayStr.substring(1, frameArrayStr.length() - 1).split(", ");
+
+                command = "H8 A " + frameChars[0] + frameChars[1];
                 break;
         }
         turnCount++;
