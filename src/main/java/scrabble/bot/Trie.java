@@ -87,6 +87,11 @@ public class Trie implements Iterable<String> {
         return children[i];
     }
 
+    public boolean hasArc(char c) {
+        int i = charToIndex(c);
+        return children[i] != null;
+    }
+
     public Trie get(char c) {
         int i = charToIndex(c);
         if (children[i] == null) {
@@ -120,11 +125,28 @@ public class Trie implements Iterable<String> {
         private int childIdx = 0;
         private StatefulTrieCollector childCollector;
 
+        private CharMultiSet letters = null;
+        private char takenLetter;
+
+        public StatefulTrieCollector() {}
+
+        public StatefulTrieCollector(CharMultiSet letters) {
+            this.letters = letters;
+        }
+
+        private boolean shouldSkipIndex(int i) {
+            char c = indexToChar(i);
+            return letters != null && (c == '+' || !letters.has(c));
+        }
+
         private void advanceToNextNonNullChild() {
-            while (childIdx < children.length
-                    && children[childIdx] == null
-                    && !endChars.get(childIdx)) {
-                childIdx++;
+            for (; childIdx < children.length; childIdx++) {
+                if (shouldSkipIndex(childIdx)) {
+                    continue;
+                }
+                if (children[childIdx] != null || endChars.get(childIdx)) {
+                    break;
+                }
             }
         }
 
@@ -144,6 +166,10 @@ public class Trie implements Iterable<String> {
                     // At least until we switch to next character
                     buffer.append(c);
 
+                    if (letters != null) {
+                        takenLetter = letters.take(c);
+                    }
+
                     if (isEnd(c)) {
                         return true;
                     }
@@ -152,6 +178,7 @@ public class Trie implements Iterable<String> {
                 if (children[childIdx] != null) {
                     if (childCollector == null) {
                         childCollector = children[childIdx].getCollector();
+                        childCollector.letters = letters;
                     }
                     if (childCollector.tryNext(buffer)) {
                         return true;
@@ -161,6 +188,9 @@ public class Trie implements Iterable<String> {
                 buffer.deleteCharAt(buffer.length() - 1);
                 childCollector = null;
                 firstIter = true;
+                if (letters != null) {
+                    letters.add(takenLetter);
+                }
                 childIdx++;
                 advanceToNextNonNullChild();
             }
@@ -175,6 +205,12 @@ public class Trie implements Iterable<String> {
     private class TrieIterator implements Iterator<String> {
         StatefulTrieCollector collector = getCollector();
         StringBuffer buffer = new StringBuffer();
+
+        public TrieIterator() {}
+
+        public TrieIterator(StatefulTrieCollector collector) {
+            this.collector = collector;
+        }
 
         boolean resultPending = false;
 
@@ -197,5 +233,9 @@ public class Trie implements Iterable<String> {
     @Override
     public Iterator<String> iterator() {
         return new TrieIterator();
+    }
+
+    public Iterable<String> wordsWithLetters(CharMultiSet letters) {
+        return () -> new TrieIterator(new StatefulTrieCollector(new CharMultiSet(letters)));
     }
 }
