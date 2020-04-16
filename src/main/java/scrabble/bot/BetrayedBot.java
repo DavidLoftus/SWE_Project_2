@@ -27,10 +27,49 @@ public class BetrayedBot implements BotAPI {
     // Cached info
     private CharMultiSet frame;
     private LogCache log;
+    private Board boardCache;
 
     // Persistent decision tree state
     private boolean hasSetName = false;
     private boolean doesOpponentChallenge = false;
+
+    // Frame used for placing any word on boardCache
+    private Frame fakeFrame =
+            new Frame() {
+                public int size() {
+                    return MAX_TILES;
+                }
+
+                public boolean isEmpty() {
+                    return false;
+                }
+
+                public boolean isFull() {
+                    return true;
+                }
+
+                public boolean isAvailable(String letters) {
+                    return true;
+                }
+
+                // remove precondition: isAvailable(letters) is true
+                public void removeTile(Tile tile) {}
+
+                // remove precondition: isAvailable(letters) is true
+                public void removeTiles(ArrayList<Tile> tiles) {}
+
+                // getTile precondition: isAvailable(letters) is true
+                public Tile getTile(Character letter) {
+                    return new Tile(letter);
+                }
+
+                // remove precondition: isAvailable(letters) is true
+                public ArrayList<Tile> getTiles(String letters) {
+                    return letters.chars()
+                            .mapToObj(c -> new Tile((char) c))
+                            .collect(Collectors.toCollection(ArrayList::new));
+                }
+            };
 
     public BetrayedBot(
             PlayerAPI me,
