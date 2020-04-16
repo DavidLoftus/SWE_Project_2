@@ -84,6 +84,7 @@ public class BetrayedBot implements BotAPI {
         this.dictionary = dictionary;
 
         this.log = new LogCache(ui);
+        this.boardCache = new Board();
 
         for (String word : wordList) {
             if (word.length() <= 8) {
@@ -93,40 +94,10 @@ public class BetrayedBot implements BotAPI {
         }
     }
 
-    int turnCount = 0;
-
     @Override
     public String getCommand() {
         updateState();
-
-        List<String> newLogs = log.getLatestLogs(true);
-
-        if (newLogs.size() >= 2) {
-            String line = newLogs.get(1);
-            if (line.startsWith("Error: ")) {
-                throw new RuntimeException(line);
-            }
-        }
-
-        System.out.println("=====[Pre Command]=====");
-
-        newLogs.stream().takeWhile(s -> !s.startsWith("> ")).forEach(System.out::println);
-
-        Stream<String> myCommandLogs =
-                newLogs.stream().takeWhile(s -> !s.startsWith(opponent.getName() + "'s turn:"));
-
-        System.out.println("========[My Command]=======");
-        myCommandLogs.forEach(System.out::println);
-
-        Stream<String> opponentCommandLogs =
-                newLogs.stream()
-                        .dropWhile(s -> !s.startsWith(opponent.getName() + "'s turn:"))
-                        .takeWhile(s -> !s.startsWith(player.getName() + "'s turn:"));
-
-        System.out.println("========[Opponent Command]=======");
-        opponentCommandLogs.forEach(System.out::println);
-
-        System.out.println("---------------------");
+        parseLogs();
 
         if (!hasSetName) {
             hasSetName = true;
@@ -136,6 +107,62 @@ public class BetrayedBot implements BotAPI {
         String move = findMove().orElse("PASS");
         String frame = player.getFrameAsString();
         return move;
+    }
+
+    private void parseLogs() {
+        List<String> newLogs = log.getLatestLogs(true);
+
+        AtomicBoolean myCommand = new AtomicBoolean(hasSetName);
+        var it = newLogs.spliterator();
+        while (it.tryAdvance(
+                line -> {
+                    if (line.startsWith("> ")) {
+                        String command = line.substring(2);
+                        if (command.matches(
+                                "[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,17}(( )+([A-Z]){1,2})?")) {
+                            it.tryAdvance(
+                                    message -> {
+                                        if (!message.startsWith("Error:")) {
+                                            Word move = parsePlay(command);
+                                            boardCache.place(fakeFrame, move);
+                                        }
+                                    });
+                        }
+                        if (command.equalsIgnoreCase("CHALLENGE")) {
+                            it.tryAdvance(
+                                    message -> {
+                                        if (message.startsWith("Challenge success")) {
+                                            boardCache.pickupLatestWord();
+                                            if (!myCommand.get()) {
+                                                doesOpponentChallenge = true;
+                                            }
+                                        }
+                                    });
+                        }
+                    } else if (line.matches("'s turn:")) {
+                        myCommand.set(false);
+                    }
+                })) ;
+    }
+
+    private Word parsePlay(String command) {
+        // this converts the play command into a scrabble.Word
+        String[] parts = command.split("( )+");
+        String gridText = parts[0];
+        int column = ((int) gridText.charAt(0)) - ((int) 'A');
+        String rowText = parts[0].substring(1);
+        int row = Integer.parseInt(rowText) - 1;
+        String directionText = parts[1];
+        boolean isHorizontal = directionText.equals("A");
+        String letters = parts[2];
+        Word word;
+        if (parts.length == 3) {
+            word = new Word(row, column, isHorizontal, letters);
+        } else {
+            String designatedBlanks = parts[3];
+            word = new Word(row, column, isHorizontal, letters, designatedBlanks);
+        }
+        return word;
     }
 
     private void updateState() {
