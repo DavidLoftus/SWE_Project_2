@@ -97,10 +97,15 @@ public class Gaddag {
     }
 
     public Stream<Join> findWords(String subStr) {
+        return findWords(subStr, null);
+    }
+
+    public Stream<Join> findWords(String subStr, CharMultiSet letters) {
         try {
             String reversed = new StringBuilder(subStr).reverse().toString();
             Trie subTrie = rootTrie.get(reversed);
-            return StreamSupport.stream(subTrie.spliterator(), false).map(s -> new Join(subStr, s));
+            return StreamSupport.stream(subTrie.wordsWithLetters(letters).spliterator(), false)
+                    .map(s -> new Join(subStr, s));
         } catch (NoSuchElementException e) {
             return Stream.empty();
         }
