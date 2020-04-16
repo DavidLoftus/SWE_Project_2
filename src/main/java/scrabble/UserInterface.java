@@ -78,7 +78,7 @@ public class UserInterface implements UserInterfaceAPI {
                                         gameOverDelayCount++;
                                     }
                                     if (gameOverDelayCount >= 3) {
-                                        System.exit(0);
+                                        //                                        System.exit(0);
                                     }
                                 }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -187,10 +187,10 @@ public class UserInterface implements UserInterfaceAPI {
         } else if (!gameOver && (command.equals("POOL") || command.equals("O"))) {
             printPoolSize();
         } else if (!gameOver
-                && (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}")
+                && (command.matches("[A-O](\\d){1,2}\\s+[A,D]\\s+([A-Z]){1,15}")
                         || // no blanks
                         (command.matches(
-                                        "[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}") // with blanks
+                                        "[A-O](\\d){1,2}\\s+[A,D]\\s+([A-Z_]){1,17}\\s+([A-Z]){1,2}") // with blanks
                                 && isValidPlayWithBlanks(command)))) {
             // no blanks
             Word word = parsePlay(command);
@@ -209,9 +209,9 @@ public class UserInterface implements UserInterfaceAPI {
                 }
             }
         } else if (!gameOver
-                && (command.matches("EXCHANGE( )+([A-Z_]){1,7}")
-                        || command.matches("X( )+([A-Z_]){1,7}"))) {
-            String[] parts = command.split("( )+");
+                && (command.matches("EXCHANGE\\s+([A-Z_]){1,7}")
+                        || command.matches("X\\s+([A-Z_]){1,7}"))) {
+            String[] parts = command.split("\\s+");
             String letters = parts[1];
             if (!currentPlayer.getFrame().isLegalExchange(scrabble.getPool(), letters)) {
                 printExchangeError(currentPlayer.getFrame().getErrorCode());
@@ -228,9 +228,9 @@ public class UserInterface implements UserInterfaceAPI {
                 }
             }
         } else if (!gameOver
-                && (command.matches("NAME( )+[A-Z][A-Z0-9]*")
-                        || command.matches("N( )+[A-Z][A-Z0-9]*"))) {
-            String[] parts = input.split("( )+");
+                && (command.matches("NAME\\s+[A-Z][A-Z0-9]*")
+                        || command.matches("N\\s+[A-Z][A-Z0-9]*"))) {
+            String[] parts = input.split("\\s+");
             currentPlayer.setName(parts[1]);
             printNewName();
         } else if (!gameOver
@@ -241,6 +241,7 @@ public class UserInterface implements UserInterfaceAPI {
                 scrabble.turnOver();
             } else {
                 scrabble.undoPlay();
+                opponentMadePlay = false;
                 refreshBoard();
                 printChallengeSuccess();
             }
@@ -257,7 +258,7 @@ public class UserInterface implements UserInterfaceAPI {
 
     private Word parsePlay(String command) {
         // this converts the play command into a scrabble.Word
-        String[] parts = command.split("( )+");
+        String[] parts = command.split("\\s+");
         String gridText = parts[0];
         int column = ((int) gridText.charAt(0)) - ((int) 'A');
         String rowText = parts[0].substring(1);
@@ -277,7 +278,7 @@ public class UserInterface implements UserInterfaceAPI {
 
     private boolean isValidPlayWithBlanks(String command) {
         // this just checks that the number of blanks matches the number of designated blanks
-        String[] parts = command.split("( )+");
+        String[] parts = command.split("\\s+");
         int blankCount = 0;
         for (int i = 0; i < parts[2].length(); i++) {
             if (parts[2].charAt(i) == Tile.BLANK) {

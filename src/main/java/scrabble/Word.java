@@ -7,7 +7,7 @@ public class Word {
     private String letters;
     private String designatedLetters;
 
-    Word(int row, int column, boolean isHorizontal, String letters) {
+    public Word(int row, int column, boolean isHorizontal, String letters) {
         this.row = row;
         this.column = column;
         this.isHorizontal = isHorizontal;
@@ -15,7 +15,8 @@ public class Word {
         this.designatedLetters = letters;
     }
 
-    Word(int row, int column, boolean isHorizontal, String letters, String blankDesignations) {
+    public Word(
+            int row, int column, boolean isHorizontal, String letters, String blankDesignations) {
         this.row = row;
         this.column = column;
         this.isHorizontal = isHorizontal;

@@ -31,29 +31,16 @@ public class Bot1 implements BotAPI {
     public String getCommand() {
         // Add your code here to input your commands
         String command = "";
-        switch (turnCount) {
-            case 0:
-                command = "NAME Bot1";
-                break;
-            case 1:
-                command = "PASS";
-                break;
-            case 2:
-                command = "HELP";
-                break;
-            case 3:
-                command = "SCORE";
-                break;
-            case 4:
-                command = "POOL";
-                break;
-            default:
-                String frameArrayStr = me.getFrameAsString();
-                String[] frameChars =
-                        frameArrayStr.substring(1, frameArrayStr.length() - 1).split(", ");
-
-                command = "H8 A " + frameChars[0] + frameChars[1];
-                break;
+        if (turnCount == 0) {
+            command = "NAME Bot1";
+        } else {
+            switch ((turnCount - 1) % 3) {
+                case 0:
+                case 1:
+                case 2:
+                    command = "CHALLENGE";
+                    break;
+            }
         }
         turnCount++;
         return command;

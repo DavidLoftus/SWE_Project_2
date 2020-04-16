@@ -15,7 +15,7 @@ public class Bots {
         String[] botNames = new String[Scrabble.NUM_PLAYERS];
         //        if (params.size() < scrabble.Scrabble.NUM_PLAYERS) {
         botNames[0] = "scrabble.bot.BetrayedBot";
-        botNames[1] = "scrabble.Bot1";
+        botNames[1] = "scrabble.bot.BetrayedBot";
         //        } else {
         //            for (int i = 0; i < scrabble.Scrabble.NUM_PLAYERS; i++) {
         //                boolean found = false;
@@ -71,6 +71,7 @@ public class Bots {
                 Thread.currentThread().interrupt();
             } catch (InvocationTargetException ex) {
                 System.out.println("Error: Bot instantiation fail (ITE)");
+                ex.printStackTrace();
                 Thread.currentThread().interrupt();
             } catch (NoSuchMethodException ex) {
                 System.out.println("Error: Bot instantiation fail (NSME)");

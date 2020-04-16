@@ -57,7 +57,7 @@ public class Board implements BoardAPI {
     private int numPlays;
     private ArrayList<Coordinates> newLetterCoords;
 
-    Board() {
+    public Board() {
         squares = new Square[BOARD_SIZE][BOARD_SIZE];
         for (int r = 0; r < BOARD_SIZE; r++) {
             for (int c = 0; c < BOARD_SIZE; c++) {
