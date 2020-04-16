@@ -79,6 +79,21 @@ public class CharMultiSet implements Iterable<Character> {
         return counts[i] > 0 || wildCards > 0;
     }
 
+    public String getLetters(boolean includeWildcards) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < ALPHABET.length(); ++i) {
+            for (int j = 0; j < counts[i]; ++j) {
+                builder.append(ALPHABET.charAt(i));
+            }
+        }
+        if (includeWildcards) {
+            for (int j = 0; j < wildCards; ++j) {
+                builder.append('_');
+            }
+        }
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
