@@ -233,6 +233,26 @@ public class BetrayedBot implements BotAPI {
         return points;
     }
 
+    private Stream<Word> findCompletions(Word word) {
+        return gaddag.findWords(word.getLetters(), frame)
+                .map(
+                        join -> {
+                            if (word.isHorizontal()) {
+                                return new Word(
+                                        word.getFirstRow(),
+                                        word.getFirstColumn() - join.getLeft().length(),
+                                        word.isHorizontal(),
+                                        join.getWord());
+                            } else {
+                                return new Word(
+                                        word.getFirstRow() - join.getLeft().length(),
+                                        word.getFirstColumn(),
+                                        word.isHorizontal(),
+                                        join.getWord());
+                            }
+                        });
+    }
+
     private Optional<Word> findFirstPlay() {
         var spliterator = dictionaryTrie.wordsWithLetters(frame).spliterator();
         return StreamSupport.stream(spliterator, false)
