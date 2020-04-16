@@ -215,6 +215,28 @@ public class BetrayedBot implements BotAPI {
         return commands.toString();
     }
 
+    private int getRowIncrement(boolean isHorizontal) {
+        return isHorizontal ? 0 : 1;
+    }
+
+    private int getColumnIncrement(boolean isHorizontal) {
+        return isHorizontal ? 1 : 0;
+    }
+
+    private void forEachPosition(Word word, Consumer<Coordinates> consumer) {
+        int row = word.getFirstRow(), column = word.getFirstColumn();
+
+        int rowInc = getRowIncrement(word.isHorizontal());
+        int columnInc = getColumnIncrement(word.isHorizontal());
+
+        for (int i = 0; i < word.length(); ++i) {
+            consumer.accept(new Coordinates(row, column));
+
+            row += rowInc;
+            column += columnInc;
+        }
+    }
+
     private Optional<String> findMove() {
         if (board.isFirstPlay()) {
             return findFirstPlay().map(this::makePlaceCommand);
