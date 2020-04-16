@@ -237,6 +237,48 @@ public class BetrayedBot implements BotAPI {
         }
     }
 
+    private boolean isInBounds(Coordinates coord) {
+        return coord.getRow() >= 0
+                && coord.getRow() < 15
+                && coord.getCol() >= 0
+                && coord.getCol() < 15;
+    }
+
+    private Stream<Word> getAllNeighbours(Word word) {
+        Stream.Builder<Word> builder = Stream.builder();
+        builder.add(word);
+
+        int rowInc = getRowIncrement(word.isHorizontal());
+        int columnInc = getRowIncrement(word.isHorizontal());
+
+        forEachPosition(
+                word,
+                coord -> {
+                    int row = coord.getRow(), col = coord.getCol();
+                    Coordinates leftNeighbour = new Coordinates(row - columnInc, col - rowInc);
+                    Coordinates rightNeighbour = new Coordinates(row + columnInc, col + rowInc);
+                    if ((!isInBounds(leftNeighbour)
+                            || !boardCache
+                            .getSquare(
+                                    leftNeighbour.getRow(), leftNeighbour.getCol())
+                            .isOccupied())
+                            && (!isInBounds(rightNeighbour)
+                            || !boardCache
+                            .getSquare(
+                                    rightNeighbour.getRow(),
+                                    rightNeighbour.getCol())
+                            .isOccupied())) {
+                        builder.add(
+                                new Word(
+                                        coord.getRow(),
+                                        coord.getCol(),
+                                        !word.isHorizontal(),
+                                        "" + boardCache.getSquare(row, col).getTile().getLetter()));
+                    }
+                });
+        return builder.build();
+    }
+
     private Optional<String> findMove() {
         if (board.isFirstPlay()) {
             return findFirstPlay().map(this::makePlaceCommand);
