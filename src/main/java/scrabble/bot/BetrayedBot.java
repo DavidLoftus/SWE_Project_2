@@ -279,6 +279,29 @@ public class BetrayedBot implements BotAPI {
         return builder.build();
     }
 
+    private boolean checkValidPlacement(Word word) {
+        AtomicBoolean inBounds = new AtomicBoolean(true);
+        forEachPosition(
+                word,
+                pos -> {
+                    if (!isInBounds(pos)) {
+                        inBounds.set(false);
+                    }
+                });
+        if (inBounds.get()
+                && board.isLegalPlay(fakeFrame, word)
+                && dictionary.areWords(new ArrayList<>(List.of(word)))) {
+            boardCache.place(fakeFrame, word);
+
+            boolean good = dictionary.areWords(boardCache.getAllWords(word));
+
+            boardCache.pickupLatestWord();
+
+            return good;
+        }
+        return false;
+    }
+
     private Optional<String> findMove() {
         if (board.isFirstPlay()) {
             return findFirstPlay().map(this::makePlaceCommand);
