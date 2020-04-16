@@ -104,7 +104,15 @@ public class BetrayedBot implements BotAPI {
             return "NAME BetrayedBot";
         }
 
-        String move = findMove().orElse("PASS");
+        String move =
+                findMove()
+                        .or(
+                                () -> {
+                                    System.err.println(
+                                            "failed to find move, repeating actions for debugging");
+                                    return findMove();
+                                })
+                        .orElse("EXCHANGE " + frame.getLetters(false));
         String frame = player.getFrameAsString();
         return move;
     }
@@ -258,16 +266,16 @@ public class BetrayedBot implements BotAPI {
                     Coordinates leftNeighbour = new Coordinates(row - columnInc, col - rowInc);
                     Coordinates rightNeighbour = new Coordinates(row + columnInc, col + rowInc);
                     if ((!isInBounds(leftNeighbour)
-                            || !boardCache
-                            .getSquare(
-                                    leftNeighbour.getRow(), leftNeighbour.getCol())
-                            .isOccupied())
+                                    || !boardCache
+                                            .getSquare(
+                                                    leftNeighbour.getRow(), leftNeighbour.getCol())
+                                            .isOccupied())
                             && (!isInBounds(rightNeighbour)
-                            || !boardCache
-                            .getSquare(
-                                    rightNeighbour.getRow(),
-                                    rightNeighbour.getCol())
-                            .isOccupied())) {
+                                    || !boardCache
+                                            .getSquare(
+                                                    rightNeighbour.getRow(),
+                                                    rightNeighbour.getCol())
+                                            .isOccupied())) {
                         builder.add(
                                 new Word(
                                         coord.getRow(),
