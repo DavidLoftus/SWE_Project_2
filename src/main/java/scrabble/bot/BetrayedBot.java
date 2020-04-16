@@ -3,10 +3,9 @@ package scrabble.bot;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -88,8 +87,9 @@ public class BetrayedBot implements BotAPI {
 
         for (String word : wordList) {
             if (word.length() <= 8) {
-                gaddag.addWord(word);
-                dictionaryTrie.add(word);
+                String upperWord = word.toUpperCase();
+                gaddag.addWord(upperWord);
+                dictionaryTrie.add(upperWord);
             }
         }
     }
@@ -179,9 +179,45 @@ public class BetrayedBot implements BotAPI {
         }
     }
 
+    private String makePlaceCommand(Word word) {
+        CharMultiSet frameCopy = new CharMultiSet(frame);
+
+        StringBuilder commands = new StringBuilder();
+        commands.append((char) ('A' + word.getFirstColumn())).append(word.getFirstRow() + 1);
+        commands.append(' ').append(word.isHorizontal() ? 'A' : 'D').append(' ');
+
+        StringBuilder blankDesignation = new StringBuilder();
+
+        int rowInc = getRowIncrement(word.isHorizontal());
+        int columnInc = getColumnIncrement(word.isHorizontal());
+
+        int row = word.getFirstRow(), column = word.getFirstColumn();
+        for (int i = 0; i < word.length(); ++i) {
+            Square square = boardCache.getSquare(row, column);
+            if (!square.isOccupied()) {
+                char c = word.getLetter(i);
+                char toPlace = frameCopy.take(c);
+                commands.append(toPlace);
+                if (toPlace == '_') {
+                    blankDesignation.append(c);
+                }
+            } else {
+                commands.append(square.getTile().getLetter());
+            }
+            row += rowInc;
+            column += columnInc;
+        }
+
+        if (blankDesignation.length() > 0) {
+            commands.append(' ').append(blankDesignation);
+        }
+
+        return commands.toString();
+    }
+
     private Optional<String> findMove() {
         if (board.isFirstPlay()) {
-            return findFirstPlay().map(s -> "H8 A " + s);
+            return findFirstPlay().map(this::makePlaceCommand);
         }
         return Optional.empty();
     }
@@ -190,10 +226,17 @@ public class BetrayedBot implements BotAPI {
         return new CharMultiSet(words).isSubsetOf(frame);
     }
 
-    private Optional<String> findFirstPlay() {
+    private int getScore(Word word) {
+        boardCache.place(fakeFrame, word);
+        int points = boardCache.getAllPoints(boardCache.getAllWords(word));
+        boardCache.pickupLatestWord();
+        return points;
+    }
+
+    private Optional<Word> findFirstPlay() {
         var spliterator = dictionaryTrie.wordsWithLetters(frame).spliterator();
-        assert StreamSupport.stream(spliterator, false).allMatch(this::canMakeString);
         return StreamSupport.stream(spliterator, false)
-                .max(Comparator.comparingInt(String::length));
+                .map(s -> new Word(7, 7, true, s))
+                .max(Comparator.comparingInt(this::getScore));
     }
 }
