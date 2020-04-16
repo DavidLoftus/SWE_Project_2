@@ -136,7 +136,7 @@ public class Trie implements Iterable<String> {
 
         private boolean shouldSkipIndex(int i) {
             char c = indexToChar(i);
-            return letters != null && (c == '+' || !letters.has(c));
+            return letters != null && !(c == '+' || letters.has(c));
         }
 
         private void advanceToNextNonNullChild() {
@@ -151,7 +151,9 @@ public class Trie implements Iterable<String> {
         }
 
         boolean tryNext(StringBuffer buffer) {
-            advanceToNextNonNullChild();
+            if (firstIter) {
+                advanceToNextNonNullChild();
+            }
 
             // Since we are using lazy iterators, we need alot of ugly stateful code.
             // This loop proceeds until we found a result to yield
@@ -167,7 +169,7 @@ public class Trie implements Iterable<String> {
                     buffer.append(c);
 
                     if (letters != null) {
-                        takenLetter = letters.take(c);
+                        takenLetter = c == '+' ? '+' : letters.take(c);
                     }
 
                     if (isEnd(c)) {
@@ -186,11 +188,11 @@ public class Trie implements Iterable<String> {
                 }
                 // We are finished with this character, clean up collector to proceed to next state
                 buffer.deleteCharAt(buffer.length() - 1);
-                childCollector = null;
-                firstIter = true;
-                if (letters != null) {
+                if (letters != null && takenLetter != '+') {
                     letters.add(takenLetter);
                 }
+                childCollector = null;
+                firstIter = true;
                 childIdx++;
                 advanceToNextNonNullChild();
             }
@@ -236,6 +238,7 @@ public class Trie implements Iterable<String> {
     }
 
     public Iterable<String> wordsWithLetters(CharMultiSet letters) {
-        return () -> new TrieIterator(new StatefulTrieCollector(new CharMultiSet(letters)));
+        CharMultiSet copy = letters != null ? new CharMultiSet(letters) : null;
+        return () -> new TrieIterator(new StatefulTrieCollector(copy));
     }
 }
