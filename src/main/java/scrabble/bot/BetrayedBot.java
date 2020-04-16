@@ -305,8 +305,39 @@ public class BetrayedBot implements BotAPI {
     private Optional<String> findMove() {
         if (board.isFirstPlay()) {
             return findFirstPlay().map(this::makePlaceCommand);
+        } else {
+            Map<String, Word> words = gatherWordsOnBoard();
+            return words.values().stream()
+                    .flatMap(this::getAllNeighbours)
+                    .flatMap(this::findCompletions)
+                    .filter(this::checkValidPlacement)
+                    .max(Comparator.comparingInt(this::getScore))
+                    .map(this::makePlaceCommand);
         }
-        return Optional.empty();
+    }
+
+    private Map<String, Word> gatherWordsOnBoard() {
+        Map<String, Word> words = new HashMap<>();
+        for (int i = 0; i < 15; ++i) {
+            for (int j = 0; j < 15; ++j) {
+                Square square = boardCache.getSquare(i, j);
+                if (square.isOccupied()) {
+                    Word horizontalWord = new Word(i, j, true, "" + square.getTile().getLetter());
+                    for (Word word : boardCache.getAllWords(horizontalWord)) {
+                        String startPos =
+                                String.format("%c%d", 'A' + word.getColumn(), word.getRow() + 1);
+                        words.put(startPos, word);
+                    }
+                    Word verticalWord = new Word(i, j, false, "" + square.getTile().getLetter());
+                    for (Word word : boardCache.getAllWords(verticalWord)) {
+                        String startPos =
+                                String.format("%c%d", 'A' + word.getColumn(), word.getRow() + 1);
+                        words.put(startPos, word);
+                    }
+                }
+            }
+        }
+        return words;
     }
 
     private boolean canMakeString(String words) {
