@@ -17,7 +17,10 @@ class GaddagTest {
     @BeforeAll
     static void initWordList() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader("csw.txt"))) {
-            reader.lines().filter(s -> s.length() < 8).forEach(wordList::add);
+            reader.lines()
+                    .filter(s -> s.length() < 8)
+                    .map(String::toUpperCase)
+                    .forEach(wordList::add);
         }
     }
 
@@ -31,12 +34,12 @@ class GaddagTest {
     @Test
     void findWords() {
         AtomicBoolean foundExplain = new AtomicBoolean(false);
-        gaddag.findWords("lain")
+        gaddag.findWords("LAI")
                 .forEach(
                         join -> {
                             String word = join.getWord();
                             assertTrue(wordList.contains(word), "bad word: " + word);
-                            if (word.equals("explain")) {
+                            if (word.equals("EXPLAIN")) {
                                 foundExplain.set(true);
                             }
                         });

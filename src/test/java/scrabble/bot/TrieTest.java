@@ -18,117 +18,117 @@ class TrieTest {
 
     @Test
     void add() {
-        trie.add("helloworld");
-        trie.add("hello+world");
+        trie.add("HELLOWORLD");
+        trie.add("HELLO+WORLD");
 
-        assertThrows(IllegalArgumentException.class, () -> trie.add("hello world"));
-        assertThrows(IllegalArgumentException.class, () -> trie.add("helloworld!"));
+        assertThrows(IllegalArgumentException.class, () -> trie.add("HELLO WORLD"));
+        assertThrows(IllegalArgumentException.class, () -> trie.add("HELLOWORLD!"));
     }
 
     @Test
     void addArc() {
-        Trie subTrie = trie.addArc('h');
-        assertEquals(subTrie, trie.get('h'));
+        Trie subTrie = trie.addArc('H');
+        assertEquals(subTrie, trie.get('H'));
 
         Trie nestedSubTrie = subTrie.addArc('+');
         assertEquals(nestedSubTrie, subTrie.get('+'));
-        assertEquals(nestedSubTrie, trie.get("h+"));
+        assertEquals(nestedSubTrie, trie.get("H+"));
 
         assertThrows(IllegalArgumentException.class, () -> trie.addArc('?'));
     }
 
     @Test
     void addFinalArc() {
-        trie.addFinalArc('a', 'b');
-        assertTrue(trie.contains("ab"));
-        assertFalse(trie.contains("a"));
-        assertFalse(trie.contains("b"));
-        assertFalse(trie.contains("ba"));
+        trie.addFinalArc('A', 'B');
+        assertTrue(trie.contains("AB"));
+        assertFalse(trie.contains("A"));
+        assertFalse(trie.contains("B"));
+        assertFalse(trie.contains("BA"));
 
-        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('?', 'a'));
-        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('b', '?'));
+        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('?', 'A'));
+        assertThrows(IllegalArgumentException.class, () -> trie.addFinalArc('B', '?'));
     }
 
     @Test
     void forceArc() {
-        Trie subTrie = trie.addArc('h');
+        Trie subTrie = trie.addArc('H');
         Trie nestedSubTrie = subTrie.addArc('+');
-        nestedSubTrie.addFinalArc('b', 'c');
+        nestedSubTrie.addFinalArc('B', 'C');
 
-        trie.forceArc('a', nestedSubTrie);
-        assertTrue(trie.contains("h+bc"));
-        assertTrue(trie.contains("abc"));
+        trie.forceArc('A', nestedSubTrie);
+        assertTrue(trie.contains("H+BC"));
+        assertTrue(trie.contains("ABC"));
 
         assertThrows(IllegalArgumentException.class, () -> trie.addArc('?'));
     }
 
     @Test
     void get() {
-        trie.add("helloworld");
-        trie.add("hello+world");
+        trie.add("HELLOWORLD");
+        trie.add("HELLO+WORLD");
 
-        Trie subTrie = trie.get("hello");
-        assertThrows(NoSuchElementException.class, () -> trie.get("baby"));
-        assertThrows(IllegalArgumentException.class, () -> trie.get("hello "));
+        Trie subTrie = trie.get("HELLO");
+        assertThrows(NoSuchElementException.class, () -> trie.get("BABY"));
+        assertThrows(IllegalArgumentException.class, () -> trie.get("HELLO "));
 
-        assertNotNull(subTrie.get("worl"));
-        assertNotNull(subTrie.get("+worl"));
+        assertNotNull(subTrie.get("WORL"));
+        assertNotNull(subTrie.get("+WORL"));
 
-        assertThrows(NoSuchElementException.class, () -> subTrie.get("baby"));
+        assertThrows(NoSuchElementException.class, () -> subTrie.get("BABY"));
     }
 
     @Test
     void contains() {
-        trie.add("helloworld");
-        trie.add("hello+world");
+        trie.add("HELLOWORLD");
+        trie.add("HELLO+WORLD");
 
-        Trie subTrie = trie.get("hello");
+        Trie subTrie = trie.get("HELLO");
 
-        assertTrue(subTrie.contains("world"));
-        assertTrue(subTrie.contains("+world"));
+        assertTrue(subTrie.contains("WORLD"));
+        assertTrue(subTrie.contains("+WORLD"));
 
-        assertFalse(subTrie.contains("worl"));
-        assertFalse(subTrie.contains("+worl"));
+        assertFalse(subTrie.contains("WORL"));
+        assertFalse(subTrie.contains("+WORL"));
 
-        assertFalse(trie.contains("goodbyeworld"));
+        assertFalse(trie.contains("GOODBYEWORLD"));
     }
 
     @Test
     void iterator() {
-        trie.add("helloworld");
-        trie.add("hello+world");
+        trie.add("HELLOWORLD");
+        trie.add("HELLO+WORLD");
 
         {
             Iterator<String> iter = trie.iterator();
 
             assertTrue(iter.hasNext());
-            assertEquals("helloworld", iter.next());
+            assertEquals("HELLOWORLD", iter.next());
 
             assertTrue(iter.hasNext());
-            assertEquals("hello+world", iter.next());
+            assertEquals("HELLO+WORLD", iter.next());
 
             assertFalse(iter.hasNext());
         }
 
         {
-            Trie subTrie = trie.get("hello");
+            Trie subTrie = trie.get("HELLO");
             Iterator<String> iter = subTrie.iterator();
 
             assertTrue(iter.hasNext());
-            assertEquals("world", iter.next());
+            assertEquals("WORLD", iter.next());
 
             assertTrue(iter.hasNext());
-            assertEquals("+world", iter.next());
+            assertEquals("+WORLD", iter.next());
 
             assertFalse(iter.hasNext());
         }
 
         {
-            Trie subTrie = trie.get("hello+");
+            Trie subTrie = trie.get("HELLO+");
             Iterator<String> iter = subTrie.iterator();
 
             assertTrue(iter.hasNext());
-            assertEquals("world", iter.next());
+            assertEquals("WORLD", iter.next());
 
             assertFalse(iter.hasNext());
         }

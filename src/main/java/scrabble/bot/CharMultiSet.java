@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class CharMultiSet implements Iterable<Character> {
 
-    public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private int wildCards = 0;
     private int[] counts = new int[ALPHABET.length()];
@@ -18,7 +18,7 @@ public class CharMultiSet implements Iterable<Character> {
                             if (c == '_') {
                                 wildCards++;
                             } else {
-                                counts[charToIndex((char)c)]++;
+                                counts[charToIndex((char) c)]++;
                             }
                         });
     }
@@ -127,7 +127,5 @@ public class CharMultiSet implements Iterable<Character> {
                 }
             }
         };
-
-
     }
 }

@@ -12,7 +12,7 @@ public class Trie implements Iterable<String> {
         }
     }
 
-    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz+";
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ+";
 
     private Trie[] children = new Trie[ALPHABET.length()];
     private BitSet endChars = new BitSet(ALPHABET.length());
