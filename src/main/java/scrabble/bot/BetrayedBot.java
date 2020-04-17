@@ -231,17 +231,14 @@ public class BetrayedBot implements BotAPI {
         return isHorizontal ? 1 : 0;
     }
 
-    private void forEachPosition(Word word, Consumer<Coordinates> consumer) {
+    private Stream<Coordinates> eachPosition(Word word) {
         int row = word.getFirstRow(), column = word.getFirstColumn();
-
-        int rowInc = getRowIncrement(word.isHorizontal());
-        int columnInc = getColumnIncrement(word.isHorizontal());
-
-        for (int i = 0; i < word.length(); ++i) {
-            consumer.accept(new Coordinates(row, column));
-
-            row += rowInc;
-            column += columnInc;
+        if (word.isHorizontal()) {
+            return IntStream.range(column, column + word.length())
+                    .mapToObj(i -> new Coordinates(row, i));
+        } else {
+            return IntStream.range(row, word.getFirstRow() + word.length())
+                    .mapToObj(i -> new Coordinates(i, column));
         }
     }
 
@@ -252,53 +249,45 @@ public class BetrayedBot implements BotAPI {
                 && coord.getCol() < 15;
     }
 
+    private boolean hasTileAt(Coordinates coord) {
+        return isInBounds(coord)
+                && boardCache.getSquare(coord.getRow(), coord.getCol()).isOccupied();
+    }
+
+    private Optional<Word> getEmptyNeighbourAt(Coordinates coord, boolean isHorizontal) {
+        int row = coord.getRow(), col = coord.getCol();
+        int rowInc = getRowIncrement(isHorizontal);
+        int columnInc = getRowIncrement(isHorizontal);
+
+        Coordinates leftNeighbour = new Coordinates(row - columnInc, col - rowInc);
+        Coordinates rightNeighbour = new Coordinates(row + columnInc, col + rowInc);
+
+        if (hasTileAt(leftNeighbour) || hasTileAt(rightNeighbour)) {
+            return Optional.empty();
+        } else {
+            char letter = boardCache.getSquare(row, col).getTile().getLetter();
+            Word word = new Word(row, col, !isHorizontal, String.valueOf(letter));
+
+            return Optional.of(word);
+        }
+    }
+
     private Stream<Word> getAllNeighbours(Word word) {
         Stream.Builder<Word> builder = Stream.builder();
         builder.add(word);
 
-        int rowInc = getRowIncrement(word.isHorizontal());
-        int columnInc = getRowIncrement(word.isHorizontal());
+        eachPosition(word)
+                .map(coord -> getEmptyNeighbourAt(coord, word.isHorizontal()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(builder);
 
-        forEachPosition(
-                word,
-                coord -> {
-                    int row = coord.getRow(), col = coord.getCol();
-                    Coordinates leftNeighbour = new Coordinates(row - columnInc, col - rowInc);
-                    Coordinates rightNeighbour = new Coordinates(row + columnInc, col + rowInc);
-                    if ((!isInBounds(leftNeighbour)
-                                    || !boardCache
-                                            .getSquare(
-                                                    leftNeighbour.getRow(), leftNeighbour.getCol())
-                                            .isOccupied())
-                            && (!isInBounds(rightNeighbour)
-                                    || !boardCache
-                                            .getSquare(
-                                                    rightNeighbour.getRow(),
-                                                    rightNeighbour.getCol())
-                                            .isOccupied())) {
-                        builder.add(
-                                new Word(
-                                        coord.getRow(),
-                                        coord.getCol(),
-                                        !word.isHorizontal(),
-                                        "" + boardCache.getSquare(row, col).getTile().getLetter()));
-                    }
-                });
         return builder.build();
     }
 
     private boolean checkValidPlacement(Word word) {
-        AtomicBoolean inBounds = new AtomicBoolean(true);
-        forEachPosition(
-                word,
-                pos -> {
-                    if (!isInBounds(pos)) {
-                        inBounds.set(false);
-                    }
-                });
-        if (inBounds.get()
-                && board.isLegalPlay(fakeFrame, word)
-                && dictionary.areWords(new ArrayList<>(List.of(word)))) {
+        boolean inBounds = eachPosition(word).allMatch(this::isInBounds);
+        if (inBounds && board.isLegalPlay(fakeFrame, word)) {
             boardCache.place(fakeFrame, word);
 
             boolean good = dictionary.areWords(boardCache.getAllWords(word));
