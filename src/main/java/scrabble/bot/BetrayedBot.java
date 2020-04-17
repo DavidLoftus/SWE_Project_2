@@ -105,20 +105,22 @@ public class BetrayedBot implements BotAPI {
 
         if (!hasSetName) {
             hasSetName = true;
-            return "NAME BetrayedBot";
+            return "NAME BetrayedBot" + player.getPrintableId();
         }
 
-        String move =
-                findMove()
-                        .or(
-                                () -> {
-                                    System.err.println(
-                                            "failed to find move, repeating actions for debugging");
-                                    return findMove();
-                                })
-                        .orElse("EXCHANGE " + frame.getLetters(false));
-        String frame = player.getFrameAsString();
-        return move;
+        return findMove().or(this::tryExchange).orElse("PASS");
+    }
+
+    private Optional<String> tryExchange() {
+        if (needToUpdatePool) {
+            return Optional.of("POOL");
+        }
+        if (poolSize > 0) {
+            String letters = frame.getLetters(false);
+            int toExchange = Math.min(letters.length(), poolSize);
+            return Optional.of("EXCHANGE " + letters.substring(0, toExchange));
+        }
+        return Optional.empty();
     }
 
     private static final Pattern poolResponseRegex = Pattern.compile("Pool has (\\d+) tiles");
