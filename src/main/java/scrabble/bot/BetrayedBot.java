@@ -5,10 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import scrabble.*;
 
 public class BetrayedBot implements BotAPI {
@@ -27,10 +28,13 @@ public class BetrayedBot implements BotAPI {
     private CharMultiSet frame;
     private LogCache log;
     private Board boardCache;
+    private int poolSize = 100;
+    private int lastPlayLetterCount;
 
     // Persistent decision tree state
     private boolean hasSetName = false;
     private boolean doesOpponentChallenge = false;
+    private boolean needToUpdatePool = true;
 
     // Frame used for placing any word on boardCache
     private Frame fakeFrame =
@@ -117,6 +121,8 @@ public class BetrayedBot implements BotAPI {
         return move;
     }
 
+    private static final Pattern poolResponseRegex = Pattern.compile("Pool has (\\d+) tiles");
+
     private void parseLogs() {
         List<String> newLogs = log.getLatestLogs(true);
 
@@ -125,32 +131,57 @@ public class BetrayedBot implements BotAPI {
         while (it.tryAdvance(
                 line -> {
                     if (line.startsWith("> ")) {
-                        String command = line.substring(2);
+                        String command = line.substring(2).toUpperCase();
                         if (command.matches(
                                 "[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,17}(( )+([A-Z]){1,2})?")) {
                             it.tryAdvance(
                                     message -> {
-                                        if (!message.startsWith("Error:")) {
-                                            Word move = parsePlay(command);
-                                            boardCache.place(fakeFrame, move);
-                                        }
+                                        if (!message.startsWith("Error:")) handlePlacement(command);
                                     });
                         }
-                        if (command.equalsIgnoreCase("CHALLENGE")) {
+                        if (command.equals("CHALLENGE")) {
                             it.tryAdvance(
                                     message -> {
                                         if (message.startsWith("Challenge success")) {
-                                            boardCache.pickupLatestWord();
+                                            handleChallenge();
                                             if (!myCommand.get()) {
                                                 doesOpponentChallenge = true;
                                             }
                                         }
                                     });
                         }
+                        if (command.equals("EXCHANGE")) {
+                            it.tryAdvance(message -> {
+                                if (message.startsWith("Error:"))
+                                    needToUpdatePool = true;
+                            });
+                        }
+                        if (command.equals("POOL")) {
+                            it.tryAdvance(message -> {
+                                Matcher matcher = poolResponseRegex.matcher(message);
+                                if (matcher.find()) {
+                                    poolSize = Integer.parseInt(matcher.group(1));
+                                    needToUpdatePool = false;
+                                }
+                            });
+                        }
                     } else if (line.matches("'s turn:")) {
                         myCommand.set(false);
                     }
                 })) ;
+    }
+
+    private void handlePlacement(String command) {
+        Word move = parsePlay(command);
+        lastPlayLetterCount = (int) eachPosition(move).filter(x -> !hasTileAt(x)).count();
+        poolSize -= lastPlayLetterCount;
+        boardCache.place(fakeFrame, move);
+    }
+
+    private void handleChallenge() {
+        boardCache.pickupLatestWord();
+        poolSize += lastPlayLetterCount;
+        lastPlayLetterCount = 0;
     }
 
     private Word parsePlay(String command) {
