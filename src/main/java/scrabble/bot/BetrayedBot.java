@@ -370,10 +370,6 @@ public class BetrayedBot implements BotAPI {
         return words;
     }
 
-    private boolean canMakeString(String words) {
-        return new CharMultiSet(words).isSubsetOf(frame);
-    }
-
     private int getScore(Word word) {
         boardCache.place(fakeFrame, word);
         int points = boardCache.getAllPoints(boardCache.getAllWords(word));
@@ -381,24 +377,21 @@ public class BetrayedBot implements BotAPI {
         return points;
     }
 
+    private Word wordFromJoin(Word word, Gaddag.Join join) {
+        int row = word.getFirstRow(), col = word.getFirstColumn();
+        int leftSize = join.getLeft().length();
+
+        if (word.isHorizontal()) {
+            col -= leftSize;
+        } else {
+            row -= leftSize;
+        }
+
+        return new Word(row, col, word.isHorizontal(), join.getWord());
+    }
+
     private Stream<Word> findCompletions(Word word) {
-        return gaddag.findWords(word.getLetters(), frame)
-                .map(
-                        join -> {
-                            if (word.isHorizontal()) {
-                                return new Word(
-                                        word.getFirstRow(),
-                                        word.getFirstColumn() - join.getLeft().length(),
-                                        word.isHorizontal(),
-                                        join.getWord());
-                            } else {
-                                return new Word(
-                                        word.getFirstRow() - join.getLeft().length(),
-                                        word.getFirstColumn(),
-                                        word.isHorizontal(),
-                                        join.getWord());
-                            }
-                        });
+        return gaddag.findWords(word.getLetters(), frame).map(join -> wordFromJoin(word, join));
     }
 
     private Optional<Word> findFirstPlay() {
