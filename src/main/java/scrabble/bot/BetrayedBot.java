@@ -402,9 +402,8 @@ public class BetrayedBot implements BotAPI {
     }
 
     private Optional<Word> findFirstPlay() {
-        var spliterator = dictionaryTrie.wordsWithLetters(frame).spliterator();
-        return StreamSupport.stream(spliterator, false)
-                .map(s -> new Word(7, 7, true, s))
+        return findCompletions(new Word(7, 7, true, ""))
+                .filter(word -> word.getColumn() + word.length() > 7)
                 .max(Comparator.comparingInt(this::getScore));
     }
 }
