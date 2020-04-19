@@ -14,9 +14,7 @@ import scrabble.*;
 
 public class BetrayedBot implements BotAPI {
 
-    private Set<String> wordList = loadWordList();
     private Gaddag gaddag = new Gaddag();
-    private Trie dictionaryTrie = new Trie();
 
     private PlayerAPI player;
     private OpponentAPI opponent;
@@ -90,11 +88,11 @@ public class BetrayedBot implements BotAPI {
         this.log = new LogCache(ui);
         this.boardCache = new Board();
 
+        Set<String> wordList = loadWordList();
         for (String word : wordList) {
             if (word.length() <= 8) {
                 String upperWord = word.toUpperCase();
                 gaddag.addWord(upperWord);
-                dictionaryTrie.add(upperWord);
             }
         }
     }
