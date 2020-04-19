@@ -1,5 +1,6 @@
 package scrabble.bot;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -12,10 +13,11 @@ public class Trie implements Iterable<String> {
         }
     }
 
-    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ+";
+    private static final String ALPHABET = "+ETAOINSRHDLUCMFYWGPBVKXQJZ";
 
-    private Trie[] children = new Trie[ALPHABET.length()];
-    private BitSet endChars = new BitSet(ALPHABET.length());
+    private Trie[] children = null;
+//    private BitSet endChars = new BitSet(ALPHABET.length());
+    private int endChars = 0;
 
     private static int charToIndex(char c) {
         int i = ALPHABET.indexOf(c);
@@ -29,14 +31,37 @@ public class Trie implements Iterable<String> {
         return ALPHABET.charAt(i);
     }
 
+    private int childrenSize() {
+        return children == null ? 0 : children.length;
+    }
+
+    private void growToFit(int n) {
+        int powerOfTwo = 1;
+        while (powerOfTwo < n) {
+            powerOfTwo <<= 1;
+        }
+        powerOfTwo = Math.min(powerOfTwo, ALPHABET.length());
+        if (powerOfTwo > childrenSize()) {
+            if (children == null) {
+                children = new Trie[powerOfTwo];
+            } else {
+                children = Arrays.copyOf(children, powerOfTwo);
+            }
+        }
+    }
+
     private void addEnd(char c) {
         int i = charToIndex(c);
-        endChars.set(i);
+        endChars |= (1 << i);
     }
 
     private boolean isEnd(char c) {
         int i = charToIndex(c);
-        return endChars.get(i);
+        return isEnd(i);
+    }
+
+    private boolean isEnd(int i) {
+        return ((endChars >> i) & 1) != 0;
     }
 
     public Trie add(String s) {
@@ -60,6 +85,7 @@ public class Trie implements Iterable<String> {
 
     public Trie addArc(char c) {
         int i = charToIndex(c);
+        growToFit(i+1);
         if (children[i] == null) {
             children[i] = new Trie();
         }
@@ -79,6 +105,7 @@ public class Trie implements Iterable<String> {
 
     public Trie forceArc(char c, Trie trie) throws BadForceException {
         int i = charToIndex(c);
+        growToFit(i+1);
         if (children[i] == null) {
             children[i] = trie;
         } else if (children[i] != trie) {
@@ -94,6 +121,7 @@ public class Trie implements Iterable<String> {
 
     public Trie get(char c) {
         int i = charToIndex(c);
+        growToFit(i+1);
         if (children[i] == null) {
             throw new NoSuchElementException("char '" + c + "' not in trie.");
         }
@@ -140,11 +168,11 @@ public class Trie implements Iterable<String> {
         }
 
         private void advanceToNextNonNullChild() {
-            for (; childIdx < children.length; childIdx++) {
+            for (; childIdx < childrenSize(); childIdx++) {
                 if (shouldSkipIndex(childIdx)) {
                     continue;
                 }
-                if (children[childIdx] != null || endChars.get(childIdx)) {
+                if (children[childIdx] != null || isEnd(childIdx)) {
                     break;
                 }
             }
@@ -158,7 +186,7 @@ public class Trie implements Iterable<String> {
             // Since we are using lazy iterators, we need alot of ugly stateful code.
             // This loop proceeds until we found a result to yield
             // If none is found we escape and return false
-            while (childIdx < children.length) {
+            while (childIdx < childrenSize()) {
                 char c = indexToChar(childIdx);
                 if (firstIter) {
                     firstIter = false;
@@ -177,6 +205,7 @@ public class Trie implements Iterable<String> {
                     }
                 }
 
+                assert children != null;
                 if (children[childIdx] != null) {
                     if (childCollector == null) {
                         childCollector = children[childIdx].getCollector();

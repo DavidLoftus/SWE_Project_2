@@ -35,6 +35,7 @@ public class BetrayedBot implements BotAPI {
     private boolean hasSetName = false;
     private boolean doesOpponentChallenge = false;
     private boolean needToUpdatePool = true;
+    private boolean shouldChallenge = false;
 
     // Frame used for placing any word on boardCache
     private Frame fakeFrame =
@@ -108,6 +109,11 @@ public class BetrayedBot implements BotAPI {
             return "NAME BetrayedBot" + player.getPrintableId();
         }
 
+        if (shouldChallenge) {
+            shouldChallenge = false;
+            return "CHALLENGE";
+        }
+
         return findMove().or(this::tryExchange).orElse("PASS");
     }
 
@@ -138,7 +144,7 @@ public class BetrayedBot implements BotAPI {
                                 "[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,17}(( )+([A-Z]){1,2})?")) {
                             it.tryAdvance(
                                     message -> {
-                                        if (!message.startsWith("Error:")) handlePlacement(command);
+                                        if (!message.startsWith("Error:")) handlePlacement(command, myCommand.get());
                                     });
                         }
                         if (command.equals("CHALLENGE")) {
@@ -153,31 +159,37 @@ public class BetrayedBot implements BotAPI {
                                     });
                         }
                         if (command.equals("EXCHANGE")) {
-                            it.tryAdvance(message -> {
-                                if (message.startsWith("Error:"))
-                                    needToUpdatePool = true;
-                            });
+                            it.tryAdvance(
+                                    message -> {
+                                        if (message.startsWith("Error:")) needToUpdatePool = true;
+                                    });
                         }
                         if (command.equals("POOL")) {
-                            it.tryAdvance(message -> {
-                                Matcher matcher = poolResponseRegex.matcher(message);
-                                if (matcher.find()) {
-                                    poolSize = Integer.parseInt(matcher.group(1));
-                                    needToUpdatePool = false;
-                                }
-                            });
+                            it.tryAdvance(
+                                    message -> {
+                                        Matcher matcher = poolResponseRegex.matcher(message);
+                                        if (matcher.find()) {
+                                            poolSize = Integer.parseInt(matcher.group(1));
+                                            needToUpdatePool = false;
+                                        }
+                                    });
                         }
-                    } else if (line.matches("'s turn:")) {
+                    } else if (line.matches(".*'s turn:")) {
                         myCommand.set(false);
                     }
                 })) ;
     }
 
-    private void handlePlacement(String command) {
+    private void handlePlacement(String command, boolean myCommand) {
         Word move = parsePlay(command);
         lastPlayLetterCount = (int) eachPosition(move).filter(x -> !hasTileAt(x)).count();
         poolSize -= lastPlayLetterCount;
         boardCache.place(fakeFrame, move);
+
+        if (!myCommand) {
+            if (!dictionary.areWords(boardCache.getAllWords(move)))
+                shouldChallenge = true;
+        }
     }
 
     private void handleChallenge() {
