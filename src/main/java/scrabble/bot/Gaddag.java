@@ -17,6 +17,10 @@ public class Gaddag {
         }
     }
 
+    /**
+     * Adds word to the gaddag
+     * @param word a string of uppercase letters
+     */
     public void addWord(String word) {
         Trie st = rootTrie;
 
@@ -46,6 +50,9 @@ public class Gaddag {
         }
     }
 
+    /**
+     * Class to represent joining two sequences `left` and `right` onto the given substring `middle`
+     */
     public static class Join {
         private String left, middle, right;
 
@@ -100,6 +107,13 @@ public class Gaddag {
         return findWords(subStr, null);
     }
 
+    /**
+     * Finds all words that contain a given substring.
+     *
+     * @param subStr
+     * @param letters set of letters that can be used to make the word.
+     * @return a stream of new words that can be created in the form of Join's
+     */
     public Stream<Join> findWords(String subStr, CharMultiSet letters) {
         try {
             String reversed = new StringBuilder(subStr).reverse().toString();
