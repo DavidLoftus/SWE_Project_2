@@ -19,6 +19,7 @@ public class Gaddag {
 
     /**
      * Adds word to the gaddag
+     *
      * @param word a string of uppercase letters
      */
     public void addWord(String word) {

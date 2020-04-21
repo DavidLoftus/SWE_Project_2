@@ -1,7 +1,6 @@
 package scrabble.bot;
 
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -16,7 +15,7 @@ public class Trie implements Iterable<String> {
     private static final String ALPHABET = "+ETAOINSRHDLUCMFYWGPBVKXQJZ";
 
     private Trie[] children = null;
-//    private BitSet endChars = new BitSet(ALPHABET.length());
+    //    private BitSet endChars = new BitSet(ALPHABET.length());
     private int endChars = 0;
 
     private static int charToIndex(char c) {
@@ -85,7 +84,7 @@ public class Trie implements Iterable<String> {
 
     public Trie addArc(char c) {
         int i = charToIndex(c);
-        growToFit(i+1);
+        growToFit(i + 1);
         if (children[i] == null) {
             children[i] = new Trie();
         }
@@ -105,7 +104,7 @@ public class Trie implements Iterable<String> {
 
     public Trie forceArc(char c, Trie trie) throws BadForceException {
         int i = charToIndex(c);
-        growToFit(i+1);
+        growToFit(i + 1);
         if (children[i] == null) {
             children[i] = trie;
         } else if (children[i] != trie) {
@@ -121,7 +120,7 @@ public class Trie implements Iterable<String> {
 
     public Trie get(char c) {
         int i = charToIndex(c);
-        growToFit(i+1);
+        growToFit(i + 1);
         if (children[i] == null) {
             throw new NoSuchElementException("char '" + c + "' not in trie.");
         }
