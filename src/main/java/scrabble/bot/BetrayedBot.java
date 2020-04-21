@@ -142,7 +142,8 @@ public class BetrayedBot implements BotAPI {
                                 "[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,17}(( )+([A-Z]){1,2})?")) {
                             it.tryAdvance(
                                     message -> {
-                                        if (!message.startsWith("Error:")) handlePlacement(command, myCommand.get());
+                                        if (!message.startsWith("Error:"))
+                                            handlePlacement(command, myCommand.get());
                                     });
                         }
                         if (command.equals("CHALLENGE")) {
@@ -185,8 +186,7 @@ public class BetrayedBot implements BotAPI {
         boardCache.place(fakeFrame, move);
 
         if (!myCommand) {
-            if (!dictionary.areWords(boardCache.getAllWords(move)))
-                shouldChallenge = true;
+            if (!dictionary.areWords(boardCache.getAllWords(move))) shouldChallenge = true;
         }
     }
 
@@ -297,37 +297,6 @@ public class BetrayedBot implements BotAPI {
                 && boardCache.getSquare(coord.getRow(), coord.getCol()).isOccupied();
     }
 
-    private Optional<Word> getEmptyNeighbourAt(Coordinates coord, boolean isHorizontal) {
-        int row = coord.getRow(), col = coord.getCol();
-        int rowInc = getRowIncrement(isHorizontal);
-        int columnInc = getRowIncrement(isHorizontal);
-
-        Coordinates leftNeighbour = new Coordinates(row - columnInc, col - rowInc);
-        Coordinates rightNeighbour = new Coordinates(row + columnInc, col + rowInc);
-
-        if (hasTileAt(leftNeighbour) || hasTileAt(rightNeighbour)) {
-            return Optional.empty();
-        } else {
-            char letter = boardCache.getSquare(row, col).getTile().getLetter();
-            Word word = new Word(row, col, !isHorizontal, String.valueOf(letter));
-
-            return Optional.of(word);
-        }
-    }
-
-    private Stream<Word> getAllNeighbours(Word word) {
-        Stream.Builder<Word> builder = Stream.builder();
-        builder.add(word);
-
-        eachPosition(word)
-                .map(coord -> getEmptyNeighbourAt(coord, word.isHorizontal()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .forEach(builder);
-
-        return builder.build();
-    }
-
     private boolean checkValidPlacement(Word word) {
         boolean inBounds = eachPosition(word).allMatch(this::isInBounds);
         if (inBounds && board.isLegalPlay(fakeFrame, word)) {
@@ -346,9 +315,8 @@ public class BetrayedBot implements BotAPI {
         if (board.isFirstPlay()) {
             return findFirstPlay().map(this::makePlaceCommand);
         } else {
-            Map<String, Word> words = gatherWordsOnBoard();
-            return words.values().stream()
-                    .flatMap(this::getAllNeighbours)
+            Set<Word> words = gatherWordsOnBoard();
+            return words.stream()
                     .flatMap(this::findCompletions)
                     .filter(this::checkValidPlacement)
                     .max(Comparator.comparingInt(this::getScore))
@@ -356,28 +324,45 @@ public class BetrayedBot implements BotAPI {
         }
     }
 
-    private Map<String, Word> gatherWordsOnBoard() {
-        Map<String, Word> words = new HashMap<>();
+    private Set<Word> gatherWordsOnBoard() {
+        Set<Word> words = new HashSet<>();
         for (int i = 0; i < 15; ++i) {
             for (int j = 0; j < 15; ++j) {
                 Square square = boardCache.getSquare(i, j);
                 if (square.isOccupied()) {
-                    Word horizontalWord = new Word(i, j, true, "" + square.getTile().getLetter());
-                    for (Word word : boardCache.getAllWords(horizontalWord)) {
-                        String startPos =
-                                String.format("%c%d", 'A' + word.getColumn(), word.getRow() + 1);
-                        words.put(startPos, word);
-                    }
-                    Word verticalWord = new Word(i, j, false, "" + square.getTile().getLetter());
-                    for (Word word : boardCache.getAllWords(verticalWord)) {
-                        String startPos =
-                                String.format("%c%d", 'A' + word.getColumn(), word.getRow() + 1);
-                        words.put(startPos, word);
-                    }
+                    words.add(getWordSpan(i, j, true));
+                    words.add(getWordSpan(i, j, false));
                 }
             }
         }
         return words;
+    }
+
+    private Word getWordSpan(int row, int column, boolean isHorizontal) {
+        int startRow = row, startCol = column;
+
+        int rowInc = getRowIncrement(isHorizontal), colInc = getColumnIncrement(isHorizontal);
+
+        while (hasTileAt(new Coordinates(startRow - rowInc, startCol - colInc))) {
+            startRow -= rowInc;
+            startCol -= colInc;
+        }
+
+        StringBuilder wordLetters = new StringBuilder();
+
+        int length = 0;
+        while (true) {
+            Coordinates pos =
+                    new Coordinates(startRow + length * rowInc, startCol + length * colInc);
+            if (!hasTileAt(pos)) {
+                break;
+            }
+            wordLetters.append(
+                    boardCache.getSquare(pos.getRow(), pos.getCol()).getTile().getLetter());
+            length++;
+        }
+
+        return new Word(startRow, startCol, isHorizontal, wordLetters.toString());
     }
 
     private int getScore(Word word) {
