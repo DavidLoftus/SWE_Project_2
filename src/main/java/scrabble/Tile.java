@@ -13,8 +13,7 @@ public class Tile {
     private int value;
 
     // scrabble.Tile precondition: must be uppercase letter
-    // TODO: we need to move the bot out of the bot package for it to compile on official version
-    public Tile(char letter) {
+    Tile(char letter) {
         if (letter == BLANK) {
             this.blank = true;
             this.letter = BLANK;

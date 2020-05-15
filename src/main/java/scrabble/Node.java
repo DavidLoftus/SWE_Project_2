@@ -13,12 +13,7 @@ public class Node {
         endOfWord = false;
     }
 
-    private void assertValidChar(char letter) {
-        assert Character.isUpperCase(letter);
-    }
-
     public Node addChild(char letter) {
-        assertValidChar(letter);
         int index = ((int) letter) - ((int) 'A');
         if (children[index] == null) {
             children[index] = new Node();
@@ -31,13 +26,11 @@ public class Node {
     }
 
     public Node getChild(char letter) {
-        assertValidChar(letter);
         int index = ((int) letter) - ((int) 'A');
         return children[index];
     }
 
     public boolean isChild(char letter) {
-        assertValidChar(letter);
         int index = ((int) letter) - ((int) 'A');
         return children[index] != null;
     }

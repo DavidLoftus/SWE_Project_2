@@ -11,7 +11,7 @@ public class Frame {
     private ArrayList<Tile> tiles;
     int errorCode;
 
-    public Frame() {
+    Frame() {
         tiles = new ArrayList<>();
     }
 

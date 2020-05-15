@@ -35,22 +35,10 @@ public class Bot0 implements BotAPI {
         String command = "";
         switch (turnCount) {
             case 0:
-                command = "NAME Bot0";
-                break;
-            case 1:
-                command = "PASS";
-                break;
-            case 2:
-                command = "HELP";
-                break;
-            case 3:
-                command = "SCORE";
-                break;
-            case 4:
-                command = "POOL";
+                command = "NAME scrabble.Bot0";
                 break;
             default:
-                command = "H8 A AN";
+                command = "PASS";
                 break;
         }
         turnCount++;

@@ -2,35 +2,34 @@ package scrabble;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import javafx.application.Application;
 
 public class Bots {
 
-    private static final String[] ALL_BOT_NAMES = {"scrabble.Bot0", "scrabble.Bot1"};
+    private static final String[] ALL_BOT_NAMES = {
+        "scrabble.Bot0", "scrabble.Bot1", "BetrayedBot", "TheFloorIsMadeOfJava"
+    };
     private BotAPI[] bots = new BotAPI[Scrabble.NUM_PLAYERS];
 
-    Bots(Scrabble scrabble, UserInterface ui, Application.Parameters parameters) {
-        List<String> params = parameters.getRaw();
+    Bots(Scrabble scrabble, UserInterface ui, String[] args) {
         String[] botNames = new String[Scrabble.NUM_PLAYERS];
-        //        if (params.size() < scrabble.Scrabble.NUM_PLAYERS) {
-        botNames[0] = "scrabble.bot.BetrayedBot";
-        botNames[1] = "scrabble.bot.BetrayedBot";
-        //        } else {
-        //            for (int i = 0; i < scrabble.Scrabble.NUM_PLAYERS; i++) {
-        //                boolean found = false;
-        //                for (int j = 0; (j < ALL_BOT_NAMES.length) && !found; j++) {
-        //                    if (params.get(i).equals(ALL_BOT_NAMES[j])) {
-        //                        found = true;
-        //                        botNames[i] = params.get(i);
-        //                    }
-        //                }
-        //                if (!found) {
-        //                    System.out.println("Error: Bot name not found");
-        //                    System.exit(-1);
-        //                }
-        //            }
-        //        }
+        if (args.length != Scrabble.NUM_PLAYERS) {
+            botNames[0] = "BetrayedBot";
+            botNames[1] = "BetrayedBot";
+        } else {
+            for (int i = 0; i < Scrabble.NUM_PLAYERS; i++) {
+                boolean found = false;
+                for (int j = 0; (j < ALL_BOT_NAMES.length) && !found; j++) {
+                    if (args[i].equals(ALL_BOT_NAMES[j])) {
+                        found = true;
+                        botNames[i] = args[i];
+                    }
+                }
+                if (!found) {
+                    System.out.println("Error: Bot name not found");
+                    System.exit(-1);
+                }
+            }
+        }
         for (int i = 0; i < Scrabble.NUM_PLAYERS; i++) {
             try {
                 Class<?> botClass = Class.forName(botNames[i]);
@@ -41,6 +40,8 @@ public class Bots {
                                 BoardAPI.class,
                                 UserInterfaceAPI.class,
                                 DictionaryAPI.class);
+                long memoryUsageBefore =
+                        Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
                 if (i == 0) {
                     bots[i] =
                             (BotAPI)
@@ -60,18 +61,32 @@ public class Bots {
                                             ui,
                                             scrabble.getDictionary());
                 }
+
+                long memoryUsed =
+                        Runtime.getRuntime().totalMemory()
+                                - Runtime.getRuntime().freeMemory()
+                                - memoryUsageBefore;
+
+                long memoryUsedAfterGC =
+                        Runtime.getRuntime().totalMemory()
+                                - Runtime.getRuntime().freeMemory()
+                                - memoryUsageBefore;
+
+                System.out.printf(
+                        "%s constructor used %.3fmb, %.3fmb after GC\n",
+                        botNames[i], memoryUsed / 1e6, memoryUsedAfterGC / 1e6);
+
             } catch (IllegalAccessException ex) {
                 System.out.println("Error: Bot instantiation fail (IAE)");
-                Thread.currentThread().interrupt();
+                System.exit(1);
             } catch (InstantiationException ex) {
                 System.out.println("Error: Bot instantiation fail (IE)");
-                Thread.currentThread().interrupt();
+                System.exit(1);
             } catch (ClassNotFoundException ex) {
                 System.out.println("Error: Bot instantiation fail (CNFE)");
                 Thread.currentThread().interrupt();
             } catch (InvocationTargetException ex) {
                 System.out.println("Error: Bot instantiation fail (ITE)");
-                ex.printStackTrace();
                 Thread.currentThread().interrupt();
             } catch (NoSuchMethodException ex) {
                 System.out.println("Error: Bot instantiation fail (NSME)");

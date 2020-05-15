@@ -3,31 +3,49 @@ package scrabble;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Dictionary implements DictionaryAPI {
 
-    private static final String inputFileName = "csw.txt";
-    private Set<String> wordSet = new HashSet<>();
+    private static String inputFileName = "csw.txt";
+    private Node root;
 
     Dictionary() throws FileNotFoundException {
+        root = new Node();
         File inputFile = new File(inputFileName);
         Scanner in = new Scanner(inputFile);
         while (in.hasNextLine()) {
-            String word = in.nextLine().toUpperCase();
-            wordSet.add(word);
+            String word = in.nextLine();
+            Node currentNode = root;
+            for (int i = 0; i < word.length(); i++) {
+                char currentLetter = word.charAt(i);
+                if (currentNode.isChild(currentLetter)) {
+                    currentNode = currentNode.getChild(currentLetter);
+                } else {
+                    currentNode = currentNode.addChild(currentLetter);
+                }
+            }
+            currentNode.setEndOfWord();
         }
         in.close();
     }
 
     public boolean areWords(ArrayList<Word> words) {
+        boolean found = true;
         for (Word word : words) {
-            if (!wordSet.contains(word.toString().toUpperCase())) {
-                return false;
+            Node currentNode = root;
+            for (int i = 0; (i < word.length()) && found; i++) {
+                char currentLetter = word.getDesignatedLetter(i);
+                if (currentNode.isChild(currentLetter)) {
+                    currentNode = currentNode.getChild(currentLetter);
+                } else {
+                    found = false;
+                }
+            }
+            if (!currentNode.isEndOfWord()) {
+                found = false;
             }
         }
-        return true;
+        return (found);
     }
 }

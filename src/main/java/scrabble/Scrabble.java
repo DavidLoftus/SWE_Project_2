@@ -49,7 +49,7 @@ public class Scrabble {
         }
     }
 
-    public void turnOver() {
+    public void nextPlayer() {
         if (currentPlayerId == NUM_PLAYERS - 1) {
             currentPlayerId = 0;
         } else {
