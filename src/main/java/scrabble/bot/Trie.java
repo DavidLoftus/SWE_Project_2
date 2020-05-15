@@ -3,6 +3,7 @@ package scrabble.bot;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public class Trie implements Iterable<String> {
 
@@ -152,77 +153,71 @@ public class Trie implements Iterable<String> {
         private int childIdx = 0;
         private StatefulTrieCollector childCollector;
 
-        private CharMultiSet letters = null;
-        private char takenLetter;
+        private Predicate<String> shouldTraverse;
 
         public StatefulTrieCollector() {}
 
-        public StatefulTrieCollector(CharMultiSet letters) {
-            this.letters = letters;
+        public StatefulTrieCollector(Predicate<String> shouldTraverse) {
+            this.shouldTraverse = shouldTraverse;
         }
 
-        private boolean shouldSkipIndex(int i) {
-            char c = indexToChar(i);
-            return letters != null && !(c == '+' || letters.has(c));
+        private boolean shouldSkipIndex(int i, StringBuffer prefix) {
+            boolean hasElement = (i < childrenSize() && children[i] != null) || isEnd(i);
+
+            if (hasElement && shouldTraverse != null) {
+                char c = indexToChar(i);
+                return !shouldTraverse.test(prefix.toString() + c);
+            } else {
+                return !hasElement;
+            }
         }
 
-        private void advanceToNextNonNullChild() {
-            for (; childIdx < childrenSize(); childIdx++) {
-                if (shouldSkipIndex(childIdx)) {
-                    continue;
-                }
-                if (children[childIdx] != null || isEnd(childIdx)) {
+        private void advanceToNextNonNullChild(StringBuffer prefix) {
+            for (; childIdx < ALPHABET.length(); childIdx++) {
+                if (!shouldSkipIndex(childIdx, prefix)) {
                     break;
                 }
             }
         }
 
-        boolean tryNext(StringBuffer buffer) {
+        boolean tryNext(StringBuffer prefix) {
             if (firstIter) {
-                advanceToNextNonNullChild();
+                advanceToNextNonNullChild(prefix);
             }
 
             // Since we are using lazy iterators, we need alot of ugly stateful code.
             // This loop proceeds until we found a result to yield
             // If none is found we escape and return false
-            while (childIdx < childrenSize()) {
+            while (childIdx < ALPHABET.length()) {
                 char c = indexToChar(childIdx);
                 if (firstIter) {
                     firstIter = false;
 
-                    // Append character to buffer
+                    // Append character to prefix
                     // All subsequent calls to tryNext will have this character present
                     // At least until we switch to next character
-                    buffer.append(c);
-
-                    if (letters != null) {
-                        takenLetter = c == '+' ? '+' : letters.take(c);
-                    }
+                    prefix.append(c);
 
                     if (isEnd(c)) {
                         return true;
                     }
                 }
 
-                assert children != null;
-                if (children[childIdx] != null) {
+                if (childIdx < childrenSize() && children[childIdx] != null) {
                     if (childCollector == null) {
                         childCollector = children[childIdx].getCollector();
-                        childCollector.letters = letters;
+                        childCollector.shouldTraverse = shouldTraverse;
                     }
-                    if (childCollector.tryNext(buffer)) {
+                    if (childCollector.tryNext(prefix)) {
                         return true;
                     }
                 }
                 // We are finished with this character, clean up collector to proceed to next state
-                buffer.deleteCharAt(buffer.length() - 1);
-                if (letters != null && takenLetter != '+') {
-                    letters.add(takenLetter);
-                }
+                prefix.deleteCharAt(prefix.length() - 1);
                 childCollector = null;
                 firstIter = true;
                 childIdx++;
-                advanceToNextNonNullChild();
+                advanceToNextNonNullChild(prefix);
             }
             return false;
         }
@@ -265,8 +260,7 @@ public class Trie implements Iterable<String> {
         return new TrieIterator();
     }
 
-    public Iterable<String> wordsWithLetters(CharMultiSet letters) {
-        CharMultiSet copy = letters != null ? new CharMultiSet(letters) : null;
-        return () -> new TrieIterator(new StatefulTrieCollector(copy));
+    public Iterable<String> wordsWithPredicate(Predicate<String> p) {
+        return () -> new TrieIterator(new StatefulTrieCollector(p));
     }
 }

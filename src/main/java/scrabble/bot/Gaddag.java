@@ -2,6 +2,7 @@ package scrabble.bot;
 
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -111,15 +112,15 @@ public class Gaddag {
     /**
      * Finds all words that contain a given substring.
      *
-     * @param subStr
-     * @param letters set of letters that can be used to make the word.
+     * @param subStr The starting string to find completions for
+     * @param p predicate for when to traverse down subtrie
      * @return a stream of new words that can be created in the form of Join's
      */
-    public Stream<Join> findWords(String subStr, CharMultiSet letters) {
+    public Stream<Join> findWords(String subStr, Predicate<String> p) {
         try {
             String reversed = new StringBuilder(subStr).reverse().toString();
             Trie subTrie = rootTrie.get(reversed);
-            return StreamSupport.stream(subTrie.wordsWithLetters(letters).spliterator(), false)
+            return StreamSupport.stream(subTrie.wordsWithPredicate(p).spliterator(), false)
                     .map(s -> new Join(subStr, s));
         } catch (NoSuchElementException e) {
             return Stream.empty();
