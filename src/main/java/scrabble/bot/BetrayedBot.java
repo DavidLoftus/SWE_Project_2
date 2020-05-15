@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,7 +32,6 @@ public class BetrayedBot implements BotAPI {
 
     // Persistent decision tree state
     private boolean hasSetName = false;
-    private boolean doesOpponentChallenge = false;
     private boolean needToUpdatePool = true;
     private boolean shouldChallenge = false;
 
@@ -90,10 +90,10 @@ public class BetrayedBot implements BotAPI {
 
         Set<String> wordList = loadWordList();
         for (String word : wordList) {
-            if (word.length() <= 8) {
-                String upperWord = word.toUpperCase();
-                gaddag.addWord(upperWord);
-            }
+            //            if (word.length() <= 15) {
+            String upperWord = word.toUpperCase();
+            gaddag.addWord(upperWord);
+            //            }
         }
     }
 
@@ -104,7 +104,7 @@ public class BetrayedBot implements BotAPI {
 
         if (!hasSetName) {
             hasSetName = true;
-            return "NAME BetrayedBot" + player.getPrintableId();
+            return "NAME BetrayedBot";
         }
 
         if (shouldChallenge) {
@@ -151,9 +151,6 @@ public class BetrayedBot implements BotAPI {
                                     message -> {
                                         if (message.startsWith("Challenge success")) {
                                             handleChallenge();
-                                            if (!myCommand.get()) {
-                                                doesOpponentChallenge = true;
-                                            }
                                         }
                                     });
                         }
@@ -237,30 +234,48 @@ public class BetrayedBot implements BotAPI {
         commands.append((char) ('A' + word.getFirstColumn())).append(word.getFirstRow() + 1);
         commands.append(' ').append(word.isHorizontal() ? 'A' : 'D').append(' ');
 
-        StringBuilder blankDesignation = new StringBuilder();
+        int offset = commands.length();
+        commands.append(word.getLetters());
+
+        List<Integer> blankPositions = new ArrayList<>();
 
         int rowInc = getRowIncrement(word.isHorizontal());
         int columnInc = getColumnIncrement(word.isHorizontal());
 
-        int row = word.getFirstRow(), column = word.getFirstColumn();
-        for (int i = 0; i < word.length(); ++i) {
-            Square square = boardCache.getSquare(row, column);
-            if (!square.isOccupied()) {
-                char c = word.getLetter(i);
-                char toPlace = frameCopy.take(c);
-                commands.append(toPlace);
-                if (toPlace == '_') {
-                    blankDesignation.append(c);
-                }
-            } else {
-                commands.append(square.getTile().getLetter());
-            }
-            row += rowInc;
-            column += columnInc;
-        }
+        IntStream.range(0, word.length())
+                .boxed()
+                .sorted(
+                        Comparator.comparingInt(
+                                i -> {
+                                    int row = word.getFirstRow() + i * rowInc;
+                                    int column = word.getFirstColumn() + i * columnInc;
+                                    Square square = boardCache.getSquare(row, column);
+                                    return square.isOccupied()
+                                            ? 0
+                                            : 3 * (square.getWordMultiplier() - 1)
+                                                    + square.getLetterMuliplier()
+                                                    - 1;
+                                }))
+                .forEachOrdered(
+                        i -> {
+                            int row = word.getFirstRow() + i * rowInc;
+                            int column = word.getFirstColumn() + i * columnInc;
+                            Square square = boardCache.getSquare(row, column);
+                            if (!square.isOccupied()) {
+                                char c = word.getLetter(i);
+                                char toPlace = frameCopy.take(c);
+                                commands.setCharAt(offset + i, toPlace);
+                                if (toPlace == '_') {
+                                    blankPositions.add(i);
+                                }
+                            } else {
+                                commands.setCharAt(offset + i, square.getTile().getLetter());
+                            }
+                        });
 
-        if (blankDesignation.length() > 0) {
-            commands.append(' ').append(blankDesignation);
+        if (blankPositions.size() > 0) {
+            commands.append(' ');
+            blankPositions.stream().sorted().map(word::getLetter).forEachOrdered(commands::append);
         }
 
         return commands.toString();
@@ -299,16 +314,24 @@ public class BetrayedBot implements BotAPI {
 
     private boolean checkValidPlacement(Word word) {
         boolean inBounds = eachPosition(word).allMatch(this::isInBounds);
-        if (inBounds && board.isLegalPlay(fakeFrame, word)) {
-            boardCache.place(fakeFrame, word);
+        return inBounds && board.isLegalPlay(fakeFrame, word);
+    }
 
-            boolean good = dictionary.areWords(boardCache.getAllWords(word));
+    private boolean checkAllWordsValid(Word word) {
+        boardCache.place(fakeFrame, word);
 
-            boardCache.pickupLatestWord();
+        boolean good = dictionary.areWords(boardCache.getAllWords(word));
 
-            return good;
-        }
-        return false;
+        boardCache.pickupLatestWord();
+
+        return good;
+    }
+
+    private Optional<Word> bestInvalidWord(Set<Word> words) {
+        return words.stream()
+                .flatMap(this::findCompletions)
+                .filter(this::checkValidPlacement)
+                .max(Comparator.comparingInt(this::getScore));
     }
 
     private Optional<String> findMove() {
@@ -316,11 +339,13 @@ public class BetrayedBot implements BotAPI {
             return findFirstPlay().map(this::makePlaceCommand);
         } else {
             Set<Word> words = gatherWordsOnBoard();
-            return words.stream()
-                    .flatMap(this::findCompletions)
-                    .filter(this::checkValidPlacement)
-                    .max(Comparator.comparingInt(this::getScore))
-                    .map(this::makePlaceCommand);
+            Optional<Word> bestWord =
+                    words.stream()
+                            .flatMap(this::findCompletions)
+                            .filter(this::checkValidPlacement)
+                            .filter(this::checkAllWordsValid)
+                            .max(Comparator.comparingInt(this::getScore));
+            return bestWord.map(this::makePlaceCommand);
         }
     }
 
@@ -329,13 +354,43 @@ public class BetrayedBot implements BotAPI {
         for (int i = 0; i < 15; ++i) {
             for (int j = 0; j < 15; ++j) {
                 Square square = boardCache.getSquare(i, j);
-                if (square.isOccupied()) {
-                    words.add(getWordSpan(i, j, true));
-                    words.add(getWordSpan(i, j, false));
+                if (hasTileAt(new Coordinates(i, j))) {
+                    Word horizontalWord = getWordSpan(i, j, true);
+                    if (words.add(horizontalWord)) {
+                        addEdges(words, horizontalWord);
+                    }
+
+                    Word verticalWord = getWordSpan(i, j, false);
+                    if (words.add(verticalWord)) {
+                        addEdges(words, verticalWord);
+                    }
                 }
             }
         }
         return words;
+    }
+
+    private void addEdgeIfEmpty(Set<Word> words, int i, int j, boolean isHorizontal) {
+        if (i >= 0 && j >= 0 && i < 15 && j < 15 && !boardCache.getSquare(i, j).isOccupied()) {
+            words.add(new Word(i, j, isHorizontal, ""));
+        }
+    }
+
+    private void addEdges(Set<Word> words, Word word) {
+        int row = word.getFirstRow();
+        int col = word.getFirstColumn();
+        int rowInc = getRowIncrement(word.isHorizontal());
+        int colInc = getColumnIncrement(word.isHorizontal());
+
+        addEdgeIfEmpty(words, row - rowInc, col - colInc, !word.isHorizontal());
+        addEdgeIfEmpty(
+                words,
+                row + rowInc * word.length(),
+                col + colInc * word.length(),
+                !word.isHorizontal());
+
+        addEdgeIfEmpty(words, row - colInc, col - rowInc, !word.isHorizontal());
+        addEdgeIfEmpty(words, row + colInc, col + rowInc, !word.isHorizontal());
     }
 
     private Word getWordSpan(int row, int column, boolean isHorizontal) {
@@ -386,12 +441,50 @@ public class BetrayedBot implements BotAPI {
     }
 
     private Stream<Word> findCompletions(Word word) {
-        return gaddag.findWords(word.getLetters(), frame).map(join -> wordFromJoin(word, join));
+        Predicate<String> p =
+                prefix -> {
+                    Gaddag.Join join = new Gaddag.Join(word.getLetters(), prefix);
+                    Word newWord = wordFromJoin(word, join);
+                    return canPlace(newWord);
+                };
+
+        return gaddag.findWords(word.getLetters(), p).map(join -> wordFromJoin(word, join));
+    }
+
+    private boolean canPlace(Word newWord) {
+        if (!eachPosition(newWord).allMatch(this::isInBounds)) {
+            return false;
+        }
+        CharMultiSet frame = new CharMultiSet(this.frame);
+
+        int rowInc = getRowIncrement(newWord.isHorizontal()),
+                colInc = getColumnIncrement(newWord.isHorizontal());
+        int row = newWord.getFirstRow(), col = newWord.getFirstColumn();
+        for (int i = 0; i < newWord.length(); ++i) {
+            char c = newWord.getLetter(i);
+            Square square = boardCache.getSquare(row, col);
+            if (square.isOccupied()) {
+                if (square.getTile().getLetter() != c) {
+                    return false;
+                }
+            } else {
+                if (!frame.has(c)) {
+                    return false;
+                }
+                frame.take(c);
+            }
+            row += rowInc;
+            col += colInc;
+        }
+
+        return true;
     }
 
     private Optional<Word> findFirstPlay() {
         return findCompletions(new Word(7, 7, true, ""))
                 .filter(word -> word.getColumn() + word.length() > 7)
+                .filter(this::checkValidPlacement)
+                .filter(word -> new CharMultiSet(word.getLetters()).isSubsetOf(frame))
                 .max(Comparator.comparingInt(this::getScore));
     }
 }
