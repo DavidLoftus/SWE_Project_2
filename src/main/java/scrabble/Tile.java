@@ -13,7 +13,7 @@ public class Tile {
     private int value;
 
     // scrabble.Tile precondition: must be uppercase letter
-    Tile(char letter) {
+    public Tile(char letter) {
         if (letter == BLANK) {
             this.blank = true;
             this.letter = BLANK;
